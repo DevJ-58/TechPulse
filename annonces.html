@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Annonces — Admin TechPulse</title>
+  
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo"><span class="dot"></span> TechPulse</div>
+    <div class="sidebar-sub">Administration</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Pipeline</div>
+    <a href="dashboard.html" class="sidebar-link ">
+      <i data-lucide="layout-dashboard"></i> Dashboard
+    </a>
+    <a href="candidatures.html" class="sidebar-link ">
+      <i data-lucide="inbox"></i> Candidatures
+      <span class="sidebar-badge">8</span>
+    </a>
+    <a href="tests.html" class="sidebar-link ">
+      <i data-lucide="flask-conical"></i> Tests
+      <span class="sidebar-badge">5</span>
+    </a>
+    <a href="meets.html" class="sidebar-link ">
+      <i data-lucide="calendar-check"></i> Meets
+    </a>
+    <div class="sidebar-section-label">Gestion</div>
+    <a href="membres.html" class="sidebar-link ">
+      <i data-lucide="users"></i> Membres
+    </a>
+    <a href="annonces.html" class="sidebar-link active">
+      <i data-lucide="megaphone"></i> Annonces
+    </a>
+    <div class="sidebar-section-label">Config</div>
+    <a href="editeur.html" class="sidebar-link ">
+      <i data-lucide="file-edit"></i> Éditeur Q.
+    </a>
+    <a href="parametres.html" class="sidebar-link ">
+      <i data-lucide="settings"></i> Paramètres
+    </a>
+    <div class="sidebar-section-label">Site</div>
+    <a href="../index.html" target="_blank" class="sidebar-link">
+      <i data-lucide="external-link"></i> Voir le site
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">A</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Admin</div>
+        <div class="sidebar-user-role">Administrateur</div>
+      </div>
+      <a href="login.html" style="color:var(--muted-dark);cursor:pointer;">
+        <i data-lucide="log-out" style="width:15px;height:15px;"></i>
+      </a>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">Annonces</div>
+    <div class="topbar-actions">
+      <span style="font-size:12px;color:var(--muted);">3 publiées · 1 brouillon</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="announcements-grid">
+
+      <!-- LIST -->
+      <div>
+        <!-- Filters -->
+        <div style="display:flex;gap:8px;margin-bottom:20px;align-items:center;">
+          <button class="filter-btn active" data-filter="all" onclick="filterAnn('all',this)">Toutes</button>
+          <button class="filter-btn" data-filter="published" onclick="filterAnn('published',this)">Publiées</button>
+          <button class="filter-btn" data-filter="draft" onclick="filterAnn('draft',this)">Brouillons</button>
+        </div>
+
+        <div id="ann-list" style="display:flex;flex-direction:column;gap:12px;"></div>
+      </div>
+
+      <!-- COMPOSE -->
+      <div class="compose-form">
+        <div class="compose-header">
+          <i data-lucide="pencil" style="width:15px;height:15px;color:var(--muted);"></i>
+          <span id="compose-title-label">Nouvelle annonce</span>
+        </div>
+        <div class="compose-body">
+          <div class="form-group">
+            <label class="form-label">Titre *</label>
+            <input type="text" class="form-input" id="ann-title" placeholder="Titre de l'annonce">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contenu *</label>
+            <div class="rte-wrap">
+              <div class="rte-toolbar">
+                <button class="rte-btn" onclick="execCmd('bold')"><b>B</b></button>
+                <button class="rte-btn" onclick="execCmd('italic')"><i>I</i></button>
+                <button class="rte-btn" onclick="execCmd('underline')"><u>U</u></button>
+                <button class="rte-btn" onclick="execCmd('insertUnorderedList')">—</button>
+              </div>
+              <div class="rte-area" id="ann-content" contenteditable="true" data-placeholder="Rédigez le contenu de votre annonce ici..."></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Pôle cible</label>
+            <select class="form-select" id="ann-pole">
+              <option value="Tous">Tous les pôles</option>
+              <option value="Développement">Développement</option>
+              <option value="Sécurité">Sécurité</option>
+              <option value="Électronique">Électronique</option>
+            </select>
+          </div>
+        </div>
+        <div class="compose-footer">
+          <button class="btn btn-outline" onclick="saveAnn('draft')">
+            <i data-lucide="save" style="width:13px;height:13px;"></i> Brouillon
+          </button>
+          <button class="btn btn-accent" onclick="saveAnn('published')">
+            <i data-lucide="send" style="width:13px;height:13px;"></i> Publier
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+let announcements = [
+  { id:1, title:'Bienvenue sur TechPulse !', content:'Le club est officiellement lancé. Nous sommes ravis d\'accueillir notre première promotion et de démarrer cette aventure ensemble. Préparez vos claviers, la saison démarre !', pole:'Tous', status:'published', date:'01 Mar 2026', author:'Admin' },
+  { id:2, title:'Lancement du Sprint #1 — Développement', content:'Le premier sprint de 2 semaines est lancé pour le pôle Développement. Les équipes ont été formées aléatoirement. Rendu attendu le 15 Mars. Bonne chance à tous !', pole:'Développement', status:'published', date:'07 Mar 2026', author:'Admin' },
+  { id:3, title:'Masterclass Pentesting — Samedi 14 Mars', content:'Une masterclass sur les bases du pentesting sera animée par Ibrahim Sylla ce samedi à 10h. Lieu : Salle informatique B204. Ouverte à tous les membres, priorité au pôle Sécurité.', pole:'Sécurité', status:'published', date:'09 Mar 2026', author:'Admin' },
+  { id:4, title:'Recrutement formateur IoT', content:'Nous recherchons un(e) formateur/trice pour animer les TP du pôle Électronique à partir du mois prochain. Compétences souhaitées : Arduino, Raspberry Pi, protocoles IoT.', pole:'Électronique', status:'draft', date:'10 Mar 2026', author:'Admin' },
+];
+
+let editingId = null;
+let currentFilter = 'all';
+
+function getFiltered() {
+  return announcements.filter(a => currentFilter === 'all' || a.status === currentFilter);
+}
+
+function renderList() {
+  const filtered = getFiltered();
+  const container = document.getElementById('ann-list');
+  if (!filtered.length) {
+    container.innerHTML = `<div class="ann-empty"><i data-lucide="megaphone" style="width:36px;height:36px;margin:0 auto 16px;opacity:0.3;"></i><p>Aucune annonce</p></div>`;
+    lucide.createIcons();
+    return;
+  }
+  const poleMap = { 'Tous':'tag-default', 'Développement':'tag-accent', 'Sécurité':'tag-danger', 'Électronique':'tag-success' };
+  container.innerHTML = filtered.map(a => `
+    <div class="ann-card ${a.status}">
+      <div class="ann-card-header">
+        <div>
+          <div class="ann-card-title">${a.title}</div>
+          <div style="display:flex;gap:6px;margin-top:8px;">
+            <span class="tag ${a.status === 'published' ? 'tag-success' : 'tag-warning'}">${a.status === 'published' ? 'Publiée' : 'Brouillon'}</span>
+            <span class="tag ${poleMap[a.pole]||'tag-default'}">${a.pole}</span>
+          </div>
+        </div>
+      </div>
+      <div class="ann-card-body">${a.content.length > 160 ? a.content.slice(0,160)+'…' : a.content}</div>
+      <div class="ann-card-footer">
+        <span>${a.date} · par ${a.author}</span>
+        <div class="ann-card-footer-actions">
+          ${a.status === 'draft' ?
+            `<button class="btn btn-success btn-sm" onclick="togglePublish(${a.id})"><i data-lucide="send" style="width:11px;height:11px;"></i> Publier</button>` :
+            `<button class="btn btn-outline btn-sm" onclick="togglePublish(${a.id})"><i data-lucide="eye-off" style="width:11px;height:11px;"></i> Dépublier</button>`
+          }
+          <button class="btn btn-outline btn-sm btn-icon" onclick="editAnn(${a.id})" title="Modifier">
+            <i data-lucide="pencil" style="width:12px;height:12px;"></i>
+          </button>
+          <button class="btn btn-danger btn-sm btn-icon" onclick="deleteAnn(${a.id})" title="Supprimer">
+            <i data-lucide="trash-2" style="width:12px;height:12px;"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  lucide.createIcons();
+}
+
+function filterAnn(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderList();
+}
+
+function togglePublish(id) {
+  const a = announcements.find(x => x.id === id);
+  if (a) {
+    a.status = a.status === 'published' ? 'draft' : 'published';
+    renderList();
+    showToast(a.status === 'published' ? 'Annonce publiée sur le site.' : 'Annonce dépubliée.', a.status === 'published' ? 'success' : 'danger');
+  }
+}
+
+function editAnn(id) {
+  const a = announcements.find(x => x.id === id);
+  if (!a) return;
+  editingId = id;
+  document.getElementById('ann-title').value = a.title;
+  document.getElementById('ann-content').innerHTML = a.content;
+  document.getElementById('ann-pole').value = a.pole;
+  document.getElementById('compose-title-label').textContent = 'Modifier l\'annonce';
+  document.getElementById('ann-title').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function saveAnn(status) {
+  const title = document.getElementById('ann-title').value.trim();
+  const content = document.getElementById('ann-content').innerText.trim();
+  const pole = document.getElementById('ann-pole').value;
+  if (!title || !content) { showToast('Veuillez remplir le titre et le contenu.', 'danger'); return; }
+
+  const now = new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
+
+  if (editingId) {
+    const a = announcements.find(x => x.id === editingId);
+    if (a) { a.title = title; a.content = content; a.pole = pole; a.status = status; a.date = now; }
+    editingId = null;
+    document.getElementById('compose-title-label').textContent = 'Nouvelle annonce';
+  } else {
+    announcements.unshift({ id: Date.now(), title, content, pole, status, date: now, author:'Admin' });
+  }
+  document.getElementById('ann-title').value = '';
+  document.getElementById('ann-content').innerHTML = '';
+  renderList();
+  showToast(status === 'published' ? 'Annonce publiée !' : 'Brouillon sauvegardé.', 'success');
+}
+
+function deleteAnn(id) {
+  if (confirm('Supprimer cette annonce ?')) {
+    announcements = announcements.filter(x => x.id !== id);
+    renderList();
+    showToast('Annonce supprimée.', 'danger');
+  }
+}
+
+function execCmd(cmd) {
+  document.execCommand(cmd, false, null);
+  document.getElementById('ann-content').focus();
+}
+
+function showToast(msg, type='success') {
+  const t = document.createElement('div');
+  t.style.cssText = `position:fixed;bottom:24px;right:24px;background:${type==='success'?'var(--success)':'var(--danger)'};color:#fff;padding:12px 18px;border-radius:4px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.2);`;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// filter btn style fix
+document.querySelectorAll('.filter-btn').forEach(b => {
+  b.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+renderList();
+lucide.createIcons();
+</script>
+</body>
+</html>

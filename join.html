@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rejoindre — TechPulse</title>
+  
+  <link rel="stylesheet" href="public.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="dot"></span> TechPulse
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="about.html">À propos</a>
+      <a href="index.html#poles">Pôles</a>
+    </div>
+    <div class="nav-cta">
+      <a href="index.html" class="btn btn-outline">
+        <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Retour
+      </a>
+    </div>
+    <button class="nav-burger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- LEFT INFO PANEL -->
+  <div class="panel-left">
+    <div class="panel-left-bg"></div>
+    <div class="panel-left-bg2"></div>
+    <div>
+      <div class="panel-eyebrow">Candidature</div>
+      <h2 class="panel-title">Rejoins le mouvement.</h2>
+      <p class="panel-desc">Complète ce formulaire en 3 étapes. Notre équipe examine chaque candidature avec attention.</p>
+      <div class="panel-checklist">
+        <div class="check-item">
+          <div class="check-icon"><i data-lucide="user" style="width:12px;height:12px;"></i></div>
+          <span>Tes informations personnelles et ton statut</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon"><i data-lucide="target" style="width:12px;height:12px;"></i></div>
+          <span>Ton pôle d'intérêt et ta motivation</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon"><i data-lucide="file-text" style="width:12px;height:12px;"></i></div>
+          <span>Ton CV au format PDF (5 Mo max)</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon"><i data-lucide="clock" style="width:12px;height:12px;"></i></div>
+          <span>Réponse sous 5 à 7 jours ouvrés</span>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">Entrée sur test de sélection — Tous pôles confondus</div>
+  </div>
+
+  <!-- RIGHT FORM PANEL -->
+  <div class="panel-right">
+
+    <div id="form-container">
+      <div class="form-title">Formulaire de candidature</div>
+      <div class="form-subtitle">Étape <span id="step-current">1</span> sur 3</div>
+
+      <div class="step-indicator">
+        <div class="step-dot active" id="dot-1"></div>
+        <div class="step-dot" id="dot-2"></div>
+        <div class="step-dot" id="dot-3"></div>
+      </div>
+
+      <!-- STEP 1: Identité -->
+      <div class="form-step active" id="step-1">
+        <div class="form-section-title">Informations personnelles</div>
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Prénom *</label>
+              <input type="text" class="form-input" placeholder="Ton prénom">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nom *</label>
+              <input type="text" class="form-input" placeholder="Ton nom">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Adresse email *</label>
+            <input type="email" class="form-input" placeholder="ton.email@université.edu">
+            <span class="form-hint">Utilisée pour te recontacter après examen de ta candidature</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Statut académique *</label>
+            <select class="form-select">
+              <option value="" disabled selected>Sélectionner...</option>
+              <option>Licence 1 (L1)</option>
+              <option>Licence 2 (L2)</option>
+              <option>Licence 3 (L3)</option>
+              <option>Master 1 (M1)</option>
+              <option>Master 2 (M2)</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Filière / Spécialité</label>
+            <input type="text" class="form-input" placeholder="ex : Génie Logiciel, Réseaux...">
+          </div>
+        </div>
+        <div class="step-nav">
+          <span></span>
+          <button class="btn btn-primary" onclick="nextStep(2)">
+            Continuer <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Motivation -->
+      <div class="form-step" id="step-2">
+        <div class="form-section-title">Pôle & Motivation</div>
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="form-group">
+            <label class="form-label" style="margin-bottom:12px;">Pôle d'intérêt *</label>
+            <div class="pole-options">
+              <div>
+                <input type="radio" name="pole" id="p1" value="dev" class="pole-option">
+                <label for="p1" class="pole-option-label">
+                  <div class="pole-option-icon">
+                    <i data-lucide="code-2" style="width:18px;height:18px;"></i>
+                  </div>
+                  <span class="pole-option-name">Développement</span>
+                </label>
+              </div>
+              <div>
+                <input type="radio" name="pole" id="p2" value="secu" class="pole-option">
+                <label for="p2" class="pole-option-label">
+                  <div class="pole-option-icon">
+                    <i data-lucide="shield" style="width:18px;height:18px;"></i>
+                  </div>
+                  <span class="pole-option-name">Sécurité</span>
+                </label>
+              </div>
+              <div>
+                <input type="radio" name="pole" id="p3" value="iot" class="pole-option">
+                <label for="p3" class="pole-option-label">
+                  <div class="pole-option-icon">
+                    <i data-lucide="cpu" style="width:18px;height:18px;"></i>
+                  </div>
+                  <span class="pole-option-name">Électronique</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Lettre de motivation *</label>
+            <textarea class="form-textarea" style="min-height:160px;" placeholder="Explique-nous pourquoi tu veux rejoindre TechPulse, ce qui te passionne dans ce domaine, et ce que tu espères construire ici. (100 mots minimum recommandés)"></textarea>
+            <span class="form-hint">Sois direct et authentique. C'est ce qui fait la différence.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Compétences actuelles</label>
+            <input type="text" class="form-input" placeholder="ex : Python, Arduino, HTML/CSS, Wireshark...">
+            <span class="form-hint">Séparer par des virgules — laisse vide si débutant, c'est ok</span>
+          </div>
+        </div>
+        <div class="step-nav">
+          <button class="btn btn-ghost" onclick="prevStep(1)">
+            <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Retour
+          </button>
+          <button class="btn btn-primary" onclick="nextStep(3)">
+            Continuer <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: CV + Confirmation -->
+      <div class="form-step" id="step-3">
+        <div class="form-section-title">CV & Confirmation</div>
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="form-group">
+            <label class="form-label">Curriculum Vitae (CV) *</label>
+            <div class="file-upload-area" onclick="document.getElementById('cv-input').click()">
+              <input type="file" id="cv-input" accept=".pdf" style="display:none" onchange="updateFileName(this)">
+              <div class="file-upload-icon">
+                <i data-lucide="upload" style="width:20px;height:20px;"></i>
+              </div>
+              <div class="file-upload-text" id="file-label">Cliquer pour uploader ton CV</div>
+              <div class="file-upload-hint">PDF uniquement — 5 Mo maximum</div>
+            </div>
+          </div>
+
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;">
+            <div style="font-family:var(--font-display);font-size:14px;font-weight:700;margin-bottom:16px;">Récapitulatif</div>
+            <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--muted);">
+              <div style="display:flex;justify-content:space-between;">
+                <span>Nom complet</span>
+                <span style="color:var(--text);font-weight:500;">À remplir</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <span>Email</span>
+                <span style="color:var(--text);font-weight:500;">À remplir</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <span>Pôle sélectionné</span>
+                <span style="color:var(--text);font-weight:500;" id="recap-pole">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);padding:16px;background:var(--accent-bg);border-radius:var(--radius);border-left:3px solid var(--accent);">
+            <i data-lucide="info" style="width:16px;height:16px;color:var(--accent);flex-shrink:0;margin-top:1px;"></i>
+            <span>En soumettant ce formulaire, tu acceptes que tes données soient utilisées dans le cadre du processus de sélection. Réponse attendue sous 5 à 7 jours ouvrés.</span>
+          </div>
+        </div>
+        <div class="step-nav">
+          <button class="btn btn-ghost" onclick="prevStep(2)">
+            <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Retour
+          </button>
+          <button class="btn btn-accent" onclick="submitForm()">
+            Soumettre ma candidature
+            <i data-lucide="send" style="width:14px;height:14px;"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="success-panel" id="success-panel">
+      <div class="success-icon">
+        <i data-lucide="check" style="width:28px;height:28px;"></i>
+      </div>
+      <h2 class="success-title">Candidature envoyée !</h2>
+      <p class="success-desc">Merci pour ta candidature. Notre équipe va l'examiner attentivement et reviendra vers toi dans les 5 à 7 jours ouvrés.</p>
+      <a href="index.html" class="btn btn-primary">
+        <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Retour à l'accueil
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+lucide.createIcons();
+
+let currentStep = 1;
+
+function goToStep(n) {
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n).classList.add('active');
+  document.querySelectorAll('.step-dot').forEach((d, i) => {
+    d.classList.remove('active', 'done');
+    if (i + 1 < n) d.classList.add('done');
+    if (i + 1 === n) d.classList.add('active');
+  });
+  document.getElementById('step-current').textContent = n;
+  currentStep = n;
+}
+
+function nextStep(n) { goToStep(n); }
+function prevStep(n) { goToStep(n); }
+
+function updateFileName(input) {
+  const label = document.getElementById('file-label');
+  if (input.files.length > 0) {
+    label.textContent = input.files[0].name;
+    label.style.color = 'var(--success)';
+  }
+}
+
+document.querySelectorAll('input[name="pole"]').forEach(r => {
+  r.addEventListener('change', () => {
+    const map = { dev: 'Développement', secu: 'Sécurité Informatique', iot: 'Électronique & IoT' };
+    document.getElementById('recap-pole').textContent = map[r.value] || '—';
+    lucide.createIcons();
+  });
+});
+
+function submitForm() {
+  document.getElementById('form-container').style.display = 'none';
+  document.getElementById('success-panel').style.display = 'block';
+  lucide.createIcons();
+}
+</script>
+</body>
+</html>

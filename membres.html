@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Membres — Admin TechPulse</title>
+  
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo"><span class="dot"></span> TechPulse</div>
+    <div class="sidebar-sub">Administration</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Pipeline</div>
+    <a href="dashboard.html" class="sidebar-link ">
+      <i data-lucide="layout-dashboard"></i> Dashboard
+    </a>
+    <a href="candidatures.html" class="sidebar-link ">
+      <i data-lucide="inbox"></i> Candidatures
+      <span class="sidebar-badge">8</span>
+    </a>
+    <a href="tests.html" class="sidebar-link ">
+      <i data-lucide="flask-conical"></i> Tests
+      <span class="sidebar-badge">5</span>
+    </a>
+    <a href="meets.html" class="sidebar-link ">
+      <i data-lucide="calendar-check"></i> Meets
+    </a>
+    <div class="sidebar-section-label">Gestion</div>
+    <a href="membres.html" class="sidebar-link active">
+      <i data-lucide="users"></i> Membres
+    </a>
+    <a href="annonces.html" class="sidebar-link ">
+      <i data-lucide="megaphone"></i> Annonces
+    </a>
+    <div class="sidebar-section-label">Config</div>
+    <a href="editeur.html" class="sidebar-link ">
+      <i data-lucide="file-edit"></i> Éditeur Q.
+    </a>
+    <a href="parametres.html" class="sidebar-link ">
+      <i data-lucide="settings"></i> Paramètres
+    </a>
+    <div class="sidebar-section-label">Site</div>
+    <a href="../index.html" target="_blank" class="sidebar-link">
+      <i data-lucide="external-link"></i> Voir le site
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">A</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Admin</div>
+        <div class="sidebar-user-role">Administrateur</div>
+      </div>
+      <a href="login.html" style="color:var(--muted-dark);cursor:pointer;">
+        <i data-lucide="log-out" style="width:15px;height:15px;"></i>
+      </a>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">Membres</div>
+    <div class="topbar-actions">
+      <button class="btn btn-outline" onclick="exportCSV()">
+        <i data-lucide="download" style="width:13px;height:13px;"></i> Exporter CSV
+      </button>
+      <button class="btn btn-accent" onclick="openAddModal()">
+        <i data-lucide="user-plus" style="width:13px;height:13px;"></i> Ajouter un membre
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- STAT CARDS -->
+    <div class="grid-4 mb-6">
+      <div class="stat-card"><div class="stat-label">Total membres</div><div class="stat-value">12</div><div class="stat-meta">Promotion fondatrice</div></div>
+      <div class="stat-card" style="--accent:var(--accent);"><div class="stat-label">Développement</div><div class="stat-value">5</div><div class="stat-meta">Actifs</div></div>
+      <div class="stat-card" style="--accent:var(--danger);"><div class="stat-label">Sécurité</div><div class="stat-value">4</div><div class="stat-meta">Actifs</div></div>
+      <div class="stat-card" style="--accent:var(--success);"><div class="stat-label">Électronique</div><div class="stat-value">3</div><div class="stat-meta">Actifs</div></div>
+    </div>
+
+    <!-- FILTERS + TABLE -->
+    <div class="table-wrap">
+      <div class="table-header">
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div class="search-input-wrap">
+            <i data-lucide="search"></i>
+            <input type="text" class="form-input" placeholder="Rechercher un membre..." oninput="searchMembers(this.value)" style="width:220px;">
+          </div>
+          <select class="form-select" style="width:150px;" onchange="filterMemberPole(this.value)">
+            <option value="">Tous les pôles</option>
+            <option value="Développement">Développement</option>
+            <option value="Sécurité">Sécurité</option>
+            <option value="Électronique">Électronique</option>
+          </select>
+          <select class="form-select" style="width:130px;" onchange="filterMemberRole(this.value)">
+            <option value="">Tous les rôles</option>
+            <option value="Fondateur">Fondateur</option>
+            <option value="Formateur">Formateur</option>
+            <option value="Membre">Membre</option>
+          </select>
+        </div>
+        <span id="member-count" style="font-size:13px;color:var(--muted);">12 membres</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Membre</th>
+            <th>Pôle</th>
+            <th>Rôle</th>
+            <th>Entrée</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="members-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<!-- ADD MEMBER MODAL -->
+<div class="modal-overlay" id="add-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Ajouter un membre</div>
+      <button class="modal-close btn btn-ghost btn-icon" onclick="closeModal('add-modal')">
+        <i data-lucide="x" style="width:16px;height:16px;"></i>
+      </button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Prénom *</label>
+          <input type="text" class="form-input" id="new-firstname" placeholder="Prénom">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nom *</label>
+          <input type="text" class="form-input" id="new-lastname" placeholder="Nom">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email *</label>
+        <input type="email" class="form-input" id="new-email" placeholder="email@université.edu">
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Pôle *</label>
+          <select class="form-select" id="new-pole">
+            <option value="" disabled selected>Sélectionner</option>
+            <option value="Développement">Développement</option>
+            <option value="Sécurité">Sécurité</option>
+            <option value="Électronique">Électronique</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Rôle *</label>
+          <select class="form-select" id="new-role">
+            <option value="" disabled selected>Sélectionner</option>
+            <option value="Membre">Membre</option>
+            <option value="Formateur">Formateur</option>
+            <option value="Fondateur">Fondateur</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('add-modal')">Annuler</button>
+      <button class="btn btn-accent" onclick="addMember()">
+        <i data-lucide="user-plus" style="width:13px;height:13px;"></i> Ajouter
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+let members = [
+  { id:1,  initials:'AK', name:'Amara Koné',      pole:'Développement', role:'Fondateur', date:'Janv. 2026', active:true },
+  { id:2,  initials:'MB', name:'Mamadou Bah',      pole:'Sécurité',      role:'Fondateur', date:'Janv. 2026', active:true },
+  { id:3,  initials:'FD', name:'Fanta Diabaté',    pole:'Électronique',  role:'Fondateur', date:'Janv. 2026', active:true },
+  { id:4,  initials:'OT', name:'Omar Touré',       pole:'Développement', role:'Fondateur', date:'Janv. 2026', active:true },
+  { id:5,  initials:'IN', name:"Ibrahima N'Diaye", pole:'Sécurité',      role:'Fondateur', date:'Janv. 2026', active:true },
+  { id:6,  initials:'IS', name:'Ibrahim Sylla',    pole:'Sécurité',      role:'Formateur', date:'Fév. 2026',  active:true },
+  { id:7,  initials:'AB', name:'Aïssatou Barry',   pole:'Développement', role:'Formateur', date:'Fév. 2026',  active:true },
+  { id:8,  initials:'CT', name:'Cheick Touré',     pole:'Électronique',  role:'Formateur', date:'Fév. 2026',  active:true },
+  { id:9,  initials:'FC', name:'Fatou Camara',     pole:'Électronique',  role:'Membre',    date:'Mar. 2026',  active:true },
+  { id:10, initials:'KS', name:'Koumba Sarr',      pole:'Développement', role:'Membre',    date:'Mar. 2026',  active:true },
+  { id:11, initials:'BS', name:'Boubacar Soumaré', pole:'Sécurité',      role:'Membre',    date:'Mar. 2026',  active:false },
+  { id:12, initials:'LC', name:'Lamine Camara',    pole:'Développement', role:'Membre',    date:'Mar. 2026',  active:true },
+];
+
+let searchVal = '';
+let poleFilter = '';
+let roleFilter = '';
+
+function getFiltered() {
+  return members.filter(m => {
+    const ms = m.name.toLowerCase().includes(searchVal.toLowerCase());
+    const mp = !poleFilter || m.pole === poleFilter;
+    const mr = !roleFilter || m.role === roleFilter;
+    return ms && mp && mr;
+  });
+}
+
+function renderMembers() {
+  const filtered = getFiltered();
+  document.getElementById('member-count').textContent = filtered.length + ' membres';
+  const poleMap = { 'Développement':'tag-accent', 'Sécurité':'tag-danger', 'Électronique':'tag-success' };
+  const roleMap = { 'Fondateur':'tag-default', 'Formateur':'tag-warning', 'Membre':'tag-default' };
+  document.getElementById('members-tbody').innerHTML = filtered.map(m => `
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="avatar-sm" style="${!m.active ? 'opacity:0.4;' : ''}">${m.initials}</div>
+          <div>
+            <span style="font-weight:600;${!m.active ? 'color:var(--muted);' : ''}">${m.name}</span>
+          </div>
+        </div>
+      </td>
+      <td><span class="tag ${poleMap[m.pole]||'tag-default'}">${m.pole}</span></td>
+      <td><span class="tag ${roleMap[m.role]||'tag-default'}">${m.role}</span></td>
+      <td style="color:var(--muted);font-size:13px;">${m.date}</td>
+      <td>
+        <span class="tag ${m.active ? 'tag-success' : 'tag-danger'}">${m.active ? 'Actif' : 'Inactif'}</span>
+      </td>
+      <td>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-outline btn-sm btn-icon" onclick="toggleActive(${m.id})" title="${m.active ? 'Désactiver' : 'Réactiver'}">
+            <i data-lucide="${m.active ? 'pause' : 'play'}" style="width:12px;height:12px;"></i>
+          </button>
+          <button class="btn btn-outline btn-sm btn-icon" title="Modifier" onclick="showToast('Édition membre — bientôt disponible','success')">
+            <i data-lucide="pencil" style="width:12px;height:12px;"></i>
+          </button>
+          <button class="btn btn-danger btn-sm btn-icon" onclick="deleteMember(${m.id})" title="Supprimer">
+            <i data-lucide="trash-2" style="width:12px;height:12px;"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+  lucide.createIcons();
+}
+
+function searchMembers(v) { searchVal = v; renderMembers(); }
+function filterMemberPole(v) { poleFilter = v; renderMembers(); }
+function filterMemberRole(v) { roleFilter = v; renderMembers(); }
+
+function toggleActive(id) {
+  const m = members.find(x => x.id === id);
+  if (m) { m.active = !m.active; renderMembers(); showToast(m.active ? 'Membre réactivé.' : 'Membre désactivé.', m.active?'success':'danger'); }
+}
+
+function deleteMember(id) {
+  if (confirm('Supprimer ce membre ?')) {
+    members = members.filter(x => x.id !== id);
+    renderMembers();
+    showToast('Membre supprimé.', 'danger');
+  }
+}
+
+function addMember() {
+  const fn = document.getElementById('new-firstname').value.trim();
+  const ln = document.getElementById('new-lastname').value.trim();
+  const pole = document.getElementById('new-pole').value;
+  const role = document.getElementById('new-role').value;
+  if (!fn || !ln || !pole || !role) { showToast('Veuillez remplir tous les champs.','danger'); return; }
+  const initials = (fn[0]+ln[0]).toUpperCase();
+  members.push({ id: Date.now(), initials, name: fn+' '+ln, pole, role, date:'Mar. 2026', active:true });
+  renderMembers();
+  closeModal('add-modal');
+  showToast('Membre ajouté avec succès.', 'success');
+  ['new-firstname','new-lastname','new-email'].forEach(id => document.getElementById(id).value = '');
+}
+
+function openAddModal() {
+  document.getElementById('add-modal').classList.add('open');
+  lucide.createIcons();
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function exportCSV() { showToast('Export CSV téléchargé !','success'); }
+
+function showToast(msg, type='success') {
+  const t = document.createElement('div');
+  t.style.cssText = `position:fixed;bottom:24px;right:24px;background:${type==='success'?'var(--success)':'var(--danger)'};color:#fff;padding:12px 18px;border-radius:4px;font-size:13px;font-weight:600;z-index:9999;display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,0.2);`;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+renderMembers();
+lucide.createIcons();
+</script>
+</body>
+</html>

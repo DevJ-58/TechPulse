@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion Admin — TechPulse</title>
+  <link rel="stylesheet" href="../admin.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+<body class="login-page">
+
+<div class="login-left">
+  <div class="login-left-pattern"></div>
+  <div class="login-brand"><span class="dot"></span> TechPulse</div>
+  <div class="login-middle">
+    <div class="login-eyebrow">Espace Administration</div>
+    <h2 class="login-big-title">Accès<br>réservé.</h2>
+    <p class="login-big-desc">Cet espace est réservé aux administrateurs du club. Gérez les candidatures, les membres et les annonces en toute sécurité.</p>
+  </div>
+  <div class="login-stats">
+    <div>
+      <div class="login-stat-num">3</div>
+      <div class="login-stat-label">Pôles actifs</div>
+    </div>
+    <div>
+      <div class="login-stat-num">—</div>
+      <div class="login-stat-label">Candidatures en attente</div>
+    </div>
+    <div>
+      <div class="login-stat-num">v1</div>
+      <div class="login-stat-label">Plateforme</div>
+    </div>
+  </div>
+</div>
+
+<div class="login-right">
+  <div class="login-box">
+    <h2 class="login-title">Connexion</h2>
+    <p class="login-sub">Connectez-vous avec vos identifiants admin</p>
+
+    <div class="error-msg" id="error-msg">
+      <i data-lucide="alert-circle" style="width:14px;height:14px;flex-shrink:0;"></i>
+      Identifiants incorrects. Veuillez réessayer.
+    </div>
+
+    <div class="login-form-group">
+      <label class="login-label">Adresse email</label>
+      <div class="input-wrap">
+        <i data-lucide="mail"></i>
+        <input type="email" class="login-input" id="email" placeholder="admin@clubpulse.tech" value="admin@clubpulse.tech">
+      </div>
+    </div>
+
+    <div class="login-form-group">
+      <label class="login-label">Mot de passe</label>
+      <div class="input-wrap">
+        <i data-lucide="lock"></i>
+        <input type="password" class="login-input" id="password" placeholder="••••••••" value="admin123">
+        <span class="input-toggle" onclick="togglePwd()">
+          <i data-lucide="eye" id="eye-icon" style="width:15px;height:15px;"></i>
+        </span>
+      </div>
+    </div>
+
+    <button class="btn-login" onclick="doLogin()">
+      <i data-lucide="log-in" style="width:15px;height:15px;"></i>
+      Se connecter
+    </button>
+
+    <div class="login-footer">
+      <a href="../../index.html">Retourner au site public</a>
+    </div>
+  </div>
+</div>
+
+<script>
+lucide.createIcons();
+
+function togglePwd() {
+  const input = document.getElementById('password');
+  const icon = document.getElementById('eye-icon');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.setAttribute('data-lucide', 'eye-off');
+  } else {
+    input.type = 'password';
+    icon.setAttribute('data-lucide', 'eye');
+  }
+  lucide.createIcons();
+}
+
+function doLogin() {
+  const email = document.getElementById('email').value;
+  const pwd = document.getElementById('password').value;
+  if (email && pwd) {
+    window.location.href = 'dashboard.html';
+  } else {
+    document.getElementById('error-msg').classList.add('show');
+    lucide.createIcons();
+  }
+}
+
+document.getElementById('password').addEventListener('keypress', e => {
+  if (e.key === 'Enter') doLogin();
+});
+</script>
+</body>
+</html>

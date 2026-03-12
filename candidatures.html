@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidatures — Admin TechPulse</title>
+  
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo"><span class="dot"></span> TechPulse</div>
+    <div class="sidebar-sub">Administration</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Pipeline</div>
+    <a href="dashboard.html" class="sidebar-link ">
+      <i data-lucide="layout-dashboard"></i> Dashboard
+    </a>
+    <a href="candidatures.html" class="sidebar-link active">
+      <i data-lucide="inbox"></i> Candidatures
+      <span class="sidebar-badge">8</span>
+    </a>
+    <a href="tests.html" class="sidebar-link ">
+      <i data-lucide="flask-conical"></i> Tests
+      <span class="sidebar-badge">5</span>
+    </a>
+    <a href="meets.html" class="sidebar-link ">
+      <i data-lucide="calendar-check"></i> Meets
+    </a>
+    <div class="sidebar-section-label">Gestion</div>
+    <a href="membres.html" class="sidebar-link ">
+      <i data-lucide="users"></i> Membres
+    </a>
+    <a href="annonces.html" class="sidebar-link ">
+      <i data-lucide="megaphone"></i> Annonces
+    </a>
+    <div class="sidebar-section-label">Config</div>
+    <a href="editeur.html" class="sidebar-link ">
+      <i data-lucide="file-edit"></i> Éditeur Q.
+    </a>
+    <a href="parametres.html" class="sidebar-link ">
+      <i data-lucide="settings"></i> Paramètres
+    </a>
+    <div class="sidebar-section-label">Site</div>
+    <a href="../index.html" target="_blank" class="sidebar-link">
+      <i data-lucide="external-link"></i> Voir le site
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">A</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Admin</div>
+        <div class="sidebar-user-role">Administrateur</div>
+      </div>
+      <a href="login.html" style="color:var(--muted-dark);cursor:pointer;">
+        <i data-lucide="log-out" style="width:15px;height:15px;"></i>
+      </a>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">Candidatures</div>
+    <div class="topbar-actions">
+      <button class="btn btn-outline" onclick="exportCSV()">
+        <i data-lucide="download" style="width:13px;height:13px;"></i> Exporter
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- STATS ROW -->
+    <div class="grid-4 mb-6">
+      <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value">24</div></div>
+      <div class="stat-card" style="--accent:#A05800;"><div class="stat-label">En attente</div><div class="stat-value" style="color:#A05800;">8</div></div>
+      <div class="stat-card" style="--accent:var(--success);"><div class="stat-label">Acceptées</div><div class="stat-value" style="color:var(--success);">13</div></div>
+      <div class="stat-card" style="--accent:var(--danger);"><div class="stat-label">Refusées</div><div class="stat-value" style="color:var(--danger);">3</div></div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <div class="table-header">
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterTable('all',this)">Toutes (24)</button>
+          <button class="filter-btn f-warn" onclick="filterTable('pending',this)">En attente (8)</button>
+          <button class="filter-btn f-success" onclick="filterTable('accepted',this)">Acceptées (13)</button>
+          <button class="filter-btn f-danger" onclick="filterTable('refused',this)">Refusées (3)</button>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <div class="search-input-wrap">
+            <i data-lucide="search"></i>
+            <input type="text" class="form-input" placeholder="Rechercher..." oninput="searchTable(this.value)" style="width:200px;">
+          </div>
+          <select class="form-select" style="width:140px;" onchange="filterPole(this.value)">
+            <option value="">Tous les pôles</option>
+            <option value="Dev">Développement</option>
+            <option value="Sécu">Sécurité</option>
+            <option value="IoT">Électronique</option>
+          </select>
+        </div>
+      </div>
+
+      <table id="cand-table">
+        <thead>
+          <tr>
+            <th>Candidat</th>
+            <th>Pôle</th>
+            <th>Statut</th>
+            <th>Niveau</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="cand-tbody">
+          <!-- populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<!-- DETAIL PANEL OVERLAY -->
+<div class="detail-panel-overlay" id="panel-overlay" onclick="closePanel()"></div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-panel" id="detail-panel">
+  <div class="detail-header">
+    <div class="detail-header-title">Fiche candidat</div>
+    <button class="btn btn-ghost btn-icon" onclick="closePanel()">
+      <i data-lucide="x" style="width:16px;height:16px;"></i>
+    </button>
+  </div>
+  <div class="detail-body" id="detail-body">
+    <!-- dynamic content -->
+  </div>
+  <div class="detail-footer" id="detail-footer">
+    <!-- dynamic buttons -->
+  </div>
+</div>
+
+<script>
+const candidates = [
+  { id:1, initials:'AK', name:'Amara Koné',     pole:'Dev',  status:'pending',  level:'L2', field:'Génie Logiciel', date:'11 Mar 2026', motivation:'Je suis passionné de développement web depuis la terminale. Je veux rejoindre TechPulse pour progresser concrètement, collaborer sur de vrais projets et me préparer à des carrières d\'envergure dans la tech. Mon objectif : maîtriser React et le backend avant la fin de ma L3.', skills:'HTML, CSS, JavaScript, Git' },
+  { id:2, initials:'MB', name:'Mariama Baldé',  pole:'Sécu', status:'pending',  level:'L3', field:'Réseaux & Sécurité', date:'10 Mar 2026', motivation:'La cybersécurité me fascine depuis que j\'ai découvert les CTF. Je veux apprendre le pentesting sérieusement et participer à des compétitions représentant l\'université. TechPulse est l\'environnement idéal pour ça.', skills:'Linux, Python, Wireshark, bases réseau' },
+  { id:3, initials:'FC', name:'Fatou Camara',   pole:'IoT',  status:'accepted', level:'L1', field:'Electronique', date:'08 Mar 2026', motivation:'Passionnée d\'objets connectés et de robotique. J\'ai déjà fait quelques projets Arduino en autodidacte. TechPulse m\'offrirait un cadre structuré pour progresser et apprendre des techniques avancées.', skills:'Arduino, bases C++, soudure' },
+  { id:4, initials:'OD', name:'Oumar Diallo',   pole:'Dev',  status:'refused',  level:'L1', field:'Informatique', date:'07 Mar 2026', motivation:'Je veux apprendre à coder.', skills:'Aucune' },
+  { id:5, initials:'IS', name:'Ibrahim Sylla',  pole:'Sécu', status:'accepted', level:'L3', field:'Cybersécurité', date:'05 Mar 2026', motivation:'Plusieurs années de pratique en CTF et en sécurité offensive. Je cherche une communauté sérieuse pour pousser mes compétences encore plus loin et transmettre.', skills:'Metasploit, Python, Burp Suite, réseau TCP/IP' },
+  { id:6, initials:'AB', name:'Aïssatou Barry', pole:'Dev',  status:'accepted', level:'M1', field:'IA & Big Data', date:'04 Mar 2026', motivation:'Machine Learning et développement IA sont mes domaines. Je veux contribuer à des projets concrets et encadrer les membres junior.', skills:'Python, TensorFlow, scikit-learn, SQL' },
+  { id:7, initials:'CT', name:'Cheick Touré',   pole:'IoT',  status:'accepted', level:'L2', field:'Systèmes Embarqués', date:'03 Mar 2026', motivation:'Passionné de robotique et d\'électronique. Je construis des petits robots depuis le lycée. TechPulse est l\'opportunité de travailler sur des projets plus complexes.', skills:'C, STM32, Raspberry Pi, CAO' },
+  { id:8, initials:'DN', name:"Djibril N'Diaye",pole:'Dev',  status:'pending',  level:'L2', field:'Dev Web', date:'02 Mar 2026', motivation:'Freelance depuis 1 an, je veux sortir du travail solo et apprendre dans un collectif ambitieux. Je maîtrise React et je veux aller vers le fullstack.', skills:'React, Node.js, MongoDB, Figma' },
+  { id:9, initials:'KS', name:'Kadiatou Soumah',pole:'Sécu', status:'pending',  level:'L3', field:'Informatique', date:'01 Mar 2026', motivation:'Très intéressée par la cryptographie et la sécurité des systèmes. Je veux comprendre en profondeur comment les attaques fonctionnent pour mieux défendre.', skills:'Python, maths, bases réseau' },
+  { id:10, initials:'BF', name:'Boubacar Fall',  pole:'Dev',  status:'pending',  level:'L1', field:'Génie Logiciel', date:'28 Fév 2026', motivation:'Je commence tout juste mais je suis extrêmement motivé. Je programme depuis 3 ans par passion et je veux accélérer mon apprentissage dans un cadre sérieux.', skills:'Python, Java, HTML/CSS' },
+];
+
+let currentFilter = 'all';
+let currentSearch = '';
+let currentPole = '';
+
+function renderTable() {
+  const tbody = document.getElementById('cand-tbody');
+  const filtered = candidates.filter(c => {
+    const matchStatus = currentFilter === 'all' ||
+      (currentFilter === 'pending' && c.status === 'pending') ||
+      (currentFilter === 'accepted' && c.status === 'accepted') ||
+      (currentFilter === 'refused' && c.status === 'refused');
+    const matchSearch = c.name.toLowerCase().includes(currentSearch.toLowerCase());
+    const matchPole = !currentPole || c.pole === currentPole;
+    return matchStatus && matchSearch && matchPole;
+  });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted);font-size:14px;">Aucune candidature trouvée</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(c => {
+    const statusMap = {
+      pending:  '<span class="tag tag-warning">En attente</span>',
+      accepted: '<span class="tag tag-success">Acceptée</span>',
+      refused:  '<span class="tag tag-danger">Refusée</span>',
+    };
+    const poleMap = {
+      Dev:  '<span class="tag tag-accent">Dev</span>',
+      Sécu: '<span class="tag tag-danger">Sécu</span>',
+      IoT:  '<span class="tag tag-success">IoT</span>',
+    };
+    return `
+      <tr>
+        <td>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="avatar-sm">${c.initials}</div>
+            <span style="font-weight:600;">${c.name}</span>
+          </div>
+        </td>
+        <td>${poleMap[c.pole] || c.pole}</td>
+        <td>${statusMap[c.status]}</td>
+        <td style="color:var(--muted);font-size:13px;">${c.level} · ${c.field}</td>
+        <td style="color:var(--muted);font-size:13px;">${c.date}</td>
+        <td>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-outline btn-sm btn-icon" onclick="openPanel(${c.id})" title="Voir la fiche">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i>
+            </button>
+            ${c.status === 'pending' ? `
+            <button class="btn btn-success btn-sm btn-icon" onclick="updateStatus(${c.id},'accepted')" title="Accepter">
+              <i data-lucide="check" style="width:13px;height:13px;"></i>
+            </button>
+            <button class="btn btn-danger btn-sm btn-icon" onclick="updateStatus(${c.id},'refused')" title="Refuser">
+              <i data-lucide="x" style="width:13px;height:13px;"></i>
+            </button>` : ''}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+  lucide.createIcons();
+}
+
+function filterTable(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function searchTable(val) { currentSearch = val; renderTable(); }
+function filterPole(val) { currentPole = val; renderTable(); }
+
+function openPanel(id) {
+  const c = candidates.find(x => x.id === id);
+  if (!c) return;
+  const statusMap = { pending: ['tag-warning','En attente'], accepted: ['tag-success','Acceptée'], refused: ['tag-danger','Refusée'] };
+  const [cls, label] = statusMap[c.status];
+  const poleMap = { Dev:'tag-accent', Sécu:'tag-danger', IoT:'tag-success' };
+  document.getElementById('detail-body').innerHTML = `
+    <div class="detail-candidate-info">
+      <div class="detail-avatar">${c.initials}</div>
+      <div>
+        <div class="detail-name">${c.name}</div>
+        <div class="detail-meta">${c.level} · ${c.field}</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:24px;">
+      <span class="tag ${poleMap[c.pole] || 'tag-default'}">${c.pole}</span>
+      <span class="tag ${cls}">${label}</span>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-label">Informations</div>
+      <div class="detail-info-grid">
+        <div class="detail-info-item"><div class="detail-info-key">Niveau</div><div class="detail-info-val">${c.level}</div></div>
+        <div class="detail-info-item"><div class="detail-info-key">Filière</div><div class="detail-info-val">${c.field}</div></div>
+        <div class="detail-info-item"><div class="detail-info-key">Pôle souhaité</div><div class="detail-info-val">${c.pole}</div></div>
+        <div class="detail-info-item"><div class="detail-info-key">Date</div><div class="detail-info-val">${c.date}</div></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-label">Compétences déclarées</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;">
+        ${c.skills.split(',').map(s => `<span class="tag tag-default">${s.trim()}</span>`).join('')}
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-label">Lettre de motivation</div>
+      <div class="detail-motivation">${c.motivation}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-label">Documents</div>
+      <div class="cv-link">
+        <i data-lucide="file-text" style="width:15px;height:15px;"></i>
+        Télécharger le CV (PDF)
+      </div>
+    </div>
+  `;
+  const footer = document.getElementById('detail-footer');
+  if (c.status === 'pending') {
+    footer.innerHTML = `
+      <button class="btn btn-success" onclick="updateStatus(${c.id},'accepted');closePanel()">
+        <i data-lucide="check" style="width:14px;height:14px;"></i> Accepter
+      </button>
+      <button class="btn btn-danger" onclick="updateStatus(${c.id},'refused');closePanel()">
+        <i data-lucide="x" style="width:14px;height:14px;"></i> Refuser
+      </button>
+      <button class="btn btn-outline">
+        <i data-lucide="mail" style="width:14px;height:14px;"></i> Contacter
+      </button>
+    `;
+  } else {
+    footer.innerHTML = `
+      <button class="btn btn-outline" onclick="closePanel()">Fermer</button>
+      <button class="btn btn-outline">
+        <i data-lucide="mail" style="width:14px;height:14px;"></i> Contacter
+      </button>
+    `;
+  }
+  document.getElementById('detail-panel').classList.add('open');
+  document.getElementById('panel-overlay').classList.add('open');
+  lucide.createIcons();
+}
+
+function closePanel() {
+  document.getElementById('detail-panel').classList.remove('open');
+  document.getElementById('panel-overlay').classList.remove('open');
+}
+
+function updateStatus(id, status) {
+  const c = candidates.find(x => x.id === id);
+  if (c) {
+    c.status = status;
+    renderTable();
+    const msg = status === 'accepted' ? 'Candidature acceptée — Email envoyé au candidat.' : 'Candidature refusée — Email envoyé au candidat.';
+    showToast(msg, status === 'accepted' ? 'success' : 'danger');
+  }
+}
+
+function showToast(msg, type='success') {
+  const t = document.createElement('div');
+  t.style.cssText = `position:fixed;bottom:24px;right:24px;background:${type==='success'?'var(--success)':'var(--danger)'};color:#fff;padding:12px 18px;border-radius:4px;font-size:13px;font-weight:600;z-index:9999;display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,0.2);`;
+  t.innerHTML = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+function exportCSV() { showToast('Export CSV téléchargé !', 'success'); }
+
+renderTable();
+lucide.createIcons();
+</script>
+</body>
+</html>

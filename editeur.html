@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Éditeur de questions — Admin TechPulse</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo"><span class="dot"></span> TechPulse</div>
+    <div class="sidebar-sub">Administration</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Pipeline</div>
+    <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+    <a href="candidatures.html" class="sidebar-link"><i data-lucide="inbox"></i> Candidatures<span class="sidebar-badge">8</span></a>
+    <a href="tests.html" class="sidebar-link"><i data-lucide="flask-conical"></i> Tests<span class="sidebar-badge">5</span></a>
+    <a href="meets.html" class="sidebar-link"><i data-lucide="calendar-check"></i> Meets</a>
+    <div class="sidebar-section-label">Gestion</div>
+    <a href="membres.html" class="sidebar-link"><i data-lucide="users"></i> Membres</a>
+    <a href="annonces.html" class="sidebar-link"><i data-lucide="megaphone"></i> Annonces</a>
+    <div class="sidebar-section-label">Config</div>
+    <a href="editeur.html" class="sidebar-link active"><i data-lucide="file-edit"></i> Éditeur Q.</a>
+    <a href="parametres.html" class="sidebar-link"><i data-lucide="settings"></i> Paramètres</a>
+    <div class="sidebar-section-label">Site</div>
+    <a href="../index.html" target="_blank" class="sidebar-link"><i data-lucide="external-link"></i> Voir le site</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">A</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Admin</div>
+        <div class="sidebar-user-role">Administrateur</div>
+      </div>
+      <a href="login.html" style="color:var(--muted-dark);"><i data-lucide="log-out" style="width:15px;height:15px;"></i></a>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title">Éditeur de questions</div>
+    <div class="topbar-actions">
+      <button class="btn btn-outline btn-sm" onclick="previewTest()">
+        <i data-lucide="eye" style="width:13px;height:13px;"></i> Prévisualiser
+      </button>
+      <button class="btn btn-primary btn-sm" onclick="saveAll()">
+        <i data-lucide="save" style="width:13px;height:13px;"></i> Sauvegarder
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="editeur-layout">
+
+      <!-- SIDEBAR PÔLES -->
+      <div class="editeur-sidebar">
+        <div class="editeur-sidebar-header">Pôles</div>
+        <div class="pole-nav-item active" onclick="switchPole(this,'dev')" id="nav-dev">
+          <span style="display:flex;align-items:center;gap:8px;"><i data-lucide="code-2" style="width:14px;height:14px;"></i> Développement</span>
+          <span class="q-count" id="count-dev">9</span>
+        </div>
+        <div class="pole-nav-item" onclick="switchPole(this,'secu')" id="nav-secu">
+          <span style="display:flex;align-items:center;gap:8px;"><i data-lucide="shield" style="width:14px;height:14px;"></i> Sécurité</span>
+          <span class="q-count" id="count-secu">9</span>
+        </div>
+        <div class="pole-nav-item" onclick="switchPole(this,'iot')" id="nav-iot">
+          <span style="display:flex;align-items:center;gap:8px;"><i data-lucide="cpu" style="width:14px;height:14px;"></i> Électronique</span>
+          <span class="q-count" id="count-iot">9</span>
+        </div>
+
+        <div style="padding:16px;border-top:1px solid var(--border);margin-top:8px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Durée du test</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <input type="number" value="15" min="5" max="60" class="form-input" style="width:64px;font-size:14px;">
+            <span style="font-size:13px;color:var(--muted);">minutes</span>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px;">S'applique à tous les pôles</div>
+        </div>
+      </div>
+
+      <!-- ÉDITEUR PRINCIPAL -->
+      <div class="editeur-main" id="editeur-main">
+
+        <div class="editeur-header-bar">
+          <div>
+            <div style="font-family:var(--font-display);font-size:16px;font-weight:700;" id="pole-title">Pôle Développement</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px;">9 questions · 3 sections · 15 minutes</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-outline btn-sm" onclick="addQuestion('qcm')">
+              <i data-lucide="plus" style="width:13px;height:13px;"></i> Ajouter QCM
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="addQuestion('open')">
+              <i data-lucide="plus" style="width:13px;height:13px;"></i> Question ouverte
+            </button>
+          </div>
+        </div>
+
+        <!-- SECTION A -->
+        <div class="section-group">
+          <div class="section-group-header">
+            <div class="section-group-title"><i data-lucide="list" style="width:12px;height:12px;display:inline;"></i> Partie A — QCM (5 questions)</div>
+            <button class="btn btn-ghost btn-sm" onclick="addQuestion('qcm')"><i data-lucide="plus" style="width:12px;height:12px;"></i> Ajouter</button>
+          </div>
+
+          <!-- Question QCM -->
+          <div class="q-edit-card" id="qcard-1">
+            <div class="q-edit-card-header">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span class="q-edit-num">Q.01</span>
+                <span class="tag tag-default" style="font-size:10px;">QCM</span>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button class="btn btn-ghost btn-icon" title="Monter"><i data-lucide="arrow-up" style="width:13px;height:13px;"></i></button>
+                <button class="btn btn-ghost btn-icon" title="Descendre"><i data-lucide="arrow-down" style="width:13px;height:13px;"></i></button>
+                <button class="btn btn-ghost btn-icon" style="color:var(--danger);" onclick="deleteQuestion('qcard-1')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>
+              </div>
+            </div>
+            <div class="q-edit-card-body">
+              <div class="form-group">
+                <label class="form-label">Intitulé de la question</label>
+                <input type="text" class="form-input" value="Quelle est la complexité temporelle d'une recherche dans un tableau trié avec la recherche binaire ?">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Choix de réponses <span style="color:var(--muted);font-weight:400;">(cochez la bonne réponse)</span></label>
+                <div class="qcm-choices" id="choices-1">
+                  <div class="qcm-choice-row">
+                    <span class="choice-label-tag">A</span>
+                    <input type="text" value="O(n) — linéaire">
+                    <input type="radio" name="correct-1" class="correct-radio" title="Bonne réponse">
+                  </div>
+                  <div class="qcm-choice-row">
+                    <span class="choice-label-tag">B</span>
+                    <input type="text" value="O(log n) — logarithmique">
+                    <input type="radio" name="correct-1" class="correct-radio" checked title="Bonne réponse">
+                  </div>
+                  <div class="qcm-choice-row">
+                    <span class="choice-label-tag">C</span>
+                    <input type="text" value="O(n²) — quadratique">
+                    <input type="radio" name="correct-1" class="correct-radio" title="Bonne réponse">
+                  </div>
+                  <div class="qcm-choice-row">
+                    <span class="choice-label-tag">D</span>
+                    <input type="text" value="O(1) — constante">
+                    <input type="radio" name="correct-1" class="correct-radio" title="Bonne réponse">
+                  </div>
+                </div>
+                <div class="add-choice-btn" onclick="addChoice('choices-1', 1)">
+                  <i data-lucide="plus" style="width:12px;height:12px;"></i> Ajouter un choix
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Question QCM 2 -->
+          <div class="q-edit-card" id="qcard-2">
+            <div class="q-edit-card-header">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span class="q-edit-num">Q.02</span>
+                <span class="tag tag-default" style="font-size:10px;">QCM</span>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button class="btn btn-ghost btn-icon"><i data-lucide="arrow-up" style="width:13px;height:13px;"></i></button>
+                <button class="btn btn-ghost btn-icon"><i data-lucide="arrow-down" style="width:13px;height:13px;"></i></button>
+                <button class="btn btn-ghost btn-icon" style="color:var(--danger);" onclick="deleteQuestion('qcard-2')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>
+              </div>
+            </div>
+            <div class="q-edit-card-body">
+              <div class="form-group">
+                <label class="form-label">Intitulé de la question</label>
+                <input type="text" class="form-input" value="Dans le protocole HTTP, quel code de statut indique que la ressource demandée n'existe pas ?">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Choix de réponses</label>
+                <div class="qcm-choices">
+                  <div class="qcm-choice-row"><span class="choice-label-tag">A</span><input type="text" value="200 — OK"><input type="radio" name="correct-2" class="correct-radio"></div>
+                  <div class="qcm-choice-row"><span class="choice-label-tag">B</span><input type="text" value="403 — Forbidden"><input type="radio" name="correct-2" class="correct-radio"></div>
+                  <div class="qcm-choice-row"><span class="choice-label-tag">C</span><input type="text" value="404 — Not Found"><input type="radio" name="correct-2" class="correct-radio" checked></div>
+                  <div class="qcm-choice-row"><span class="choice-label-tag">D</span><input type="text" value="500 — Internal Server Error"><input type="radio" name="correct-2" class="correct-radio"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align:center;padding:12px;font-size:12px;color:var(--muted);border:1px dashed var(--border);border-radius:var(--radius);">
+            + 3 autres questions QCM
+          </div>
+        </div>
+
+        <!-- SECTION B -->
+        <div class="section-group">
+          <div class="section-group-header">
+            <div class="section-group-title"><i data-lucide="code" style="width:12px;height:12px;display:inline;"></i> Partie B — Exercice pratique (2 questions)</div>
+            <button class="btn btn-ghost btn-sm" onclick="addQuestion('open')"><i data-lucide="plus" style="width:12px;height:12px;"></i> Ajouter</button>
+          </div>
+
+          <div class="q-edit-card">
+            <div class="q-edit-card-header">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span class="q-edit-num">EX.01</span>
+                <span class="tag tag-accent" style="font-size:10px;">Ouverte</span>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button class="btn btn-ghost btn-icon"><i data-lucide="arrow-up" style="width:13px;height:13px;"></i></button>
+                <button class="btn btn-ghost btn-icon"><i data-lucide="arrow-down" style="width:13px;height:13px;"></i></button>
+                <button class="btn btn-ghost btn-icon" style="color:var(--danger);"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>
+              </div>
+            </div>
+            <div class="q-edit-card-body">
+              <div class="form-group">
+                <label class="form-label">Intitulé</label>
+                <textarea class="form-input form-textarea" style="min-height:80px;">On te demande de concevoir une fonctionnalité de recherche en temps réel pour un site e-commerce avec 100 000 produits.</textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Consigne complémentaire</label>
+                <textarea class="form-input form-textarea" style="min-height:60px;" placeholder="Instructions supplémentaires affichées sous la question...">Explique comment tu architecturerais cette fonctionnalité côté frontend et côté backend.</textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Placeholder champ de réponse</label>
+                <input type="text" class="form-input" value="Décris ton approche technique : choix d'indexation, debounce, pagination, cache, API...">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nombre de caractères recommandés</label>
+                <input type="number" class="form-input" value="800" style="width:120px;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION C -->
+        <div class="section-group">
+          <div class="section-group-header">
+            <div class="section-group-title"><i data-lucide="brain" style="width:12px;height:12px;display:inline;"></i> Partie C — Mise en situation (2 questions)</div>
+            <button class="btn btn-ghost btn-sm" onclick="addQuestion('situation')"><i data-lucide="plus" style="width:12px;height:12px;"></i> Ajouter</button>
+          </div>
+
+          <div class="q-edit-card">
+            <div class="q-edit-card-header">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span class="q-edit-num">SIT.01</span>
+                <span class="tag tag-warning" style="font-size:10px;">Situation</span>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button class="btn btn-ghost btn-icon"><i data-lucide="arrow-up" style="width:13px;height:13px;"></i></button>
+                <button class="btn btn-ghost btn-icon"><i data-lucide="arrow-down" style="width:13px;height:13px;"></i></button>
+                <button class="btn btn-ghost btn-icon" style="color:var(--danger);"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>
+              </div>
+            </div>
+            <div class="q-edit-card-body">
+              <div class="form-group">
+                <label class="form-label">Scénario</label>
+                <textarea class="form-input form-textarea" style="min-height:80px;">Tu es en plein sprint sur un projet critique. À 2h du matin, ton code fonctionne sur ta machine mais l'application plante en production. Le lancement est dans 6 heures.</textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Question posée</label>
+                <input type="text" class="form-input" value="Que fais-tu ?">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Points évalués (interne, non visible par le candidat)</label>
+                <textarea class="form-input form-textarea" style="min-height:60px;" placeholder="Critères d'évaluation pour les admins...">Gestion du stress, communication équipe, prise de décision sous pression, capacité à envisager un rollback.</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal ajout question -->
+<div class="modal-overlay" id="modal-add">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <div class="modal-title">Ajouter une question</div>
+      <div class="modal-close" onclick="closeModal()"><i data-lucide="x" style="width:18px;height:18px;"></i></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div onclick="addQCM()" style="display:flex;align-items:center;gap:14px;padding:16px;border:1px solid var(--border);border-radius:var(--radius-lg);cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--text)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="width:36px;height:36px;background:var(--tag-bg);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;">
+          <i data-lucide="list" style="width:16px;height:16px;"></i>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:14px;">QCM</div>
+          <div style="font-size:12px;color:var(--muted);">Question à choix multiples avec une bonne réponse</div>
+        </div>
+      </div>
+      <div onclick="addOpenQ()" style="display:flex;align-items:center;gap:14px;padding:16px;border:1px solid var(--border);border-radius:var(--radius-lg);cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--text)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="width:36px;height:36px;background:var(--accent-bg);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--accent);">
+          <i data-lucide="align-left" style="width:16px;height:16px;"></i>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:14px;">Question ouverte</div>
+          <div style="font-size:12px;color:var(--muted);">Réponse libre, exercice pratique</div>
+        </div>
+      </div>
+      <div onclick="addSituation()" style="display:flex;align-items:center;gap:14px;padding:16px;border:1px solid var(--border);border-radius:var(--radius-lg);cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--text)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="width:36px;height:36px;background:var(--warning-bg);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--warning);">
+          <i data-lucide="brain" style="width:16px;height:16px;"></i>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:14px;">Mise en situation</div>
+          <div style="font-size:12px;color:var(--muted);">Scénario concret, évaluation comportementale</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="position:fixed;bottom:24px;right:24px;background:var(--text);color:var(--bg);padding:14px 20px;border-radius:var(--radius-lg);font-size:14px;font-weight:500;display:none;align-items:center;gap:10px;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,0.15);">
+  <i data-lucide="check" style="width:16px;height:16px;color:var(--success);"></i>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+lucide.createIcons();
+
+function switchPole(el, pole) {
+  document.querySelectorAll('.pole-nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  const names = { dev:'Pôle Développement', secu:'Pôle Sécurité', iot:'Pôle Électronique' };
+  document.getElementById('pole-title').textContent = names[pole];
+}
+
+function addQuestion(type) {
+  document.getElementById('modal-add').classList.add('open');
+  lucide.createIcons();
+}
+function closeModal() { document.getElementById('modal-add').classList.remove('open'); }
+function addQCM()      { closeModal(); showToast('Nouvelle question QCM ajoutée.'); }
+function addOpenQ()    { closeModal(); showToast('Nouvelle question ouverte ajoutée.'); }
+function addSituation(){ closeModal(); showToast('Nouvelle mise en situation ajoutée.'); }
+
+function deleteQuestion(id) {
+  if (confirm('Supprimer cette question ?')) {
+    document.getElementById(id)?.remove();
+    showToast('Question supprimée.');
+  }
+}
+
+function addChoice(containerId, qNum) {
+  const container = document.getElementById(containerId);
+  const count = container.children.length + 1;
+  const letters = ['A','B','C','D','E','F'];
+  const row = document.createElement('div');
+  row.className = 'qcm-choice-row';
+  row.innerHTML = `<span class="choice-label-tag">${letters[count-1]||count}</span><input type="text" placeholder="Choix ${count}"><input type="radio" name="correct-${qNum}" class="correct-radio" title="Bonne réponse">`;
+  container.appendChild(row);
+  row.querySelector('input[type=text]').focus();
+}
+
+function saveAll()    { showToast('Questions sauvegardées avec succès.'); }
+function previewTest(){ window.open('../test/exam.html?pole=dev&token=preview','_blank'); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.style.display = 'flex';
+  lucide.createIcons();
+  setTimeout(() => t.style.display = 'none', 3000);
+}
+</script>
+</body>
+</html>

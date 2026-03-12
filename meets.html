@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meets — Admin TechPulse</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo"><span class="dot"></span> TechPulse</div>
+    <div class="sidebar-sub">Administration</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Pipeline</div>
+    <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+    <a href="candidatures.html" class="sidebar-link"><i data-lucide="inbox"></i> Candidatures<span class="sidebar-badge">8</span></a>
+    <a href="tests.html" class="sidebar-link"><i data-lucide="flask-conical"></i> Tests<span class="sidebar-badge">5</span></a>
+    <a href="meets.html" class="sidebar-link active"><i data-lucide="calendar-check"></i> Meets</a>
+    <div class="sidebar-section-label">Gestion</div>
+    <a href="membres.html" class="sidebar-link"><i data-lucide="users"></i> Membres</a>
+    <a href="annonces.html" class="sidebar-link"><i data-lucide="megaphone"></i> Annonces</a>
+    <div class="sidebar-section-label">Config</div>
+    <a href="editeur.html" class="sidebar-link"><i data-lucide="file-edit"></i> Éditeur Q.</a>
+    <a href="parametres.html" class="sidebar-link"><i data-lucide="settings"></i> Paramètres</a>
+    <div class="sidebar-section-label">Site</div>
+    <a href="../index.html" target="_blank" class="sidebar-link"><i data-lucide="external-link"></i> Voir le site</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">A</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Admin</div>
+        <div class="sidebar-user-role">Administrateur</div>
+      </div>
+      <a href="login.html" style="color:var(--muted-dark);"><i data-lucide="log-out" style="width:15px;height:15px;"></i></a>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title">Meets présentiel — Étape 3</div>
+    <div class="topbar-actions">
+      <button class="btn btn-outline btn-sm" onclick="exportCSV()">
+        <i data-lucide="download" style="width:13px;height:13px;"></i> Exporter
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- STATS -->
+    <div class="meet-stats mb-6">
+      <div class="meet-stat-box">
+        <div class="meet-stat-num">3</div>
+        <div class="meet-stat-label">Meets à planifier</div>
+      </div>
+      <div class="meet-stat-box">
+        <div class="meet-stat-num" style="color:var(--accent);">2</div>
+        <div class="meet-stat-label">Meets planifiés</div>
+      </div>
+      <div class="meet-stat-box">
+        <div class="meet-stat-num" style="color:var(--success);">1</div>
+        <div class="meet-stat-label">Admis cette semaine</div>
+      </div>
+    </div>
+
+    <div class="meets-layout">
+      <div>
+        <!-- TABS -->
+        <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:20px;">
+          <button class="tab-btn active" onclick="switchTab(this,'planifier')" style="flex:1;padding:11px 16px;font-size:13px;font-weight:600;background:var(--text);color:var(--bg);cursor:pointer;border:none;font-family:var(--font-body);">
+            À planifier (3)
+          </button>
+          <button class="tab-btn" onclick="switchTab(this,'planifie')" style="flex:1;padding:11px 16px;font-size:13px;font-weight:600;background:var(--surface);color:var(--muted);cursor:pointer;border:none;border-left:1px solid var(--border);font-family:var(--font-body);">
+            Planifiés (2)
+          </button>
+          <button class="tab-btn" onclick="switchTab(this,'termine')" style="flex:1;padding:11px 16px;font-size:13px;font-weight:600;background:var(--surface);color:var(--muted);cursor:pointer;border:none;border-left:1px solid var(--border);font-family:var(--font-body);">
+            Terminés (1)
+          </button>
+        </div>
+
+        <!-- À PLANIFIER -->
+        <div id="tab-planifier">
+          <div class="meet-card">
+            <div class="meet-card-header">
+              <div class="meet-avatar">AK</div>
+              <div class="meet-info">
+                <div class="meet-name">Amara Koné</div>
+                <div class="meet-meta">Pôle Développement · Score test : 78% · En attente de convocation</div>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="scheduleFor('Amara Koné')">
+                <i data-lucide="calendar-plus" style="width:13px;height:13px;"></i> Planifier
+              </button>
+            </div>
+            <div class="meet-card-footer">
+              <div class="meet-score-tag">
+                <i data-lucide="clock" style="width:12px;height:12px;"></i>
+                Test soumis le 11 Mar 2026
+              </div>
+              <button class="btn btn-ghost btn-sm"><i data-lucide="file-text" style="width:12px;height:12px;"></i> Voir le test</button>
+            </div>
+          </div>
+
+          <div class="meet-card">
+            <div class="meet-card-header">
+              <div class="meet-avatar" style="background:#E0F2EA;color:var(--success);">CT</div>
+              <div class="meet-info">
+                <div class="meet-name">Cheick Touré</div>
+                <div class="meet-meta">Pôle Électronique · Score test : 82% · En attente de convocation</div>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="scheduleFor('Cheick Touré')">
+                <i data-lucide="calendar-plus" style="width:13px;height:13px;"></i> Planifier
+              </button>
+            </div>
+            <div class="meet-card-footer">
+              <div class="meet-score-tag">
+                <i data-lucide="clock" style="width:12px;height:12px;"></i>
+                Test soumis le 09 Mar 2026
+              </div>
+              <button class="btn btn-ghost btn-sm"><i data-lucide="file-text" style="width:12px;height:12px;"></i> Voir le test</button>
+            </div>
+          </div>
+
+          <div class="meet-card">
+            <div class="meet-card-header">
+              <div class="meet-avatar" style="background:var(--accent-bg);color:var(--accent);">FC</div>
+              <div class="meet-info">
+                <div class="meet-name">Fatou Camara</div>
+                <div class="meet-meta">Pôle Électronique · Score test : 71% · En attente de convocation</div>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="scheduleFor('Fatou Camara')">
+                <i data-lucide="calendar-plus" style="width:13px;height:13px;"></i> Planifier
+              </button>
+            </div>
+            <div class="meet-card-footer">
+              <div class="meet-score-tag">
+                <i data-lucide="clock" style="width:12px;height:12px;"></i>
+                Test soumis le 08 Mar 2026
+              </div>
+              <button class="btn btn-ghost btn-sm"><i data-lucide="file-text" style="width:12px;height:12px;"></i> Voir le test</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PLANIFIÉS -->
+        <div id="tab-planifie" style="display:none;">
+          <div class="meet-card">
+            <div class="meet-card-header">
+              <div class="meet-avatar">OT</div>
+              <div class="meet-info">
+                <div class="meet-name">Omar Traoré</div>
+                <div class="meet-meta">Pôle Développement · Score test : 74%</div>
+              </div>
+              <div class="meet-date-block">
+                <div class="meet-date">Lun 16 Mar</div>
+                <div class="meet-time">10h00 — Campus B, Salle 204</div>
+              </div>
+            </div>
+            <div class="meet-card-footer">
+              <span class="tag tag-accent">Convocation envoyée</span>
+              <div style="display:flex;gap:6px;">
+                <button class="btn btn-ghost btn-sm" onclick="editMeet('Omar Traoré')"><i data-lucide="edit" style="width:12px;height:12px;"></i> Modifier</button>
+                <button class="btn btn-success btn-sm" onclick="admitCandidate('Omar Traoré')">
+                  <i data-lucide="check" style="width:12px;height:12px;"></i> Admettre
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="rejectAfterMeet('Omar Traoré')">
+                  <i data-lucide="x" style="width:12px;height:12px;"></i> Refuser
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="meet-card">
+            <div class="meet-card-header">
+              <div class="meet-avatar" style="background:#E0F2EA;color:var(--success);">IN</div>
+              <div class="meet-info">
+                <div class="meet-name">Ibrahima Ndiaye</div>
+                <div class="meet-meta">Pôle Sécurité · Score test : 88%</div>
+              </div>
+              <div class="meet-date-block">
+                <div class="meet-date">Mar 17 Mar</div>
+                <div class="meet-time">14h30 — Campus A, Salle 101</div>
+              </div>
+            </div>
+            <div class="meet-card-footer">
+              <span class="tag tag-accent">Convocation envoyée</span>
+              <div style="display:flex;gap:6px;">
+                <button class="btn btn-ghost btn-sm"><i data-lucide="edit" style="width:12px;height:12px;"></i> Modifier</button>
+                <button class="btn btn-success btn-sm" onclick="admitCandidate('Ibrahima Ndiaye')">
+                  <i data-lucide="check" style="width:12px;height:12px;"></i> Admettre
+                </button>
+                <button class="btn btn-danger btn-sm"><i data-lucide="x" style="width:12px;height:12px;"></i> Refuser</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TERMINÉS -->
+        <div id="tab-termine" style="display:none;">
+          <div class="meet-card">
+            <div class="meet-card-header">
+              <div class="meet-avatar" style="background:#E0F2EA;color:var(--success);">MB</div>
+              <div class="meet-info">
+                <div class="meet-name">Moussa Barry</div>
+                <div class="meet-meta">Pôle Développement · Admis le 10 Mar 2026</div>
+              </div>
+              <span class="tag tag-success">Admis</span>
+            </div>
+            <div class="meet-card-footer">
+              <div class="meet-score-tag"><i data-lucide="check-circle" style="width:12px;height:12px;color:var(--success);"></i> Lien WhatsApp envoyé</div>
+              <button class="btn btn-ghost btn-sm"><i data-lucide="user" style="width:12px;height:12px;"></i> Voir fiche membre</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORMULAIRE PLANIFICATION -->
+      <div class="meet-schedule-form">
+        <div class="compose-header">
+          <i data-lucide="calendar-plus" style="width:16px;height:16px;color:var(--accent);"></i>
+          <span>Planifier un meet</span>
+        </div>
+        <div class="compose-body">
+          <div class="form-group">
+            <label class="form-label">Candidat</label>
+            <select class="form-input form-select" id="meet-candidate">
+              <option value="">Sélectionner un candidat...</option>
+              <option value="ak">Amara Koné — Développement</option>
+              <option value="ct">Cheick Touré — Électronique</option>
+              <option value="fc">Fatou Camara — Électronique</option>
+            </select>
+          </div>
+          <div class="date-time-grid">
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input type="date" class="form-input" id="meet-date" value="2026-03-16">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Heure</label>
+              <input type="time" class="form-input" id="meet-time" value="10:00">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Lieu</label>
+            <input type="text" class="form-input" id="meet-location" placeholder="Ex : Campus B, Salle 204">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message personnalisé <span style="color:var(--muted);font-weight:400;">(optionnel)</span></label>
+            <textarea class="form-input" style="min-height:80px;" id="meet-msg" placeholder="Ajoutez des instructions pour le candidat (tenue, documents à apporter...)"></textarea>
+          </div>
+
+          <!-- Aperçu email -->
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-size:12px;color:var(--muted);line-height:1.6;">
+            <div style="font-weight:700;color:var(--text);margin-bottom:6px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;">Aperçu email</div>
+            Objet : <strong style="color:var(--text);">TechPulse — Étape 2/3 validée · Convocation meet</strong><br><br>
+            Bonjour <strong style="color:var(--text);" id="preview-name">…</strong>, félicitations pour avoir passé le test. Nous vous invitons à un entretien le <strong style="color:var(--text);" id="preview-date">…</strong> à <strong style="color:var(--text);" id="preview-time">…</strong>, <span id="preview-location">…</span>. Merci de confirmer votre présence.
+          </div>
+        </div>
+        <div class="compose-footer">
+          <button class="btn btn-outline" onclick="resetForm()">Annuler</button>
+          <button class="btn btn-primary" onclick="sendConvocation()">
+            <i data-lucide="send" style="width:13px;height:13px;"></i> Envoyer la convocation
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIT MODAL -->
+<div class="modal-overlay" id="modal-admit">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <div class="modal-title">Admettre le candidat</div>
+      <div class="modal-close" onclick="closeModal()"><i data-lucide="x" style="width:18px;height:18px;"></i></div>
+    </div>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.6;">
+      Un email de bienvenue sera envoyé à <strong id="admit-name" style="color:var(--text);"></strong> avec le lien du groupe WhatsApp de son pôle.
+    </p>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:16px;">
+      <div style="font-weight:700;color:var(--text);margin-bottom:6px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;">Email qui sera envoyé</div>
+      Objet : <strong style="color:var(--text);">TechPulse — Bienvenue dans le club !</strong><br><br>
+      Félicitations ! Vous êtes officiellement admis dans TechPulse. Voici le lien pour rejoindre le groupe WhatsApp de votre pôle : [lien configuré dans les paramètres]. Bienvenue dans l'aventure.
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-success" onclick="confirmAdmit()">
+        <i data-lucide="check" style="width:13px;height:13px;"></i> Confirmer l'admission
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="position:fixed;bottom:24px;right:24px;background:var(--text);color:var(--bg);padding:14px 20px;border-radius:var(--radius-lg);font-size:14px;font-weight:500;display:none;align-items:center;gap:10px;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,0.15);">
+  <i data-lucide="check" style="width:16px;height:16px;color:var(--success);"></i>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+lucide.createIcons();
+
+function switchTab(btn, tab) {
+  ['planifier','planifie','termine'].forEach(t => {
+    document.getElementById(`tab-${t}`).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.style.background = 'var(--surface)';
+    b.style.color = 'var(--muted)';
+  });
+  btn.style.background = 'var(--text)';
+  btn.style.color = 'var(--bg)';
+}
+
+function scheduleFor(name) {
+  document.getElementById('meet-candidate').value =
+    name === 'Amara Koné' ? 'ak' : name === 'Cheick Touré' ? 'ct' : 'fc';
+  document.getElementById('preview-name').textContent = name;
+  updatePreview();
+  document.querySelector('.meet-schedule-form').scrollIntoView({ behavior:'smooth' });
+}
+
+function updatePreview() {
+  const d = document.getElementById('meet-date').value;
+  const t = document.getElementById('meet-time').value;
+  const l = document.getElementById('meet-location').value;
+  if (d) document.getElementById('preview-date').textContent = new Date(d).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  if (t) document.getElementById('preview-time').textContent = t.replace(':','h');
+  if (l) document.getElementById('preview-location').textContent = l;
+}
+
+document.getElementById('meet-date').addEventListener('input', updatePreview);
+document.getElementById('meet-time').addEventListener('input', updatePreview);
+document.getElementById('meet-location').addEventListener('input', updatePreview);
+document.getElementById('meet-candidate').addEventListener('change', function() {
+  const names = { ak:'Amara Koné', ct:'Cheick Touré', fc:'Fatou Camara' };
+  document.getElementById('preview-name').textContent = names[this.value] || '…';
+});
+
+function sendConvocation() {
+  const cand = document.getElementById('meet-candidate').value;
+  if (!cand) { showToast('Sélectionnez un candidat.'); return; }
+  showToast('Convocation envoyée avec succès.');
+  resetForm();
+}
+
+function resetForm() {
+  document.getElementById('meet-candidate').value = '';
+  document.getElementById('meet-location').value = '';
+  document.getElementById('meet-msg').value = '';
+  document.getElementById('preview-name').textContent = '…';
+  document.getElementById('preview-date').textContent = '…';
+}
+
+function admitCandidate(name) {
+  document.getElementById('admit-name').textContent = name;
+  document.getElementById('modal-admit').classList.add('open');
+  lucide.createIcons();
+}
+function confirmAdmit() {
+  closeModal();
+  showToast('Candidat admis. Email + lien WhatsApp envoyés.');
+}
+function rejectAfterMeet(name) {
+  if (confirm(`Refuser ${name} après le meet ? Un email sera envoyé.`))
+    showToast(`Refus envoyé à ${name}.`);
+}
+function closeModal()  { document.getElementById('modal-admit').classList.remove('open'); }
+function editMeet(n)   { showToast(`Modification du meet de ${n}.`); }
+function exportCSV()   { showToast('Export CSV téléchargé.'); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.style.display = 'flex';
+  lucide.createIcons();
+  setTimeout(() => t.style.display = 'none', 3000);
+}
+
+updatePreview();
+</script>
+</body>
+</html>

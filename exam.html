@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tests d'accès — TechPulse</title>
+  
+  <link rel="stylesheet" href="public.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="dot"></span> TechPulse
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="about.html">À propos</a>
+      <a href="index.html#poles">Pôles</a>
+    </div>
+    <div class="nav-cta">
+      <a href="join.html" class="btn btn-accent btn-sm">
+        Candidater <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+      </a>
+    </div>
+    <button class="nav-burger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-drawer">
+      <div class="nav-drawer-header">
+        <a href="index.html" class="nav-logo"><span class="dot"></span> TechPulse</a>
+        <button class="nav-drawer-close" aria-label="Fermer">
+          <i data-lucide="x" style="width:20px;height:20px;"></i>
+        </button>
+      </div>
+      <div class="nav-drawer-divider"></div>
+      <div class="nav-drawer-links">
+        <a href="index.html">Accueil</a>
+        <a href="about.html">À propos</a>
+        <a href="index.html#poles">Pôles</a>
+      </div>
+      <div class="nav-drawer-divider"></div>
+      <div class="nav-drawer-cta">
+        <a href="join.html" class="btn btn-accent btn-sm w-100">
+          Candidater <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="exam-hero">
+  <div class="container">
+    <div class="exam-hero-content">
+      <div class="exam-eyebrow">
+        <i data-lucide="zap" style="width:16px;height:16px;"></i>
+        Espace de test
+      </div>
+      <h1 class="exam-title">Démontre tes compétences.</h1>
+      <p class="exam-subtitle">Nos tests technique vérifient ton niveau et ta capacité à résoudre les défis réels que tu affronteras à TechPulse. Pas de piège — juste du code, de la logique et de la créativité.</p>
+      
+      <div class="exam-hero-stats">
+        <div class="exam-stat">
+          <div class="exam-stat-value">5-15 min</div>
+          <div class="exam-stat-label">Durée</div>
+        </div>
+        <div class="exam-stat">
+          <div class="exam-stat-value">3</div>
+          <div class="exam-stat-label">Domaines</div>
+        </div>
+        <div class="exam-stat">
+          <div class="exam-stat-value">∞</div>
+          <div class="exam-stat-label">Essais</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  
+  <!-- CHOIX DU PÔLE -->
+  <div class="exam-section">
+    <div class="section-header">
+      <h2 class="section-title">Choisis ton domaine</h2>
+      <p class="section-subtitle">Sélectionne le pôle qui correspond à tes aspirations et lance-toi dans le test</p>
+    </div>
+
+    <div class="exam-poles-grid">
+      
+      <!-- DÉVELOPPEMENT -->
+      <div class="exam-pole-card" data-pole="dev">
+        <div class="exam-pole-icon" style="background:linear-gradient(135deg, #1400FF, #6E5BFF);">
+          <i data-lucide="code-2"></i>
+        </div>
+        <h3 class="exam-pole-name">Développement</h3>
+        <p class="exam-pole-desc">Web, backend, architectures. Maîtrise des langages et solutions modernes.</p>
+        <div class="exam-pole-tests">
+          <span class="exam-test-badge">JavaScript</span>
+          <span class="exam-test-badge">Python</span>
+          <span class="exam-test-badge">React</span>
+        </div>
+        <button class="btn btn-accent btn-sm" onclick="startTest('dev')">
+          Commencer <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+        </button>
+      </div>
+
+      <!-- SÉCURITÉ -->
+      <div class="exam-pole-card" data-pole="secu">
+        <div class="exam-pole-icon" style="background:linear-gradient(135deg, #E53B00, #FF7A42);">
+          <i data-lucide="shield"></i>
+        </div>
+        <h3 class="exam-pole-name">Sécurité</h3>
+        <p class="exam-pole-desc">Cryptographie, reverse engineering, pentest. Protège et détecte les menaces.</p>
+        <div class="exam-pole-tests">
+          <span class="exam-test-badge">Crypto</span>
+          <span class="exam-test-badge">Réseau</span>
+          <span class="exam-test-badge">Linux</span>
+        </div>
+        <button class="btn btn-accent btn-sm" onclick="startTest('secu')">
+          Commencer <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+        </button>
+      </div>
+
+      <!-- ÉLECTRONIQUE -->
+      <div class="exam-pole-card" data-pole="iot">
+        <div class="exam-pole-icon" style="background:linear-gradient(135deg, #007A3D, #00C851);">
+          <i data-lucide="cpu"></i>
+        </div>
+        <h3 class="exam-pole-name">Électronique</h3>
+        <p class="exam-pole-desc">Arduino, microcontrôleurs, IoT. Fabrique du matériel qui marche vraiment.</p>
+        <div class="exam-pole-tests">
+          <span class="exam-test-badge">Arduino</span>
+          <span class="exam-test-badge">C++</span>
+          <span class="exam-test-badge">Électronique</span>
+        </div>
+        <button class="btn btn-accent btn-sm" onclick="startTest('iot')">
+          Commencer <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- INFOS COMPLÉMENTAIRES -->
+  <div class="exam-section exam-info-section">
+    <div class="section-header">
+      <h2 class="section-title">Comment ça marche ?</h2>
+    </div>
+
+    <div class="exam-how-it-works">
+      <div class="exam-step-card">
+        <div class="exam-step-number">1</div>
+        <h4 class="exam-step-title">Choisis une spécialité</h4>
+        <p class="exam-step-desc">Commence par le domaine qui t'intéresse. Tu peux faire plusieurs tests après.</p>
+      </div>
+      <div class="exam-step-card">
+        <div class="exam-step-number">2</div>
+        <h4 class="exam-step-title">Réponds aux questions</h4>
+        <p class="exam-step-desc">QCM, exercices pratiques, mises en situation. Du vrai travail pour 15 minutes.</p>
+      </div>
+      <div class="exam-step-card">
+        <div class="exam-step-number">3</div>
+        <h4 class="exam-step-title">Reçois tes résultats</h4>
+        <p class="exam-step-desc">Score instant. Feedback détaillé. Si tu passes, accès à la candidature complète.</p>
+      </div>
+      <div class="exam-step-card">
+        <div class="exam-step-number">4</div>
+        <h4 class="exam-step-title">Complète ton dossier</h4>
+        <p class="exam-step-desc">CV, lettre de motivation, infos perso. Notre équipe examine tout en 5-7 jours.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ MINIMALISTE -->
+  <div class="exam-section exam-faq-section">
+    <div class="section-header">
+      <h2 class="section-title">Questions fréquentes</h2>
+    </div>
+
+    <div class="exam-faq-grid">
+      <details class="exam-faq-item">
+        <summary class="exam-faq-question">
+          Combien de fois je peux essayer ?
+          <i data-lucide="chevron-down" style="width:16px;height:16px;"></i>
+        </summary>
+        <p class="exam-faq-answer">Essais illimités. Chaque tentative est enregistrée. On juge sur ta meilleure performance — retente-toi autant que tu veux.</p>
+      </details>
+
+      <details class="exam-faq-item">
+        <summary class="exam-faq-question">
+          Comment est noté mon test ?
+          <i data-lucide="chevron-down" style="width:16px;height:16px;"></i>
+        </summary>
+        <p class="exam-faq-answer">Score sur 100. On regarde la qualité, la clarté, l'exactitude. Pas de note de style — juste la substance.</p>
+      </details>
+
+      <details class="exam-faq-item">
+        <summary class="exam-faq-question">
+          Je peux revenir plus tard ?
+          <i data-lucide="chevron-down" style="width:16px;height:16px;"></i>
+        </summary>
+        <p class="exam-faq-answer">Oui, ton progrès est sauvegardé. Continue exactement où tu t'es arrêté quand tu reviens.</p>
+      </details>
+
+      <details class="exam-faq-item">
+        <summary class="exam-faq-question">
+          Quel score pour réussir ?
+          <i data-lucide="chevron-down" style="width:16px;height:16px;"></i>
+        </summary>
+        <p class="exam-faq-answer">60% minimum — c'est pas super haut. On teste surtout ta motivation et ta capacité à apprendre.</p>
+      </details>
+
+      <details class="exam-faq-item">
+        <summary class="exam-faq-question">
+          Y a-t-il une limite de temps ?
+          <i data-lucide="chevron-down" style="width:16px;height:16px;"></i>
+        </summary>
+        <p class="exam-faq-answer">Oui, 15 minutes. C'est serrée mais suffisant pour quelqu'un de préparé. On regarde ton temps de réaction aussi.</p>
+      </details>
+
+      <details class="exam-faq-item">
+        <summary class="exam-faq-question">
+          Je peux utiliser Google ?
+          <i data-lucide="chevron-down" style="width:16px;height:16px;"></i>
+        </summary>
+        <p class="exam-faq-answer">Ouais, vas-y. C'est pas un examen scolaire. On teste ta capacité à trouver des solutions dans le monde réel.</p>
+      </details>
+    </div>
+  </div>
+
+</div>
+
+<footer style="margin-top:80px;padding:40px 0;border-top:1px solid var(--border);text-align:center;color:var(--muted);font-size:13px;">
+  <p>TechPulse © 2025 — Ensemble, on fait bouger les lignes.</p>
+</footer>
+
+<script>
+  lucide.createIcons();
+  
+  function startTest(pole) {
+    window.location.href = `../admin/test-session.html?pole=${pole}`;
+  }
+</script>
+<script src="burger.js"></script>
+</body>
+</html>

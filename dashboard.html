@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Admin TechPulse</title>
+  
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo"><span class="dot"></span> TechPulse</div>
+    <div class="sidebar-sub">Administration</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Pipeline</div>
+    <a href="dashboard.html" class="sidebar-link active">
+      <i data-lucide="layout-dashboard"></i> Dashboard
+    </a>
+    <a href="candidatures.html" class="sidebar-link ">
+      <i data-lucide="inbox"></i> Candidatures
+      <span class="sidebar-badge">8</span>
+    </a>
+    <a href="tests.html" class="sidebar-link ">
+      <i data-lucide="flask-conical"></i> Tests
+      <span class="sidebar-badge">5</span>
+    </a>
+    <a href="meets.html" class="sidebar-link ">
+      <i data-lucide="calendar-check"></i> Meets
+    </a>
+    <div class="sidebar-section-label">Gestion</div>
+    <a href="membres.html" class="sidebar-link ">
+      <i data-lucide="users"></i> Membres
+    </a>
+    <a href="annonces.html" class="sidebar-link ">
+      <i data-lucide="megaphone"></i> Annonces
+    </a>
+    <div class="sidebar-section-label">Config</div>
+    <a href="editeur.html" class="sidebar-link ">
+      <i data-lucide="file-edit"></i> Éditeur Q.
+    </a>
+    <a href="parametres.html" class="sidebar-link ">
+      <i data-lucide="settings"></i> Paramètres
+    </a>
+    <div class="sidebar-section-label">Site</div>
+    <a href="../index.html" target="_blank" class="sidebar-link">
+      <i data-lucide="external-link"></i> Voir le site
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">A</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Admin</div>
+        <div class="sidebar-user-role">Administrateur</div>
+      </div>
+      <a href="login.html" style="color:var(--muted-dark);cursor:pointer;">
+        <i data-lucide="log-out" style="width:15px;height:15px;"></i>
+      </a>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">Dashboard</div>
+    <div class="topbar-actions">
+      <span style="font-size:12px;color:var(--muted);">Mercredi 11 Mars 2026</span>
+      <button class="btn btn-accent btn-sm" onclick="window.location='candidatures.html'">
+        <i data-lucide="inbox" style="width:13px;height:13px;"></i>
+        8 candidatures à traiter
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- PIPELINE 3 ÉTAPES -->
+    <div class="pipeline mb-6">
+      <div class="pipeline-step pipeline-step--done">
+        <div class="pipeline-step-head">
+          <div class="pipeline-step-icon"><i data-lucide="inbox" style="width:18px;height:18px;"></i></div>
+          <div class="pipeline-step-info">
+            <div class="pipeline-step-num">Étape 1</div>
+            <div class="pipeline-step-name">Candidature</div>
+          </div>
+          <div class="pipeline-step-count">24</div>
+        </div>
+        <div class="pipeline-step-bar"><div class="pipeline-step-fill" style="width:100%;"></div></div>
+        <div class="pipeline-step-meta">13 approuvés · 3 refusés · 8 en attente</div>
+      </div>
+      <div class="pipeline-arrow"><i data-lucide="chevron-right" style="width:16px;height:16px;color:var(--muted);"></i></div>
+      <div class="pipeline-step pipeline-step--active">
+        <div class="pipeline-step-head">
+          <div class="pipeline-step-icon pipeline-step-icon--accent"><i data-lucide="flask-conical" style="width:18px;height:18px;"></i></div>
+          <div class="pipeline-step-info">
+            <div class="pipeline-step-num">Étape 2</div>
+            <div class="pipeline-step-name">Test hack-select</div>
+          </div>
+          <div class="pipeline-step-count" style="color:var(--accent);">13</div>
+        </div>
+        <div class="pipeline-step-bar"><div class="pipeline-step-fill" style="width:38%;background:var(--accent);"></div></div>
+        <div class="pipeline-step-meta">5 résultats reçus · 8 en attente de test</div>
+      </div>
+      <div class="pipeline-arrow"><i data-lucide="chevron-right" style="width:16px;height:16px;color:var(--muted);"></i></div>
+      <div class="pipeline-step">
+        <div class="pipeline-step-head">
+          <div class="pipeline-step-icon"><i data-lucide="calendar-check" style="width:18px;height:18px;"></i></div>
+          <div class="pipeline-step-info">
+            <div class="pipeline-step-num">Étape 3</div>
+            <div class="pipeline-step-name">Meet présentiel</div>
+          </div>
+          <div class="pipeline-step-count" style="color:var(--muted);">3</div>
+        </div>
+        <div class="pipeline-step-bar"><div class="pipeline-step-fill" style="width:23%;background:var(--success);"></div></div>
+        <div class="pipeline-step-meta">1 admis · 2 meets à planifier</div>
+      </div>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="grid-4 mb-6">
+      <div class="stat-card">
+        <div class="stat-label">Candidatures totales</div>
+        <div class="stat-value">24</div>
+        <div class="stat-meta" style="display:flex;align-items:center;gap:4px;color:var(--success);">
+          <i data-lucide="trending-up" style="width:13px;height:13px;"></i> +6 ce mois
+        </div>
+      </div>
+      <div class="stat-card" style="--accent:#E53B00;">
+        <div class="stat-label">En attente</div>
+        <div class="stat-value">8</div>
+        <div class="stat-meta">À examiner</div>
+      </div>
+      <div class="stat-card" style="--accent:#007A3D;">
+        <div class="stat-label">Membres actifs</div>
+        <div class="stat-value">12</div>
+        <div class="stat-meta">3 pôles</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Annonces publiées</div>
+        <div class="stat-value">3</div>
+        <div class="stat-meta">Ce mois</div>
+      </div>
+    </div>
+
+    <!-- MIDDLE ROW -->
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:20px;" class="mb-6">
+
+      <!-- Recent candidatures -->
+      <div class="table-wrap">
+        <div class="table-header">
+          <div class="table-title">Candidatures récentes</div>
+          <a href="candidatures.html" class="btn btn-ghost" style="font-size:12px;">
+            Voir tout <i data-lucide="arrow-right" style="width:12px;height:12px;"></i>
+          </a>
+        </div>
+        <table class="recent-cands">
+          <thead>
+            <tr>
+              <th>Candidat</th>
+              <th>Pôle</th>
+              <th>Date</th>
+              <th>Statut</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar-sm">AK</div>
+                  <span>Amara Koné</span>
+                </div>
+              </td>
+              <td><span class="tag tag-accent">Dev</span></td>
+              <td style="color:var(--muted);font-size:13px;">Aujourd'hui</td>
+              <td><span class="tag tag-warning">En attente</span></td>
+              <td><a href="candidatures.html" class="btn btn-ghost btn-sm"><i data-lucide="eye" style="width:12px;height:12px;"></i></a></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar-sm">MB</div>
+                  <span>Mariama Baldé</span>
+                </div>
+              </td>
+              <td><span class="tag tag-danger">Sécu</span></td>
+              <td style="color:var(--muted);font-size:13px;">Hier</td>
+              <td><span class="tag tag-warning">En attente</span></td>
+              <td><a href="candidatures.html" class="btn btn-ghost btn-sm"><i data-lucide="eye" style="width:12px;height:12px;"></i></a></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar-sm">FC</div>
+                  <span>Fatou Camara</span>
+                </div>
+              </td>
+              <td><span class="tag tag-success">IoT</span></td>
+              <td style="color:var(--muted);font-size:13px;">08 Mar</td>
+              <td><span class="tag tag-success">Acceptée</span></td>
+              <td><a href="candidatures.html" class="btn btn-ghost btn-sm"><i data-lucide="eye" style="width:12px;height:12px;"></i></a></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar-sm">OD</div>
+                  <span>Oumar Diallo</span>
+                </div>
+              </td>
+              <td><span class="tag tag-accent">Dev</span></td>
+              <td style="color:var(--muted);font-size:13px;">07 Mar</td>
+              <td><span class="tag tag-danger">Refusée</span></td>
+              <td><a href="candidatures.html" class="btn btn-ghost btn-sm"><i data-lucide="eye" style="width:12px;height:12px;"></i></a></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar-sm">IS</div>
+                  <span>Ibrahim Sylla</span>
+                </div>
+              </td>
+              <td><span class="tag tag-danger">Sécu</span></td>
+              <td style="color:var(--muted);font-size:13px;">05 Mar</td>
+              <td><span class="tag tag-success">Acceptée</span></td>
+              <td><a href="candidatures.html" class="btn btn-ghost btn-sm"><i data-lucide="eye" style="width:12px;height:12px;"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Right column -->
+      <div style="display:flex;flex-direction:column;gap:20px;">
+
+        <!-- Répartition pôles -->
+        <div class="card">
+          <div style="font-family:var(--font-display);font-size:14px;font-weight:700;margin-bottom:20px;">Répartition par pôle</div>
+          <div class="pole-bar-list">
+            <div class="pole-bar-item">
+              <div class="pole-bar-head"><span>Développement</span><span>10 membres</span></div>
+              <div class="pole-bar-track"><div class="pole-bar-fill" style="width:83%;"></div></div>
+            </div>
+            <div class="pole-bar-item">
+              <div class="pole-bar-head"><span>Sécurité</span><span>8 membres</span></div>
+              <div class="pole-bar-track"><div class="pole-bar-fill secu" style="width:67%;"></div></div>
+            </div>
+            <div class="pole-bar-item">
+              <div class="pole-bar-head"><span>Électronique</span><span>6 membres</span></div>
+              <div class="pole-bar-track"><div class="pole-bar-fill iot" style="width:50%;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions rapides -->
+        <div class="card">
+          <div style="font-family:var(--font-display);font-size:14px;font-weight:700;margin-bottom:16px;">Actions rapides</div>
+          <div class="quick-actions">
+            <a href="candidatures.html" class="quick-action">
+              <div class="quick-action-icon"><i data-lucide="inbox" style="width:15px;height:15px;"></i></div>
+              <div>
+                <div class="quick-action-text">Candidatures</div>
+                <div class="quick-action-sub">8 en attente</div>
+              </div>
+            </a>
+            <a href="membres.html" class="quick-action">
+              <div class="quick-action-icon"><i data-lucide="user-plus" style="width:15px;height:15px;"></i></div>
+              <div>
+                <div class="quick-action-text">Ajouter</div>
+                <div class="quick-action-sub">Nouveau membre</div>
+              </div>
+            </a>
+            <a href="annonces.html" class="quick-action">
+              <div class="quick-action-icon"><i data-lucide="plus" style="width:15px;height:15px;"></i></div>
+              <div>
+                <div class="quick-action-text">Annonce</div>
+                <div class="quick-action-sub">Publier</div>
+              </div>
+            </a>
+            <a href="../index.html" target="_blank" class="quick-action">
+              <div class="quick-action-icon"><i data-lucide="external-link" style="width:15px;height:15px;"></i></div>
+              <div>
+                <div class="quick-action-text">Site public</div>
+                <div class="quick-action-sub">Voir en ligne</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY FEED -->
+    <div class="card">
+      <div style="font-family:var(--font-display);font-size:14px;font-weight:700;margin-bottom:4px;">Activité récente</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:20px;">Dernières actions sur la plateforme</div>
+      <div class="activity-list">
+        <div class="activity-item">
+          <div class="activity-icon new"><i data-lucide="user-plus" style="width:14px;height:14px;"></i></div>
+          <div class="activity-text">
+            <strong>Nouvelle candidature — Amara Koné</strong>
+            <span>Pôle Développement · L2 Génie Logiciel</span>
+          </div>
+          <div class="activity-time">Il y a 2h</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon new"><i data-lucide="user-plus" style="width:14px;height:14px;"></i></div>
+          <div class="activity-text">
+            <strong>Nouvelle candidature — Mariama Baldé</strong>
+            <span>Pôle Sécurité · L3 Réseaux</span>
+          </div>
+          <div class="activity-time">Hier</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon accepted"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+          <div class="activity-text">
+            <strong>Candidature acceptée — Fatou Camara</strong>
+            <span>Pôle Électronique · Email de confirmation envoyé</span>
+          </div>
+          <div class="activity-time">08 Mar</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon post"><i data-lucide="megaphone" style="width:14px;height:14px;"></i></div>
+          <div class="activity-text">
+            <strong>Annonce publiée — Lancement du Sprint #1</strong>
+            <span>Visible sur le site public · Tous les pôles</span>
+          </div>
+          <div class="activity-time">07 Mar</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon accepted"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+          <div class="activity-text">
+            <strong>Candidature acceptée — Ibrahim Sylla</strong>
+            <span>Pôle Sécurité · Email de confirmation envoyé</span>
+          </div>
+          <div class="activity-time">05 Mar</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

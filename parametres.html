@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paramètres — Admin TechPulse</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo"><span class="dot"></span> TechPulse</div>
+    <div class="sidebar-sub">Administration</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Pipeline</div>
+    <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+    <a href="candidatures.html" class="sidebar-link"><i data-lucide="inbox"></i> Candidatures<span class="sidebar-badge">8</span></a>
+    <a href="tests.html" class="sidebar-link"><i data-lucide="flask-conical"></i> Tests<span class="sidebar-badge">5</span></a>
+    <a href="meets.html" class="sidebar-link"><i data-lucide="calendar-check"></i> Meets</a>
+    <div class="sidebar-section-label">Gestion</div>
+    <a href="membres.html" class="sidebar-link"><i data-lucide="users"></i> Membres</a>
+    <a href="annonces.html" class="sidebar-link"><i data-lucide="megaphone"></i> Annonces</a>
+    <div class="sidebar-section-label">Config</div>
+    <a href="editeur.html" class="sidebar-link"><i data-lucide="file-edit"></i> Éditeur Q.</a>
+    <a href="parametres.html" class="sidebar-link active"><i data-lucide="settings"></i> Paramètres</a>
+    <div class="sidebar-section-label">Site</div>
+    <a href="../index.html" target="_blank" class="sidebar-link"><i data-lucide="external-link"></i> Voir le site</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">A</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Admin</div>
+        <div class="sidebar-user-role">Administrateur</div>
+      </div>
+      <a href="login.html" style="color:var(--muted-dark);"><i data-lucide="log-out" style="width:15px;height:15px;"></i></a>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title">Paramètres</div>
+    <div class="topbar-actions">
+      <button class="btn btn-primary btn-sm" onclick="saveAll()">
+        <i data-lucide="save" style="width:13px;height:13px;"></i> Sauvegarder
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="params-layout">
+
+      <!-- NAV PARAMÈTRES -->
+      <div class="params-nav">
+        <div class="params-nav-item active" onclick="switchParam(this,'whatsapp')">
+          <i data-lucide="message-circle" style="width:15px;height:15px;"></i> WhatsApp
+        </div>
+        <div class="params-nav-item" onclick="switchParam(this,'emails')">
+          <i data-lucide="mail" style="width:15px;height:15px;"></i> Emails
+        </div>
+        <div class="params-nav-item" onclick="switchParam(this,'admins')">
+          <i data-lucide="shield-check" style="width:15px;height:15px;"></i> Admins
+        </div>
+        <div class="params-nav-item" onclick="switchParam(this,'plateforme')">
+          <i data-lucide="settings-2" style="width:15px;height:15px;"></i> Plateforme
+        </div>
+      </div>
+
+      <!-- SECTIONS -->
+      <div>
+
+        <!-- WHATSAPP -->
+        <div class="params-section active" id="section-whatsapp">
+          <div class="params-card">
+            <div class="params-card-header">
+              <div class="params-card-title">Liens WhatsApp par pôle</div>
+              <span class="tag tag-success" style="font-size:10px;"><i data-lucide="check" style="width:10px;height:10px;display:inline;"></i> 3 groupes configurés</span>
+            </div>
+            <div class="params-card-body">
+              <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:4px;">
+                Ces liens sont envoyés automatiquement dans le mail de bienvenue après admission. Configurez un lien par pôle.
+              </p>
+
+              <div class="whatsapp-pole-row">
+                <div class="whatsapp-pole-icon" style="background:var(--accent-bg);">
+                  <i data-lucide="code-2" style="width:16px;height:16px;color:var(--accent);"></i>
+                </div>
+                <div class="whatsapp-pole-info">
+                  <div class="whatsapp-pole-name">Développement Informatique</div>
+                  <div class="whatsapp-pole-url" id="wa-dev-preview">https://chat.whatsapp.com/Dev•••••••••••</div>
+                </div>
+                <div class="whatsapp-status ok" title="Lien configuré"></div>
+                <button class="btn btn-outline btn-sm" onclick="editWA('dev')">
+                  <i data-lucide="edit" style="width:12px;height:12px;"></i>
+                </button>
+              </div>
+
+              <div class="whatsapp-pole-row">
+                <div class="whatsapp-pole-icon" style="background:#FDEEE8;">
+                  <i data-lucide="shield" style="width:16px;height:16px;color:var(--danger);"></i>
+                </div>
+                <div class="whatsapp-pole-info">
+                  <div class="whatsapp-pole-name">Sécurité Informatique</div>
+                  <div class="whatsapp-pole-url" id="wa-secu-preview">https://chat.whatsapp.com/Secu•••••••••</div>
+                </div>
+                <div class="whatsapp-status ok" title="Lien configuré"></div>
+                <button class="btn btn-outline btn-sm" onclick="editWA('secu')">
+                  <i data-lucide="edit" style="width:12px;height:12px;"></i>
+                </button>
+              </div>
+
+              <div class="whatsapp-pole-row" style="border-bottom:none;">
+                <div class="whatsapp-pole-icon" style="background:#E0F2EA;">
+                  <i data-lucide="cpu" style="width:16px;height:16px;color:var(--success);"></i>
+                </div>
+                <div class="whatsapp-pole-info">
+                  <div class="whatsapp-pole-name">Électronique & IoT</div>
+                  <div class="whatsapp-pole-url" id="wa-iot-preview">https://chat.whatsapp.com/IoT••••••••••</div>
+                </div>
+                <div class="whatsapp-status ok" title="Lien configuré"></div>
+                <button class="btn btn-outline btn-sm" onclick="editWA('iot')">
+                  <i data-lucide="edit" style="width:12px;height:12px;"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="params-card">
+            <div class="params-card-header">
+              <div class="params-card-title">Informations du club</div>
+            </div>
+            <div class="params-card-body">
+              <div class="form-group">
+                <label class="form-label">Nom du club</label>
+                <input type="text" class="form-input" value="TechPulse">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nom familier</label>
+                <input type="text" class="form-input" value="Club Pulse">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email de contact officiel</label>
+                <input type="email" class="form-input" value="admin@clubpulse.tech">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Lieu du meet présentiel (par défaut)</label>
+                <input type="text" class="form-input" value="Campus principal, Bâtiment B">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EMAILS -->
+        <div class="params-section" id="section-emails">
+          <div class="params-card">
+            <div class="params-card-header">
+              <div class="params-card-title">Templates d'emails</div>
+              <span style="font-size:12px;color:var(--muted);">5 templates · Cliquez pour modifier</span>
+            </div>
+            <div class="params-card-body">
+              <p style="font-size:13px;color:var(--muted);margin-bottom:4px;line-height:1.6;">
+                Utilisez <code style="background:var(--tag-bg);padding:2px 6px;border-radius:2px;font-size:12px;">{{nom}}</code>, <code style="background:var(--tag-bg);padding:2px 6px;border-radius:2px;font-size:12px;">{{pole}}</code>, <code style="background:var(--tag-bg);padding:2px 6px;border-radius:2px;font-size:12px;">{{lien_test}}</code>, <code style="background:var(--tag-bg);padding:2px 6px;border-radius:2px;font-size:12px;">{{date_meet}}</code>, <code style="background:var(--tag-bg);padding:2px 6px;border-radius:2px;font-size:12px;">{{lien_whatsapp}}</code> dans les templates.
+              </p>
+
+              <!-- Template 1 -->
+              <div class="email-template-card" id="tpl-1">
+                <div class="email-template-head">
+                  <div>
+                    <div class="email-template-label">Email 1 — Étape 1 validée</div>
+                    <div class="email-template-step">Envoyé après approbation de la candidature</div>
+                  </div>
+                  <button class="btn btn-ghost btn-sm" onclick="editTemplate(1)"><i data-lucide="edit" style="width:12px;height:12px;"></i> Modifier</button>
+                </div>
+                <div class="email-template-preview">
+                  Bonjour {{nom}}, votre candidature au pôle {{pole}} a retenu notre attention. Vous êtes maintenant à l'étape 1/3. Voici votre lien personnel pour accéder au test de sélection : {{lien_test}}. Ce lien est unique et non partageable. Durée : 15 minutes...
+                </div>
+              </div>
+
+              <!-- Template 2 -->
+              <div class="email-template-card" id="tpl-2">
+                <div class="email-template-head">
+                  <div>
+                    <div class="email-template-label">Email 2 — Étape 2 validée (convocation meet)</div>
+                    <div class="email-template-step">Envoyé après validation du test + planification du meet</div>
+                  </div>
+                  <button class="btn btn-ghost btn-sm" onclick="editTemplate(2)"><i data-lucide="edit" style="width:12px;height:12px;"></i> Modifier</button>
+                </div>
+                <div class="email-template-preview">
+                  Bonjour {{nom}}, félicitations pour avoir passé le test hack-select. Vous êtes invité(e) à un entretien présentiel le {{date_meet}} à {{lieu_meet}}. Merci de confirmer votre présence...
+                </div>
+              </div>
+
+              <!-- Template 3 -->
+              <div class="email-template-card" id="tpl-3">
+                <div class="email-template-head">
+                  <div>
+                    <div class="email-template-label">Email 3 — Admission finale</div>
+                    <div class="email-template-step">Envoyé après meet concluant</div>
+                  </div>
+                  <button class="btn btn-ghost btn-sm" onclick="editTemplate(3)"><i data-lucide="edit" style="width:12px;height:12px;"></i> Modifier</button>
+                </div>
+                <div class="email-template-preview">
+                  Bonjour {{nom}}, nous sommes heureux de vous accueillir officiellement dans TechPulse — pôle {{pole}}. Voici le lien pour rejoindre votre groupe WhatsApp : {{lien_whatsapp}}...
+                </div>
+              </div>
+
+              <!-- Template 4 -->
+              <div class="email-template-card" id="tpl-4">
+                <div class="email-template-head">
+                  <div>
+                    <div class="email-template-label">Email 4 — Refus (après test)</div>
+                    <div class="email-template-step">Envoyé après résultat de test insuffisant</div>
+                  </div>
+                  <button class="btn btn-ghost btn-sm" onclick="editTemplate(4)"><i data-lucide="edit" style="width:12px;height:12px;"></i> Modifier</button>
+                </div>
+                <div class="email-template-preview">
+                  Bonjour {{nom}}, nous avons pris connaissance de vos résultats au test de sélection. Après analyse, nous ne sommes pas en mesure de donner suite à votre candidature cette session...
+                </div>
+              </div>
+
+              <!-- Template 5 -->
+              <div class="email-template-card" id="tpl-5">
+                <div class="email-template-head">
+                  <div>
+                    <div class="email-template-label">Email 5 — Refus (après meet)</div>
+                    <div class="email-template-step">Envoyé après meet non concluant</div>
+                  </div>
+                  <button class="btn btn-ghost btn-sm" onclick="editTemplate(5)"><i data-lucide="edit" style="width:12px;height:12px;"></i> Modifier</button>
+                </div>
+                <div class="email-template-preview">
+                  Bonjour {{nom}}, nous vous remercions pour votre présence au meet présentiel. Après délibération, nous ne retenons pas votre candidature pour cette session. Nous vous encourageons à vous représenter...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMINS -->
+        <div class="params-section" id="section-admins">
+          <div class="params-card">
+            <div class="params-card-header">
+              <div class="params-card-title">Comptes administrateurs</div>
+              <button class="btn btn-primary btn-sm" onclick="addAdmin()">
+                <i data-lucide="plus" style="width:13px;height:13px;"></i> Ajouter
+              </button>
+            </div>
+            <div class="params-card-body">
+              <div class="admin-list">
+                <div class="admin-row">
+                  <div class="admin-avatar-sm">AK</div>
+                  <div class="admin-info">
+                    <div class="admin-name">Amara Koné</div>
+                    <div class="admin-email">a.kone@clubpulse.tech</div>
+                  </div>
+                  <span class="tag tag-accent" style="font-size:10px;">Fondateur</span>
+                  <button class="btn btn-ghost btn-icon"><i data-lucide="edit" style="width:13px;height:13px;"></i></button>
+                </div>
+                <div class="admin-row">
+                  <div class="admin-avatar-sm">MB</div>
+                  <div class="admin-info">
+                    <div class="admin-name">Mariama Bah</div>
+                    <div class="admin-email">m.bah@clubpulse.tech</div>
+                  </div>
+                  <span class="tag tag-default" style="font-size:10px;">Admin</span>
+                  <button class="btn btn-ghost btn-icon"><i data-lucide="edit" style="width:13px;height:13px;"></i></button>
+                </div>
+                <div class="admin-row">
+                  <div class="admin-avatar-sm">FD</div>
+                  <div class="admin-info">
+                    <div class="admin-name">Fodé Diabaté</div>
+                    <div class="admin-email">f.diabate@clubpulse.tech</div>
+                  </div>
+                  <span class="tag tag-default" style="font-size:10px;">Admin</span>
+                  <button class="btn btn-ghost btn-icon"><i data-lucide="edit" style="width:13px;height:13px;"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="params-card">
+            <div class="params-card-header">
+              <div class="params-card-title">Changer mon mot de passe</div>
+            </div>
+            <div class="params-card-body">
+              <div class="form-group">
+                <label class="form-label">Mot de passe actuel</label>
+                <input type="password" class="form-input" placeholder="••••••••">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nouveau mot de passe</label>
+                <input type="password" class="form-input" placeholder="••••••••">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirmer le nouveau mot de passe</label>
+                <input type="password" class="form-input" placeholder="••••••••">
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="changePassword()">Mettre à jour</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PLATEFORME -->
+        <div class="params-section" id="section-plateforme">
+          <div class="params-card">
+            <div class="params-card-header">
+              <div class="params-card-title">État de la plateforme</div>
+            </div>
+            <div class="params-card-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);">
+                <div>
+                  <div style="font-size:14px;font-weight:600;">Candidatures ouvertes</div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:2px;">Autoriser les nouvelles candidatures via join.html</div>
+                </div>
+                <div class="toggle-wrap" onclick="toggleSwitch(this)" style="width:44px;height:24px;background:var(--success);border-radius:12px;cursor:pointer;position:relative;transition:background 0.2s;">
+                  <div style="width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;right:3px;transition:right 0.2s;"></div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);">
+                <div>
+                  <div style="font-size:14px;font-weight:600;">Tests actifs</div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:2px;">Autoriser l'accès aux liens de test</div>
+                </div>
+                <div class="toggle-wrap" onclick="toggleSwitch(this)" style="width:44px;height:24px;background:var(--success);border-radius:12px;cursor:pointer;position:relative;transition:background 0.2s;">
+                  <div style="width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;right:3px;transition:right 0.2s;"></div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;">
+                <div>
+                  <div style="font-size:14px;font-weight:600;">Mode maintenance</div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:2px;">Afficher un message de maintenance sur le site public</div>
+                </div>
+                <div class="toggle-wrap" onclick="toggleSwitch(this)" style="width:44px;height:24px;background:var(--border);border-radius:12px;cursor:pointer;position:relative;transition:background 0.2s;">
+                  <div style="width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:left 0.2s;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="params-card">
+            <div class="params-card-header">
+              <div class="params-card-title">Session en cours</div>
+            </div>
+            <div class="params-card-body">
+              <div class="form-group">
+                <label class="form-label">Nom de la session</label>
+                <input type="text" class="form-input" value="Promotion 2026 — Session 1">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div class="form-group">
+                  <label class="form-label">Date d'ouverture</label>
+                  <input type="date" class="form-input" value="2026-03-01">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Date de fermeture</label>
+                  <input type="date" class="form-input" value="2026-04-30">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Capacité max. par pôle</label>
+                <input type="number" class="form-input" value="15" style="width:120px;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDIT WHATSAPP -->
+<div class="modal-overlay" id="modal-wa">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <div class="modal-title" id="wa-modal-title">Lien WhatsApp — Développement</div>
+      <div class="modal-close" onclick="closeModal('modal-wa')"><i data-lucide="x" style="width:18px;height:18px;"></i></div>
+    </div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label class="form-label">Lien d'invitation WhatsApp</label>
+      <input type="url" class="form-input" id="wa-link-input" placeholder="https://chat.whatsapp.com/...">
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">Copiez le lien depuis l'option "Lien d'invitation" dans les paramètres de votre groupe WhatsApp.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-wa')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveWA()">
+        <i data-lucide="save" style="width:13px;height:13px;"></i> Sauvegarder
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDIT TEMPLATE -->
+<div class="modal-overlay" id="modal-tpl">
+  <div class="modal" style="max-width:580px;">
+    <div class="modal-header">
+      <div class="modal-title" id="tpl-modal-title">Modifier le template</div>
+      <div class="modal-close" onclick="closeModal('modal-tpl')"><i data-lucide="x" style="width:18px;height:18px;"></i></div>
+    </div>
+    <div class="form-group" style="margin-bottom:12px;">
+      <label class="form-label">Objet de l'email</label>
+      <input type="text" class="form-input" id="tpl-subject" value="TechPulse — Étape 1/3 validée · Votre lien de test">
+    </div>
+    <div class="form-group" style="margin-bottom:4px;">
+      <label class="form-label">Corps du message</label>
+      <textarea class="form-input" id="tpl-body" style="min-height:200px;">Bonjour {{nom}},
+
+Votre candidature au pôle {{pole}} a retenu notre attention. Félicitations, vous passez à l'étape 2 sur 3.
+
+Voici votre lien de test personnel (non partageable) :
+{{lien_test}}
+
+Durée : 15 minutes · Langue : Français · 1 seule tentative
+
+Bonne chance,
+L'équipe TechPulse</textarea>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">Variables disponibles : {{nom}} {{pole}} {{lien_test}} {{date_meet}} {{lieu_meet}} {{lien_whatsapp}}</div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-tpl')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveTemplate()">
+        <i data-lucide="save" style="width:13px;height:13px;"></i> Sauvegarder le template
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="position:fixed;bottom:24px;right:24px;background:var(--text);color:var(--bg);padding:14px 20px;border-radius:var(--radius-lg);font-size:14px;font-weight:500;display:none;align-items:center;gap:10px;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,0.15);">
+  <i data-lucide="check" style="width:16px;height:16px;color:var(--success);"></i>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+lucide.createIcons();
+
+function switchParam(el, section) {
+  document.querySelectorAll('.params-nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.params-section').forEach(s => s.classList.remove('active'));
+  document.getElementById(`section-${section}`).classList.add('active');
+}
+
+let currentWAPole = 'dev';
+function editWA(pole) {
+  currentWAPole = pole;
+  const names = { dev:'Développement', secu:'Sécurité', iot:'Électronique' };
+  document.getElementById('wa-modal-title').textContent = `Lien WhatsApp — ${names[pole]}`;
+  document.getElementById('wa-link-input').value = '';
+  document.getElementById('modal-wa').classList.add('open');
+  lucide.createIcons();
+}
+function saveWA() {
+  closeModal('modal-wa');
+  showToast('Lien WhatsApp sauvegardé.');
+}
+
+function editTemplate(n) {
+  document.getElementById('tpl-modal-title').textContent = `Modifier — Email ${n}`;
+  document.getElementById('modal-tpl').classList.add('open');
+  lucide.createIcons();
+}
+function saveTemplate() {
+  closeModal('modal-tpl');
+  showToast('Template sauvegardé.');
+}
+
+function addAdmin() { showToast('Fonctionnalité disponible après connexion Supabase.'); }
+
+function changePassword() {
+  showToast('Mot de passe mis à jour.');
+}
+
+function toggleSwitch(el) {
+  const isOn = el.style.background === 'var(--success)' ||
+               el.style.background.includes('007A3D') ||
+               window.getComputedStyle(el).backgroundColor === 'rgb(0, 122, 61)';
+  const dot = el.firstElementChild;
+  if (isOn) {
+    el.style.background = 'var(--border)';
+    dot.style.left = '3px'; dot.style.right = 'auto';
+  } else {
+    el.style.background = 'var(--success)';
+    dot.style.right = '3px'; dot.style.left = 'auto';
+  }
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function saveAll()      { showToast('Paramètres sauvegardés.'); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.style.display = 'flex';
+  lucide.createIcons();
+  setTimeout(() => t.style.display = 'none', 3000);
+}
+</script>
+</body>
+</html>
