@@ -764,6 +764,16 @@ select {
   min-width: 0;
 }
 
+/* force normal wrapping for step descriptions */
+.step-desc {
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  word-wrap: normal !important;
+  min-width: 0 !important;
+}
+
+
 /* Équipe */
 .section-team {
   padding: 100px 0;
