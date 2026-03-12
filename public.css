@@ -752,6 +752,16 @@ select {
   font-size: 14px;
   color: var(--muted);
   line-height: 1.65;
+  /* prevent word-by-word wrapping on narrow mobile screens */
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  width: 100%;
+}
+
+/* ensure grid items can shrink properly */
+.how-step {
+  min-width: 0;
 }
 
 /* Équipe */
