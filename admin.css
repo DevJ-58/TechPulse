@@ -117,6 +117,7 @@ ul{list-style:none}
   .stat-value{margin-bottom:0;font-size:24px}
   .stat-meta{margin-bottom:0}
   .filters-container{overflow-x:auto;flex-wrap:nowrap !important}
+  .topbar-actions > div {flex-wrap:nowrap !important}
 }
 
 /* PIPELINE */
