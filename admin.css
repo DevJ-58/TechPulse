@@ -116,6 +116,7 @@ ul{list-style:none}
   .stat-label{margin-bottom:0;margin-right:8px}
   .stat-value{margin-bottom:0;font-size:24px}
   .stat-meta{margin-bottom:0}
+  .filters-container{overflow-x:auto;flex-wrap:nowrap}
 }
 
 /* PIPELINE */
@@ -325,7 +326,12 @@ tr:hover td{background:var(--bg)}
 .toggle-track.on{background:var(--success)}.toggle-track.off{background:var(--border)}
 .toggle-thumb{width:14px;height:14px;background:#fff;border-radius:50%;position:absolute;top:3px;transition:left .2s}
 .toggle-track.on .toggle-thumb{left:21px}.toggle-track.off .toggle-thumb{left:3px}
-@media(max-width:768px){.params-layout{grid-template-columns:1fr}.params-nav{position:static;display:flex;flex-direction:row;overflow-x:auto}.params-nav-item{white-space:nowrap;border-left:none;border-bottom:2px solid transparent;flex-shrink:0}.params-nav-item.active{border-left:none;border-bottom-color:var(--accent)}}
+@media(max-width:768px){.params-layout{grid-template-columns:1fr}.params-nav{position:static;display:flex;flex-direction:row;overflow-x:auto}.params-nav-item{white-space:nowrap;border-left:none;border-bottom:2px solid transparent;flex-shrink:0}.params-nav-item.active{border-left:none;border-bottom-color:var(--accent)}
+  .annonces-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .params-layout > div { max-width: 100%; overflow-x: hidden; }
+}
 
 /* MEMBRES */
 .membres-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
