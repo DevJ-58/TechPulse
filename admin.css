@@ -116,7 +116,7 @@ ul{list-style:none}
   .stat-label{margin-bottom:0;margin-right:8px}
   .stat-value{margin-bottom:0;font-size:24px}
   .stat-meta{margin-bottom:0}
-  .filters-container{overflow-x:auto;flex-wrap:nowrap}
+  .filters-container{overflow-x:auto;flex-wrap:nowrap !important}
 }
 
 /* PIPELINE */
@@ -151,8 +151,10 @@ tr:hover td{background:var(--bg)}
 .td-actions{display:flex;gap:4px;justify-content:flex-end}
 
 /* FILTERS */
-.filter-bar{display:flex;align-items:center;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.filter-btn{padding:6px 12px;font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);cursor:pointer;border-right:1px solid var(--border);transition:all .15s;border-top:none;border-bottom:none;border-left:none;font-family:var(--font-body)}
+.filters-container{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.filter-bar{display:flex;align-items:center;border:1px solid var(--border);border-radius:var(--radius);overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
+.filter-bar::-webkit-scrollbar{display:none}
+.filter-btn{padding:6px 12px;font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);cursor:pointer;border-right:1px solid var(--border);transition:all .15s;border-top:none;border-bottom:none;border-left:none;font-family:var(--font-body);white-space:nowrap;flex-shrink:0}
 .filter-btn:last-child{border-right:none}
 .filter-btn.active,.filter-btn:hover{background:var(--text);color:var(--bg)}
 .filter-btn.f-success.active{background:var(--success)}
