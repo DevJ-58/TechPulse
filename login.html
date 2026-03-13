@@ -1,108 +1,50 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion Admin — TechPulse</title>
-  <link rel="stylesheet" href="../admin.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  </head>
-<body class="login-page">
-
-<div class="login-left">
-  <div class="login-left-pattern"></div>
-  <div class="login-brand"><span class="dot"></span> TechPulse</div>
-  <div class="login-middle">
-    <div class="login-eyebrow">Espace Administration</div>
-    <h2 class="login-big-title">Accès<br>réservé.</h2>
-    <p class="login-big-desc">Cet espace est réservé aux administrateurs du club. Gérez les candidatures, les membres et les annonces en toute sécurité.</p>
-  </div>
-  <div class="login-stats">
-    <div>
-      <div class="login-stat-num">3</div>
-      <div class="login-stat-label">Pôles actifs</div>
-    </div>
-    <div>
-      <div class="login-stat-num">—</div>
-      <div class="login-stat-label">Candidatures en attente</div>
-    </div>
-    <div>
-      <div class="login-stat-num">v1</div>
-      <div class="login-stat-label">Plateforme</div>
-    </div>
-  </div>
-</div>
-
-<div class="login-right">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion — TechPulse Admin</title>
+<link rel="stylesheet" href="admin.css">
+<style>
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+.login-wrap{width:100%;max-width:400px;}
+.login-logo{font-family:var(--font-display);font-weight:800;font-size:20px;display:flex;align-items:center;gap:9px;margin-bottom:40px;}
+.login-logo .dot{width:8px;height:8px;background:var(--accent);border-radius:50%;}
+.login-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;}
+.login-title{font-family:var(--font-display);font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px;}
+.login-sub{font-size:13px;color:var(--muted);margin-bottom:28px;}
+.login-error{background:var(--danger-bg);border:1px solid rgba(204,34,0,.2);color:var(--danger);padding:11px 14px;border-radius:var(--radius);font-size:13px;margin-bottom:16px;display:none;}
+.login-error.show{display:block;}
+.login-footer{font-size:11px;color:var(--muted);text-align:center;margin-top:20px;}
+</style>
+</head>
+<body>
+<div class="login-wrap">
+  <div class="login-logo"><span class="dot"></span>TechPulse <span style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;">Admin</span></div>
   <div class="login-box">
     <h2 class="login-title">Connexion</h2>
-    <p class="login-sub">Connectez-vous avec vos identifiants admin</p>
-
-    <div class="error-msg" id="error-msg">
-      <i data-lucide="alert-circle" style="width:14px;height:14px;flex-shrink:0;"></i>
-      Identifiants incorrects. Veuillez réessayer.
+    <p class="login-sub">Espace réservé aux administrateurs du club.</p>
+    <div class="login-error" id="login-error">Email ou mot de passe incorrect.</div>
+    <div class="form-group">
+      <label class="form-label">Email admin</label>
+      <input type="email" class="form-input" id="email" placeholder="admin@clubpulse.tech" value="admin@clubpulse.tech">
     </div>
-
-    <div class="login-form-group">
-      <label class="login-label">Adresse email</label>
-      <div class="input-wrap">
-        <i data-lucide="mail"></i>
-        <input type="email" class="login-input" id="email" placeholder="admin@clubpulse.tech" value="admin@clubpulse.tech">
-      </div>
+    <div class="form-group">
+      <label class="form-label">Mot de passe</label>
+      <input type="password" class="form-input" id="pwd" placeholder="••••••••" value="admin123">
     </div>
-
-    <div class="login-form-group">
-      <label class="login-label">Mot de passe</label>
-      <div class="input-wrap">
-        <i data-lucide="lock"></i>
-        <input type="password" class="login-input" id="password" placeholder="••••••••" value="admin123">
-        <span class="input-toggle" onclick="togglePwd()">
-          <i data-lucide="eye" id="eye-icon" style="width:15px;height:15px;"></i>
-        </span>
-      </div>
-    </div>
-
-    <button class="btn-login" onclick="doLogin()">
-      <i data-lucide="log-in" style="width:15px;height:15px;"></i>
-      Se connecter
-    </button>
-
-    <div class="login-footer">
-      <a href="../../index.html">Retourner au site public</a>
-    </div>
+    <button class="btn btn-primary w-full" style="margin-top:8px;" onclick="login()">Se connecter →</button>
   </div>
+  <div class="login-footer">TechPulse — Université Internationale de Yamoussoukro</div>
 </div>
-
 <script>
-lucide.createIcons();
-
-function togglePwd() {
-  const input = document.getElementById('password');
-  const icon = document.getElementById('eye-icon');
-  if (input.type === 'password') {
-    input.type = 'text';
-    icon.setAttribute('data-lucide', 'eye-off');
-  } else {
-    input.type = 'password';
-    icon.setAttribute('data-lucide', 'eye');
-  }
-  lucide.createIcons();
+function login(){
+  const e=document.getElementById('email').value;
+  const p=document.getElementById('pwd').value;
+  if(e&&p){window.location.href='dashboard.html';}
+  else{document.getElementById('login-error').classList.add('show');}
 }
-
-function doLogin() {
-  const email = document.getElementById('email').value;
-  const pwd = document.getElementById('password').value;
-  if (email && pwd) {
-    window.location.href = 'dashboard.html';
-  } else {
-    document.getElementById('error-msg').classList.add('show');
-    lucide.createIcons();
-  }
-}
-
-document.getElementById('password').addEventListener('keypress', e => {
-  if (e.key === 'Enter') doLogin();
-});
+document.addEventListener('keydown',e=>{if(e.key==='Enter')login();});
 </script>
 </body>
 </html>

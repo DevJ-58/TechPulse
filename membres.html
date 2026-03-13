@@ -1,304 +1,257 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Membres — Admin TechPulse</title>
-  
-  <link rel="stylesheet" href="admin.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Membres — TechPulse Admin</title>
+<link rel="stylesheet" href="admin.css">
 </head>
 <body>
-
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <div class="sidebar-logo"><span class="dot"></span> TechPulse</div>
+    <div class="sidebar-logo"><span class="dot"></span>TechPulse</div>
     <div class="sidebar-sub">Administration</div>
   </div>
   <nav class="sidebar-nav">
-    <div class="sidebar-section-label">Pipeline</div>
-    <a href="dashboard.html" class="sidebar-link ">
-      <i data-lucide="layout-dashboard"></i> Dashboard
+    <div class="sidebar-section-label">Sélection</div>
+    <a href="dashboard.html" class="sidebar-link" id="nl-dashboard">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
     </a>
-    <a href="candidatures.html" class="sidebar-link ">
-      <i data-lucide="inbox"></i> Candidatures
-      <span class="sidebar-badge">8</span>
+    <a href="candidatures.html" class="sidebar-link" id="nl-cand">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Candidatures
+      <span class="sidebar-badge">12</span>
     </a>
-    <a href="tests.html" class="sidebar-link ">
-      <i data-lucide="flask-conical"></i> Tests
-      <span class="sidebar-badge">5</span>
+    <a href="tests.html" class="sidebar-link" id="nl-tests">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Tests
     </a>
-    <a href="meets.html" class="sidebar-link ">
-      <i data-lucide="calendar-check"></i> Meets
+    <a href="meets.html" class="sidebar-link" id="nl-meets">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Meets
     </a>
-    <div class="sidebar-section-label">Gestion</div>
-    <a href="membres.html" class="sidebar-link active">
-      <i data-lucide="users"></i> Membres
+    <div class="sidebar-section-label">Club</div>
+    <a href="membres.html" class="sidebar-link" id="nl-membres">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Membres
     </a>
-    <a href="annonces.html" class="sidebar-link ">
-      <i data-lucide="megaphone"></i> Annonces
+    <a href="annonces.html" class="sidebar-link" id="nl-annonces">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Annonces
     </a>
-    <div class="sidebar-section-label">Config</div>
-    <a href="editeur.html" class="sidebar-link ">
-      <i data-lucide="file-edit"></i> Éditeur Q.
+    <a href="editeur.html" class="sidebar-link" id="nl-editeur">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Éditeur de tests
     </a>
-    <a href="parametres.html" class="sidebar-link ">
-      <i data-lucide="settings"></i> Paramètres
-    </a>
-    <div class="sidebar-section-label">Site</div>
-    <a href="../index.html" target="_blank" class="sidebar-link">
-      <i data-lucide="external-link"></i> Voir le site
+    <div class="sidebar-section-label">Système</div>
+    <a href="parametres.html" class="sidebar-link" id="nl-params">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Paramètres
     </a>
   </nav>
   <div class="sidebar-footer">
     <div class="sidebar-user">
       <div class="sidebar-avatar">A</div>
-      <div class="sidebar-user-info">
-        <div class="sidebar-user-name">Admin</div>
-        <div class="sidebar-user-role">Administrateur</div>
-      </div>
-      <a href="login.html" style="color:var(--muted-dark);cursor:pointer;">
-        <i data-lucide="log-out" style="width:15px;height:15px;"></i>
+      <div><div class="sidebar-user-name">Admin</div><div class="sidebar-user-role">Fondateur</div></div>
+      <a href="login.html" class="sidebar-logout" title="Déconnexion">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       </a>
     </div>
   </div>
 </aside>
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
 
-<main class="main">
-  <div class="topbar">
-    <div class="topbar-title">Membres</div>
-    <div class="topbar-actions">
-      <button class="btn btn-outline" onclick="exportCSV()">
-        <i data-lucide="download" style="width:13px;height:13px;"></i> Exporter CSV
-      </button>
-      <button class="btn btn-accent" onclick="openAddModal()">
-        <i data-lucide="user-plus" style="width:13px;height:13px;"></i> Ajouter un membre
-      </button>
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-burger" onclick="openSidebar()"><span></span><span></span><span></span></button>
+      <h1 class="topbar-title">Membres</h1>
     </div>
-  </div>
-
+    <div class="topbar-actions">
+      <span class="tag tag-success">4 admis · 11 places restantes</span>
+    </div>
+  </header>
   <div class="content">
 
-    <!-- STAT CARDS -->
-    <div class="grid-4 mb-6">
-      <div class="stat-card"><div class="stat-label">Total membres</div><div class="stat-value">12</div><div class="stat-meta">Promotion fondatrice</div></div>
-      <div class="stat-card" style="--accent:var(--accent);"><div class="stat-label">Développement</div><div class="stat-value">5</div><div class="stat-meta">Actifs</div></div>
-      <div class="stat-card" style="--accent:var(--danger);"><div class="stat-label">Sécurité</div><div class="stat-value">4</div><div class="stat-meta">Actifs</div></div>
-      <div class="stat-card" style="--accent:var(--success);"><div class="stat-label">Électronique</div><div class="stat-value">3</div><div class="stat-meta">Actifs</div></div>
+    <div class="grid-4" style="margin-bottom:18px;">
+      <div class="stat-card"><div class="stat-label">Membres actifs</div><div class="stat-value">4</div><div class="stat-meta">Session 2026</div></div>
+      <div class="stat-card"><div class="stat-label">Pôle Dev</div><div class="stat-value">2</div><div class="stat-meta">membres</div></div>
+      <div class="stat-card"><div class="stat-label">Pôle Sécu</div><div class="stat-value">1</div><div class="stat-meta">membre</div></div>
+      <div class="stat-card"><div class="stat-label">Pôle IoT</div><div class="stat-value">1</div><div class="stat-meta">membre</div></div>
     </div>
 
-    <!-- FILTERS + TABLE -->
-    <div class="table-wrap">
-      <div class="table-header">
-        <div style="display:flex;gap:8px;align-items:center;">
-          <div class="search-input-wrap">
-            <i data-lucide="search"></i>
-            <input type="text" class="form-input" placeholder="Rechercher un membre..." oninput="searchMembers(this.value)" style="width:220px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+      <div class="filter-bar">
+        <button class="filter-btn active">Tous (4)</button>
+        <button class="filter-btn">Dev (2)</button>
+        <button class="filter-btn">Sécu (1)</button>
+        <button class="filter-btn">IoT (1)</button>
+      </div>
+      <div class="search-box" style="width:200px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Rechercher…">
+      </div>
+    </div>
+
+    <div class="membres-grid">
+      <div class="m-card">
+        <div class="m-card-top">
+          <div class="m-av" style="background:var(--accent-bg);color:var(--accent);">TM</div>
+          <div>
+            <div class="m-name">Traoré Moussa</div>
+            <div class="m-pole" style="color:var(--accent);">Dev</div>
           </div>
-          <select class="form-select" style="width:150px;" onchange="filterMemberPole(this.value)">
-            <option value="">Tous les pôles</option>
-            <option value="Développement">Développement</option>
-            <option value="Sécurité">Sécurité</option>
-            <option value="Électronique">Électronique</option>
-          </select>
-          <select class="form-select" style="width:130px;" onchange="filterMemberRole(this.value)">
-            <option value="">Tous les rôles</option>
-            <option value="Fondateur">Fondateur</option>
-            <option value="Formateur">Formateur</option>
-            <option value="Membre">Membre</option>
-          </select>
+          <span class="tag tag-success" style="margin-left:auto;">Actif</span>
         </div>
-        <span id="member-count" style="font-size:13px;color:var(--muted);">12 membres</span>
+        <div class="m-meta">
+          <span>M2 · Informatique</span>
+          <span>Score : 83%</span>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;">
+          <button class="btn btn-ghost btn-sm" onclick="showToast('Email envoyé à Moussa')">Email</button>
+          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="openMemberPanel('Traoré Moussa','TM','dev')">Voir profil</button>
+        </div>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Membre</th>
-            <th>Pôle</th>
-            <th>Rôle</th>
-            <th>Entrée</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="members-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-</main>
+      <div class="m-card">
+        <div class="m-card-top">
+          <div class="m-av" style="background:var(--danger-bg);color:var(--danger);">CM</div>
+          <div>
+            <div class="m-name">Coulibaly Mariama</div>
+            <div class="m-pole" style="color:var(--danger);">Sécu</div>
+          </div>
+          <span class="tag tag-success" style="margin-left:auto;">Actif</span>
+        </div>
+        <div class="m-meta">
+          <span>L3 · Réseaux</span>
+          <span>Score : 76%</span>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;">
+          <button class="btn btn-ghost btn-sm" onclick="showToast('Email envoyé')">Email</button>
+          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="openMemberPanel('Coulibaly Mariama','CM','secu')">Voir profil</button>
+        </div>
+      </div>
 
-<!-- ADD MEMBER MODAL -->
-<div class="modal-overlay" id="add-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Ajouter un membre</div>
-      <button class="modal-close btn btn-ghost btn-icon" onclick="closeModal('add-modal')">
-        <i data-lucide="x" style="width:16px;height:16px;"></i>
-      </button>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:16px;">
-      <div class="grid-2">
-        <div class="form-group">
-          <label class="form-label">Prénom *</label>
-          <input type="text" class="form-input" id="new-firstname" placeholder="Prénom">
+      <div class="m-card">
+        <div class="m-card-top">
+          <div class="m-av" style="background:var(--success-bg);color:var(--success);">NK</div>
+          <div>
+            <div class="m-name">N'Goran Kouakou</div>
+            <div class="m-pole" style="color:var(--accent);">Dev</div>
+          </div>
+          <span class="tag tag-success" style="margin-left:auto;">Actif</span>
         </div>
-        <div class="form-group">
-          <label class="form-label">Nom *</label>
-          <input type="text" class="form-input" id="new-lastname" placeholder="Nom">
+        <div class="m-meta">
+          <span>M1 · Informatique</span>
+          <span>Score : 71%</span>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;">
+          <button class="btn btn-ghost btn-sm" onclick="showToast('Email envoyé')">Email</button>
+          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="openMemberPanel('N\'Goran Kouakou','NK','dev')">Voir profil</button>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Email *</label>
-        <input type="email" class="form-input" id="new-email" placeholder="email@université.edu">
-      </div>
-      <div class="grid-2">
-        <div class="form-group">
-          <label class="form-label">Pôle *</label>
-          <select class="form-select" id="new-pole">
-            <option value="" disabled selected>Sélectionner</option>
-            <option value="Développement">Développement</option>
-            <option value="Sécurité">Sécurité</option>
-            <option value="Électronique">Électronique</option>
-          </select>
+
+      <div class="m-card">
+        <div class="m-card-top">
+          <div class="m-av" style="background:rgba(34,153,255,.12);color:#2299FF;">AS</div>
+          <div>
+            <div class="m-name">Assane Sow</div>
+            <div class="m-pole" style="color:#2299FF;">IoT</div>
+          </div>
+          <span class="tag tag-success" style="margin-left:auto;">Actif</span>
         </div>
-        <div class="form-group">
-          <label class="form-label">Rôle *</label>
-          <select class="form-select" id="new-role">
-            <option value="" disabled selected>Sélectionner</option>
-            <option value="Membre">Membre</option>
-            <option value="Formateur">Formateur</option>
-            <option value="Fondateur">Fondateur</option>
-          </select>
+        <div class="m-meta">
+          <span>L3 · Génie Élec.</span>
+          <span>Score : 68%</span>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;">
+          <button class="btn btn-ghost btn-sm" onclick="showToast('Email envoyé')">Email</button>
+          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="openMemberPanel('Assane Sow','AS','iot')">Voir profil</button>
         </div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('add-modal')">Annuler</button>
-      <button class="btn btn-accent" onclick="addMember()">
-        <i data-lucide="user-plus" style="width:13px;height:13px;"></i> Ajouter
-      </button>
+
+    <!-- FONDATEURS -->
+    <div style="margin-top:28px;">
+      <div style="font-family:var(--font-display);font-size:14px;font-weight:700;margin-bottom:12px;">Équipe fondatrice</div>
+      <div class="membres-grid">
+        <div class="m-card" style="border-color:var(--accent);">
+          <div class="m-card-top">
+            <div class="m-av" style="background:var(--accent);color:#fff;">KF</div>
+            <div>
+              <div class="m-name">Kouadio Fréjus</div>
+              <div class="m-pole" style="color:var(--accent);">Fondateur · Frontend</div>
+            </div>
+            <span class="tag tag-accent" style="margin-left:auto;">Admin</span>
+          </div>
+          <div class="m-meta"><span>Direction créative</span></div>
+        </div>
+        <div class="m-card" style="border-color:var(--accent);">
+          <div class="m-card-top">
+            <div class="m-av" style="background:var(--accent);color:#fff;">DK</div>
+            <div>
+              <div class="m-name">Djeke Koffi K.C.D.</div>
+              <div class="m-pole" style="color:var(--accent);">Fondateur · Base de données</div>
+            </div>
+            <span class="tag tag-accent" style="margin-left:auto;">Admin</span>
+          </div>
+          <div class="m-meta"><span>Infrastructure & data</span></div>
+        </div>
+        <div class="m-card" style="border-color:var(--accent);">
+          <div class="m-card-top">
+            <div class="m-av" style="background:var(--accent);color:#fff;">DM</div>
+            <div>
+              <div class="m-name">Diomande K. Mickael</div>
+              <div class="m-pole" style="color:var(--accent);">Fondateur · Backend</div>
+            </div>
+            <span class="tag tag-accent" style="margin-left:auto;">Admin</span>
+          </div>
+          <div class="m-meta"><span>API & systèmes</span></div>
+        </div>
+      </div>
     </div>
+
   </div>
 </div>
 
+<!-- PANEL MEMBRE -->
+<div class="detail-overlay" id="det-overlay" onclick="closePanels()"></div>
+<div class="detail-panel" id="det-panel">
+  <div class="panel-head"><span class="panel-title" id="p-name">—</span><span class="panel-close" onclick="closePanels()">✕</span></div>
+  <div class="panel-body" id="p-body"></div>
+  <div class="panel-footer">
+    <button class="btn btn-outline" onclick="showToast('Email envoyé ✓')">Envoyer email</button>
+    <button class="btn btn-danger btn-sm" onclick="showToast('Membre retiré')">Retirer du club</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 <script>
-let members = [
-  { id:1,  initials:'AK', name:'Amara Koné',      pole:'Développement', role:'Fondateur', date:'Janv. 2026', active:true },
-  { id:2,  initials:'MB', name:'Mamadou Bah',      pole:'Sécurité',      role:'Fondateur', date:'Janv. 2026', active:true },
-  { id:3,  initials:'FD', name:'Fanta Diabaté',    pole:'Électronique',  role:'Fondateur', date:'Janv. 2026', active:true },
-  { id:4,  initials:'OT', name:'Omar Touré',       pole:'Développement', role:'Fondateur', date:'Janv. 2026', active:true },
-  { id:5,  initials:'IN', name:"Ibrahima N'Diaye", pole:'Sécurité',      role:'Fondateur', date:'Janv. 2026', active:true },
-  { id:6,  initials:'IS', name:'Ibrahim Sylla',    pole:'Sécurité',      role:'Formateur', date:'Fév. 2026',  active:true },
-  { id:7,  initials:'AB', name:'Aïssatou Barry',   pole:'Développement', role:'Formateur', date:'Fév. 2026',  active:true },
-  { id:8,  initials:'CT', name:'Cheick Touré',     pole:'Électronique',  role:'Formateur', date:'Fév. 2026',  active:true },
-  { id:9,  initials:'FC', name:'Fatou Camara',     pole:'Électronique',  role:'Membre',    date:'Mar. 2026',  active:true },
-  { id:10, initials:'KS', name:'Koumba Sarr',      pole:'Développement', role:'Membre',    date:'Mar. 2026',  active:true },
-  { id:11, initials:'BS', name:'Boubacar Soumaré', pole:'Sécurité',      role:'Membre',    date:'Mar. 2026',  active:false },
-  { id:12, initials:'LC', name:'Lamine Camara',    pole:'Développement', role:'Membre',    date:'Mar. 2026',  active:true },
-];
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.add('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+document.getElementById('nl-membres').classList.add('active');
 
-let searchVal = '';
-let poleFilter = '';
-let roleFilter = '';
-
-function getFiltered() {
-  return members.filter(m => {
-    const ms = m.name.toLowerCase().includes(searchVal.toLowerCase());
-    const mp = !poleFilter || m.pole === poleFilter;
-    const mr = !roleFilter || m.role === roleFilter;
-    return ms && mp && mr;
-  });
+function openMemberPanel(name,init,pole){
+  const poleLabel={dev:'Développement',secu:'Sécurité',iot:'Électronique IoT'}[pole];
+  document.getElementById('p-name').textContent=name;
+  document.getElementById('p-body').innerHTML=`
+    <div style="text-align:center;padding:20px 0 24px;">
+      <div style="width:56px;height:56px;border-radius:var(--radius-lg);background:var(--accent);color:#fff;font-family:var(--font-display);font-weight:800;font-size:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">${init}</div>
+      <div style="font-family:var(--font-display);font-size:16px;font-weight:700;">${name}</div>
+      <span class="tag tag-success" style="margin-top:6px;">Membre actif</span>
+    </div>
+    <div style="font-size:13px;display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);">Pôle</span><span>${poleLabel}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);">Date d'admission</span><span>10 mars 2026</span></div>
+      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);">Score test</span><span>76%</span></div>
+      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);">WhatsApp</span><span style="color:var(--success);">Ajouté au groupe</span></div>
+    </div>`;
+  document.getElementById('det-panel').classList.add('open');
+  document.getElementById('det-overlay').classList.add('show');
 }
-
-function renderMembers() {
-  const filtered = getFiltered();
-  document.getElementById('member-count').textContent = filtered.length + ' membres';
-  const poleMap = { 'Développement':'tag-accent', 'Sécurité':'tag-danger', 'Électronique':'tag-success' };
-  const roleMap = { 'Fondateur':'tag-default', 'Formateur':'tag-warning', 'Membre':'tag-default' };
-  document.getElementById('members-tbody').innerHTML = filtered.map(m => `
-    <tr>
-      <td>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="avatar-sm" style="${!m.active ? 'opacity:0.4;' : ''}">${m.initials}</div>
-          <div>
-            <span style="font-weight:600;${!m.active ? 'color:var(--muted);' : ''}">${m.name}</span>
-          </div>
-        </div>
-      </td>
-      <td><span class="tag ${poleMap[m.pole]||'tag-default'}">${m.pole}</span></td>
-      <td><span class="tag ${roleMap[m.role]||'tag-default'}">${m.role}</span></td>
-      <td style="color:var(--muted);font-size:13px;">${m.date}</td>
-      <td>
-        <span class="tag ${m.active ? 'tag-success' : 'tag-danger'}">${m.active ? 'Actif' : 'Inactif'}</span>
-      </td>
-      <td>
-        <div style="display:flex;gap:6px;">
-          <button class="btn btn-outline btn-sm btn-icon" onclick="toggleActive(${m.id})" title="${m.active ? 'Désactiver' : 'Réactiver'}">
-            <i data-lucide="${m.active ? 'pause' : 'play'}" style="width:12px;height:12px;"></i>
-          </button>
-          <button class="btn btn-outline btn-sm btn-icon" title="Modifier" onclick="showToast('Édition membre — bientôt disponible','success')">
-            <i data-lucide="pencil" style="width:12px;height:12px;"></i>
-          </button>
-          <button class="btn btn-danger btn-sm btn-icon" onclick="deleteMember(${m.id})" title="Supprimer">
-            <i data-lucide="trash-2" style="width:12px;height:12px;"></i>
-          </button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
-  lucide.createIcons();
-}
-
-function searchMembers(v) { searchVal = v; renderMembers(); }
-function filterMemberPole(v) { poleFilter = v; renderMembers(); }
-function filterMemberRole(v) { roleFilter = v; renderMembers(); }
-
-function toggleActive(id) {
-  const m = members.find(x => x.id === id);
-  if (m) { m.active = !m.active; renderMembers(); showToast(m.active ? 'Membre réactivé.' : 'Membre désactivé.', m.active?'success':'danger'); }
-}
-
-function deleteMember(id) {
-  if (confirm('Supprimer ce membre ?')) {
-    members = members.filter(x => x.id !== id);
-    renderMembers();
-    showToast('Membre supprimé.', 'danger');
-  }
-}
-
-function addMember() {
-  const fn = document.getElementById('new-firstname').value.trim();
-  const ln = document.getElementById('new-lastname').value.trim();
-  const pole = document.getElementById('new-pole').value;
-  const role = document.getElementById('new-role').value;
-  if (!fn || !ln || !pole || !role) { showToast('Veuillez remplir tous les champs.','danger'); return; }
-  const initials = (fn[0]+ln[0]).toUpperCase();
-  members.push({ id: Date.now(), initials, name: fn+' '+ln, pole, role, date:'Mar. 2026', active:true });
-  renderMembers();
-  closeModal('add-modal');
-  showToast('Membre ajouté avec succès.', 'success');
-  ['new-firstname','new-lastname','new-email'].forEach(id => document.getElementById(id).value = '');
-}
-
-function openAddModal() {
-  document.getElementById('add-modal').classList.add('open');
-  lucide.createIcons();
-}
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
-function exportCSV() { showToast('Export CSV téléchargé !','success'); }
-
-function showToast(msg, type='success') {
-  const t = document.createElement('div');
-  t.style.cssText = `position:fixed;bottom:24px;right:24px;background:${type==='success'?'var(--success)':'var(--danger)'};color:#fff;padding:12px 18px;border-radius:4px;font-size:13px;font-weight:600;z-index:9999;display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,0.2);`;
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 3000);
-}
-
-renderMembers();
-lucide.createIcons();
+function closePanels(){document.getElementById('det-panel').classList.remove('open');document.getElementById('det-overlay').classList.remove('show');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 </script>
 </body>
 </html>

@@ -1,251 +1,564 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tests d'accès — TechPulse</title>
-  
-  <link rel="stylesheet" href="public.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechPulse — Test hack-select</title>
+<link rel="stylesheet" href="test.css">
 </head>
 <body>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo">
-      <span class="dot"></span> TechPulse
-    </a>
-    <div class="nav-links">
-      <a href="index.html">Accueil</a>
-      <a href="about.html">À propos</a>
-      <a href="index.html#poles">Pôles</a>
+<div class="exam-shell" id="exam-shell">
+
+  <!-- TOPBAR -->
+  <div class="exam-topbar">
+    <div class="exam-logo">TechPulse</div>
+    <div class="exam-progress" id="progress-wrap">
+      <div class="exam-progress-labels">
+        <span id="progress-label">Partie A · Q1/3</span>
+        <span id="progress-pct">11%</span>
+      </div>
+      <div class="exam-progress-track">
+        <div class="exam-progress-fill" id="progress-fill" style="width:11%;"></div>
+      </div>
     </div>
-    <div class="nav-cta">
-      <a href="join.html" class="btn btn-accent btn-sm">
-        Candidater <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-      </a>
-    </div>
-    <button class="nav-burger" aria-label="Menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <div class="nav-drawer">
-      <div class="nav-drawer-header">
-        <a href="index.html" class="nav-logo"><span class="dot"></span> TechPulse</a>
-        <button class="nav-drawer-close" aria-label="Fermer">
-          <i data-lucide="x" style="width:20px;height:20px;"></i>
-        </button>
-      </div>
-      <div class="nav-drawer-divider"></div>
-      <div class="nav-drawer-links">
-        <a href="index.html">Accueil</a>
-        <a href="about.html">À propos</a>
-        <a href="index.html#poles">Pôles</a>
-      </div>
-      <div class="nav-drawer-divider"></div>
-      <div class="nav-drawer-cta">
-        <a href="join.html" class="btn btn-accent btn-sm w-100">
-          Candidater <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-        </a>
-      </div>
+    <div class="global-timer" id="global-timer">
+      <span class="timer-lbl">TEMPS</span>
+      <span id="timer-display">15:00</span>
     </div>
   </div>
-</nav>
 
-<div class="exam-hero">
-  <div class="container">
-    <div class="exam-hero-content">
-      <div class="exam-eyebrow">
-        <i data-lucide="zap" style="width:16px;height:16px;"></i>
-        Espace de test
+  <!-- SECTION TABS -->
+  <div class="section-tabs">
+    <div class="section-tab active" id="tab-A">
+      <div class="tab-num" id="tnum-A">A</div> QCM
+    </div>
+    <div class="section-tab" id="tab-B">
+      <div class="tab-num" id="tnum-B">B</div> Pratique
+    </div>
+    <div class="section-tab" id="tab-C">
+      <div class="tab-num" id="tnum-C">C</div> Situation
+    </div>
+  </div>
+
+  <!-- EXAM BODY -->
+  <div class="exam-body">
+
+    <!-- ═══ PARTIE A — QCM (une par une, 20s) ═══ -->
+    <div class="exam-section active" id="section-A">
+      <div class="sec-header">
+        <div class="sec-eyebrow">Partie A</div>
+        <h2 class="sec-title">Questions à choix multiple</h2>
+        <p class="sec-desc">Chaque question reste visible 20 secondes. Si tu ne réponds pas, elle est considérée comme passée.</p>
       </div>
-      <h1 class="exam-title">Démontre tes compétences.</h1>
-      <p class="exam-subtitle">Nos tests technique vérifient ton niveau et ta capacité à résoudre les défis réels que tu affronteras à TechPulse. Pas de piège — juste du code, de la logique et de la créativité.</p>
-      
-      <div class="exam-hero-stats">
-        <div class="exam-stat">
-          <div class="exam-stat-value">5-15 min</div>
-          <div class="exam-stat-label">Durée</div>
+
+      <!-- Q A1 -->
+      <div class="question-wrap" id="qwrap-A1">
+        <div class="question-display">
+          <div class="q-topbar">
+            <span class="q-id">A · Question 1/3</span>
+            <div class="q-countdown" id="cd-A1">
+              <div class="q-cring">
+                <svg width="26" height="26" viewBox="0 0 26 26">
+                  <circle class="qcr-track" cx="13" cy="13" r="10"/>
+                  <circle class="qcr-fill" id="qcr-A1" cx="13" cy="13" r="10" stroke-dasharray="62.8" stroke-dashoffset="0"/>
+                </svg>
+                <div class="q-cring-val" id="cdv-A1">20</div>
+              </div>
+              <span id="cdt-A1">20s</span>
+            </div>
+          </div>
+          <div class="q-body">
+            <div class="q-text">Quelle méthode HTTP est idempotente ?</div>
+            <div class="qcm-list">
+              <input type="radio" name="qA1" id="A1a" class="qcm-opt" value="A" onchange="onAnswer('A1')">
+              <label for="A1a" class="qcm-lbl"><span class="opt-ltr">A</span> GET</label>
+              <input type="radio" name="qA1" id="A1b" class="qcm-opt" value="B" onchange="onAnswer('A1')">
+              <label for="A1b" class="qcm-lbl"><span class="opt-ltr">B</span> POST</label>
+              <input type="radio" name="qA1" id="A1c" class="qcm-opt" value="C" onchange="onAnswer('A1')">
+              <label for="A1c" class="qcm-lbl"><span class="opt-ltr">C</span> PUT</label>
+              <input type="radio" name="qA1" id="A1d" class="qcm-opt" value="D" onchange="onAnswer('A1')">
+              <label for="A1d" class="qcm-lbl"><span class="opt-ltr">D</span> PATCH</label>
+            </div>
+          </div>
         </div>
-        <div class="exam-stat">
-          <div class="exam-stat-value">3</div>
-          <div class="exam-stat-label">Domaines</div>
+        <div class="q-advancing" id="adv-A1">// Passage automatique…</div>
+      </div>
+
+      <!-- Q A2 -->
+      <div class="question-wrap" id="qwrap-A2" style="display:none;">
+        <div class="question-display">
+          <div class="q-topbar">
+            <span class="q-id">A · Question 2/3</span>
+            <div class="q-countdown" id="cd-A2">
+              <div class="q-cring">
+                <svg width="26" height="26" viewBox="0 0 26 26">
+                  <circle class="qcr-track" cx="13" cy="13" r="10"/>
+                  <circle class="qcr-fill" id="qcr-A2" cx="13" cy="13" r="10" stroke-dasharray="62.8" stroke-dashoffset="0"/>
+                </svg>
+                <div class="q-cring-val" id="cdv-A2">20</div>
+              </div>
+              <span id="cdt-A2">20s</span>
+            </div>
+          </div>
+          <div class="q-body">
+            <div class="q-text">Qu'est-ce qu'une closure en JavaScript ?</div>
+            <div class="qcm-list">
+              <input type="radio" name="qA2" id="A2a" class="qcm-opt" value="A" onchange="onAnswer('A2')">
+              <label for="A2a" class="qcm-lbl"><span class="opt-ltr">A</span> Une fonction déclarée dans un autre fichier</label>
+              <input type="radio" name="qA2" id="A2b" class="qcm-opt" value="B" onchange="onAnswer('A2')">
+              <label for="A2b" class="qcm-lbl"><span class="opt-ltr">B</span> Une fonction qui retient le scope de son parent</label>
+              <input type="radio" name="qA2" id="A2c" class="qcm-opt" value="C" onchange="onAnswer('A2')">
+              <label for="A2c" class="qcm-lbl"><span class="opt-ltr">C</span> Une méthode de classe abstraite</label>
+              <input type="radio" name="qA2" id="A2d" class="qcm-opt" value="D" onchange="onAnswer('A2')">
+              <label for="A2d" class="qcm-lbl"><span class="opt-ltr">D</span> Un pattern orienté objet</label>
+            </div>
+          </div>
         </div>
-        <div class="exam-stat">
-          <div class="exam-stat-value">∞</div>
-          <div class="exam-stat-label">Essais</div>
+        <div class="q-advancing" id="adv-A2">// Passage automatique…</div>
+      </div>
+
+      <!-- Q A3 -->
+      <div class="question-wrap" id="qwrap-A3" style="display:none;">
+        <div class="question-display">
+          <div class="q-topbar">
+            <span class="q-id">A · Question 3/3</span>
+            <div class="q-countdown" id="cd-A3">
+              <div class="q-cring">
+                <svg width="26" height="26" viewBox="0 0 26 26">
+                  <circle class="qcr-track" cx="13" cy="13" r="10"/>
+                  <circle class="qcr-fill" id="qcr-A3" cx="13" cy="13" r="10" stroke-dasharray="62.8" stroke-dashoffset="0"/>
+                </svg>
+                <div class="q-cring-val" id="cdv-A3">20</div>
+              </div>
+              <span id="cdt-A3">20s</span>
+            </div>
+          </div>
+          <div class="q-body">
+            <div class="q-text">Complexité de la recherche dichotomique dans un tableau trié ?</div>
+            <div class="qcm-list">
+              <input type="radio" name="qA3" id="A3a" class="qcm-opt" value="A" onchange="onAnswer('A3')">
+              <label for="A3a" class="qcm-lbl"><span class="opt-ltr">A</span> O(n)</label>
+              <input type="radio" name="qA3" id="A3b" class="qcm-opt" value="B" onchange="onAnswer('A3')">
+              <label for="A3b" class="qcm-lbl"><span class="opt-ltr">B</span> O(n²)</label>
+              <input type="radio" name="qA3" id="A3c" class="qcm-opt" value="C" onchange="onAnswer('A3')">
+              <label for="A3c" class="qcm-lbl"><span class="opt-ltr">C</span> O(log n)</label>
+              <input type="radio" name="qA3" id="A3d" class="qcm-opt" value="D" onchange="onAnswer('A3')">
+              <label for="A3d" class="qcm-lbl"><span class="opt-ltr">D</span> O(1)</label>
+            </div>
+          </div>
+        </div>
+        <div class="q-advancing" id="adv-A3">// Passage automatique…</div>
+      </div>
+    </div>
+
+    <!-- ═══ PARTIE B — PRATIQUE (une par une, 20s) ═══ -->
+    <div class="exam-section" id="section-B">
+      <div class="sec-header">
+        <div class="sec-eyebrow">Partie B</div>
+        <h2 class="sec-title">Exercices pratiques</h2>
+        <p class="sec-desc">Même règle : 20 secondes par question, passage automatique.</p>
+      </div>
+
+      <div class="question-wrap" id="qwrap-B1">
+        <div class="question-display">
+          <div class="q-topbar">
+            <span class="q-id">B · Question 1/3</span>
+            <div class="q-countdown" id="cd-B1">
+              <div class="q-cring"><svg width="26" height="26" viewBox="0 0 26 26"><circle class="qcr-track" cx="13" cy="13" r="10"/><circle class="qcr-fill" id="qcr-B1" cx="13" cy="13" r="10" stroke-dasharray="62.8" stroke-dashoffset="0"/></svg><div class="q-cring-val" id="cdv-B1">20</div></div>
+              <span id="cdt-B1">20s</span>
+            </div>
+          </div>
+          <div class="q-body">
+            <div class="q-text">Que retourne : <code style="background:var(--t-border);padding:2px 7px;border-radius:2px;font-size:13px;">const f = x => x * x; f(5)</code></div>
+            <div class="qcm-list">
+              <input type="radio" name="qB1" id="B1a" class="qcm-opt" value="A" onchange="onAnswer('B1')">
+              <label for="B1a" class="qcm-lbl"><span class="opt-ltr">A</span> 10</label>
+              <input type="radio" name="qB1" id="B1b" class="qcm-opt" value="B" onchange="onAnswer('B1')">
+              <label for="B1b" class="qcm-lbl"><span class="opt-ltr">B</span> 25</label>
+              <input type="radio" name="qB1" id="B1c" class="qcm-opt" value="C" onchange="onAnswer('B1')">
+              <label for="B1c" class="qcm-lbl"><span class="opt-ltr">C</span> undefined</label>
+              <input type="radio" name="qB1" id="B1d" class="qcm-opt" value="D" onchange="onAnswer('B1')">
+              <label for="B1d" class="qcm-lbl"><span class="opt-ltr">D</span> NaN</label>
+            </div>
+          </div>
+        </div>
+        <div class="q-advancing" id="adv-B1">// Passage automatique…</div>
+      </div>
+
+      <div class="question-wrap" id="qwrap-B2" style="display:none;">
+        <div class="question-display">
+          <div class="q-topbar"><span class="q-id">B · Question 2/3</span><div class="q-countdown" id="cd-B2"><div class="q-cring"><svg width="26" height="26" viewBox="0 0 26 26"><circle class="qcr-track" cx="13" cy="13" r="10"/><circle class="qcr-fill" id="qcr-B2" cx="13" cy="13" r="10" stroke-dasharray="62.8" stroke-dashoffset="0"/></svg><div class="q-cring-val" id="cdv-B2">20</div></div><span id="cdt-B2">20s</span></div></div>
+          <div class="q-body">
+            <div class="q-text">Résultat de : <code style="background:var(--t-border);padding:2px 7px;border-radius:2px;font-size:13px;">['a','b','c'].indexOf('b')</code></div>
+            <div class="qcm-list">
+              <input type="radio" name="qB2" id="B2a" class="qcm-opt" value="A" onchange="onAnswer('B2')"><label for="B2a" class="qcm-lbl"><span class="opt-ltr">A</span> 0</label>
+              <input type="radio" name="qB2" id="B2b" class="qcm-opt" value="B" onchange="onAnswer('B2')"><label for="B2b" class="qcm-lbl"><span class="opt-ltr">B</span> 1</label>
+              <input type="radio" name="qB2" id="B2c" class="qcm-opt" value="C" onchange="onAnswer('B2')"><label for="B2c" class="qcm-lbl"><span class="opt-ltr">C</span> -1</label>
+              <input type="radio" name="qB2" id="B2d" class="qcm-opt" value="D" onchange="onAnswer('B2')"><label for="B2d" class="qcm-lbl"><span class="opt-ltr">D</span> 2</label>
+            </div>
+          </div>
+        </div>
+        <div class="q-advancing" id="adv-B2">// Passage automatique…</div>
+      </div>
+
+      <div class="question-wrap" id="qwrap-B3" style="display:none;">
+        <div class="question-display">
+          <div class="q-topbar"><span class="q-id">B · Question 3/3</span><div class="q-countdown" id="cd-B3"><div class="q-cring"><svg width="26" height="26" viewBox="0 0 26 26"><circle class="qcr-track" cx="13" cy="13" r="10"/><circle class="qcr-fill" id="qcr-B3" cx="13" cy="13" r="10" stroke-dasharray="62.8" stroke-dashoffset="0"/></svg><div class="q-cring-val" id="cdv-B3">20</div></div><span id="cdt-B3">20s</span></div></div>
+          <div class="q-body">
+            <div class="q-text">Quel SQL retourne les users avec + de 3 commandes ?</div>
+            <div class="qcm-list">
+              <input type="radio" name="qB3" id="B3a" class="qcm-opt" value="A" onchange="onAnswer('B3')"><label for="B3a" class="qcm-lbl"><span class="opt-ltr">A</span> SELECT * FROM users WHERE count > 3</label>
+              <input type="radio" name="qB3" id="B3b" class="qcm-opt" value="B" onchange="onAnswer('B3')"><label for="B3b" class="qcm-lbl"><span class="opt-ltr">B</span> SELECT user_id, COUNT(*) FROM orders GROUP BY user_id HAVING COUNT(*) > 3</label>
+              <input type="radio" name="qB3" id="B3c" class="qcm-opt" value="C" onchange="onAnswer('B3')"><label for="B3c" class="qcm-lbl"><span class="opt-ltr">C</span> SELECT * FROM orders LIMIT 3</label>
+              <input type="radio" name="qB3" id="B3d" class="qcm-opt" value="D" onchange="onAnswer('B3')"><label for="B3d" class="qcm-lbl"><span class="opt-ltr">D</span> SELECT user_id FROM orders WHERE count > 3</label>
+            </div>
+          </div>
+        </div>
+        <div class="q-advancing" id="adv-B3">// Passage automatique…</div>
+      </div>
+    </div>
+
+    <!-- ═══ PARTIE C — SITUATIONS (temps libre dans global) ═══ -->
+    <div class="exam-section" id="section-C">
+      <div class="sec-header">
+        <div class="sec-eyebrow">Partie C</div>
+        <h2 class="sec-title">Mises en situation</h2>
+        <p class="sec-desc">Pas de timer par question. Gère ton temps restant selon tes priorités. Réponds librement, sois direct.</p>
+      </div>
+
+      <div class="sit-hint">
+        <strong>Note :</strong> Ces questions évaluent ta façon de raisonner, pas uniquement ta réponse finale. Sois structuré et précis. Utilise le temps qu'il te reste.
+      </div>
+
+      <!-- C1 -->
+      <div class="sit-q-card" id="qwrap-C1">
+        <div class="sit-q-head">C · Situation 1/3</div>
+        <div class="sit-q-body">
+          <div class="sit-q-text">Architecture d'une API de gestion de livraison</div>
+          <div class="sit-q-sub">Une startup ivoirienne te demande de concevoir l'architecture d'une API REST pour gérer un système de livraison : clients, commandes, livreurs, statuts en temps réel.</div>
+          <textarea class="exam-textarea" id="ans-C1" placeholder="Décris les endpoints principaux, le modèle de données et comment tu gérerais les mises à jour temps réel…" rows="6" oninput="updateChar('C1')"></textarea>
+          <div class="char-counter"><span id="char-C1">0</span> caractères</div>
+        </div>
+      </div>
+
+      <!-- C2 -->
+      <div class="sit-q-card" id="qwrap-C2">
+        <div class="sit-q-head">C · Situation 2/3</div>
+        <div class="sit-q-body">
+          <div class="sit-q-text">Optimisation d'un algorithme lent</div>
+          <div class="sit-q-sub">Un collègue te montre du code Node.js avec une double boucle imbriquée parcourant 10 000 éléments pour faire des recherches. C'est fonctionnel mais très lent.</div>
+          <textarea class="exam-textarea" id="ans-C2" placeholder="Comment optimiserais-tu ce code ? Propose une approche alternative et explique ton raisonnement…" rows="5" oninput="updateChar('C2')"></textarea>
+          <div class="char-counter"><span id="char-C2">0</span> caractères</div>
+        </div>
+      </div>
+
+      <!-- C3 -->
+      <div class="sit-q-card" id="qwrap-C3">
+        <div class="sit-q-head">C · Situation 3/3</div>
+        <div class="sit-q-body">
+          <div class="sit-q-text">SQL vs NoSQL pour un réseau social</div>
+          <div class="sit-q-sub">Tu dois choisir entre SQL et NoSQL pour une application de réseau social avec 100 000 utilisateurs actifs et des relations complexes entre entités.</div>
+          <textarea class="exam-textarea" id="ans-C3" placeholder="Quel choix fais-tu et pourquoi ? Quels critères t'ont guidé ?" rows="5" oninput="updateChar('C3')"></textarea>
+          <div class="char-counter"><span id="char-C3">0</span> caractères</div>
         </div>
       </div>
     </div>
+
+  </div><!-- /exam-body -->
+
+  <!-- BOTTOM NAV -->
+  <div class="exam-nav">
+    <div class="exam-nav-info" id="nav-info">Partie <strong id="nav-part">A</strong> · Q<strong id="nav-q">1</strong>/3</div>
+    <div class="q-dots" id="q-dots"></div>
+    <div style="display:flex;gap:8px;">
+      <button class="exam-btn-prev" id="btn-prev" onclick="prevStep()" style="display:none;">← Préc.</button>
+      <button class="exam-btn-next" id="btn-next" onclick="nextStep()">Suivant →</button>
+      <button class="exam-btn-submit" id="btn-submit" onclick="submitExam()" style="display:none;">Soumettre ✓</button>
+    </div>
+  </div>
+
+</div><!-- /exam-shell -->
+
+<!-- ABANDON OVERLAY -->
+<div class="abandon-overlay" id="abandon-overlay">
+  <div class="abandon-box">
+    <div class="abandon-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+    <div class="abandon-title">Attention !</div>
+    <div class="abandon-desc">Tu as quitté la page. Le test se verrouille dans :</div>
+    <div class="abandon-count" id="abandon-count">10</div>
+    <button class="abandon-return" onclick="returnToTest()">Je reviens — annuler</button>
   </div>
 </div>
 
-<div class="container">
-  
-  <!-- CHOIX DU PÔLE -->
-  <div class="exam-section">
-    <div class="section-header">
-      <h2 class="section-title">Choisis ton domaine</h2>
-      <p class="section-subtitle">Sélectionne le pôle qui correspond à tes aspirations et lance-toi dans le test</p>
-    </div>
-
-    <div class="exam-poles-grid">
-      
-      <!-- DÉVELOPPEMENT -->
-      <div class="exam-pole-card" data-pole="dev">
-        <div class="exam-pole-icon" style="background:linear-gradient(135deg, #1400FF, #6E5BFF);">
-          <i data-lucide="code-2"></i>
-        </div>
-        <h3 class="exam-pole-name">Développement</h3>
-        <p class="exam-pole-desc">Web, backend, architectures. Maîtrise des langages et solutions modernes.</p>
-        <div class="exam-pole-tests">
-          <span class="exam-test-badge">JavaScript</span>
-          <span class="exam-test-badge">Python</span>
-          <span class="exam-test-badge">React</span>
-        </div>
-        <button class="btn btn-accent btn-sm" onclick="startTest('dev')">
-          Commencer <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-        </button>
-      </div>
-
-      <!-- SÉCURITÉ -->
-      <div class="exam-pole-card" data-pole="secu">
-        <div class="exam-pole-icon" style="background:linear-gradient(135deg, #E53B00, #FF7A42);">
-          <i data-lucide="shield"></i>
-        </div>
-        <h3 class="exam-pole-name">Sécurité</h3>
-        <p class="exam-pole-desc">Cryptographie, reverse engineering, pentest. Protège et détecte les menaces.</p>
-        <div class="exam-pole-tests">
-          <span class="exam-test-badge">Crypto</span>
-          <span class="exam-test-badge">Réseau</span>
-          <span class="exam-test-badge">Linux</span>
-        </div>
-        <button class="btn btn-accent btn-sm" onclick="startTest('secu')">
-          Commencer <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-        </button>
-      </div>
-
-      <!-- ÉLECTRONIQUE -->
-      <div class="exam-pole-card" data-pole="iot">
-        <div class="exam-pole-icon" style="background:linear-gradient(135deg, #007A3D, #00C851);">
-          <i data-lucide="cpu"></i>
-        </div>
-        <h3 class="exam-pole-name">Électronique</h3>
-        <p class="exam-pole-desc">Arduino, microcontrôleurs, IoT. Fabrique du matériel qui marche vraiment.</p>
-        <div class="exam-pole-tests">
-          <span class="exam-test-badge">Arduino</span>
-          <span class="exam-test-badge">C++</span>
-          <span class="exam-test-badge">Électronique</span>
-        </div>
-        <button class="btn btn-accent btn-sm" onclick="startTest('iot')">
-          Commencer <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-        </button>
-      </div>
-
-    </div>
+<!-- SUBMIT OVERLAY -->
+<div class="submit-overlay" id="submit-overlay">
+  <div class="submit-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
   </div>
-
-  <!-- INFOS COMPLÉMENTAIRES -->
-  <div class="exam-section exam-info-section">
-    <div class="section-header">
-      <h2 class="section-title">Comment ça marche ?</h2>
-    </div>
-
-    <div class="exam-how-it-works">
-      <div class="exam-step-card">
-        <div class="exam-step-number">1</div>
-        <h4 class="exam-step-title">Choisis une spécialité</h4>
-        <p class="exam-step-desc">Commence par le domaine qui t'intéresse. Tu peux faire plusieurs tests après.</p>
-      </div>
-      <div class="exam-step-card">
-        <div class="exam-step-number">2</div>
-        <h4 class="exam-step-title">Réponds aux questions</h4>
-        <p class="exam-step-desc">QCM, exercices pratiques, mises en situation. Du vrai travail pour 15 minutes.</p>
-      </div>
-      <div class="exam-step-card">
-        <div class="exam-step-number">3</div>
-        <h4 class="exam-step-title">Reçois tes résultats</h4>
-        <p class="exam-step-desc">Score instant. Feedback détaillé. Si tu passes, accès à la candidature complète.</p>
-      </div>
-      <div class="exam-step-card">
-        <div class="exam-step-number">4</div>
-        <h4 class="exam-step-title">Complète ton dossier</h4>
-        <p class="exam-step-desc">CV, lettre de motivation, infos perso. Notre équipe examine tout en 5-7 jours.</p>
-      </div>
-    </div>
+  <h2 class="submit-title">Test soumis.</h2>
+  <p class="submit-desc">Tes réponses ont été envoyées à l'équipe TechPulse. Tu recevras un email dans les 48–72h avec la décision.</p>
+  <div class="submit-steps">
+    <div class="submit-step"><div class="s-ico done">✓</div> Réponses enregistrées</div>
+    <div class="submit-step"><div class="s-ico done">✓</div> Lien verrouillé</div>
+    <div class="submit-step"><div class="s-ico wait">…</div> Correction en cours</div>
+    <div class="submit-step"><div class="s-ico wait">…</div> Email de résultat à venir</div>
   </div>
-
-  <!-- FAQ MINIMALISTE -->
-  <div class="exam-section exam-faq-section">
-    <div class="section-header">
-      <h2 class="section-title">Questions fréquentes</h2>
-    </div>
-
-    <div class="exam-faq-grid">
-      <details class="exam-faq-item">
-        <summary class="exam-faq-question">
-          Combien de fois je peux essayer ?
-          <i data-lucide="chevron-down" style="width:16px;height:16px;"></i>
-        </summary>
-        <p class="exam-faq-answer">Essais illimités. Chaque tentative est enregistrée. On juge sur ta meilleure performance — retente-toi autant que tu veux.</p>
-      </details>
-
-      <details class="exam-faq-item">
-        <summary class="exam-faq-question">
-          Comment est noté mon test ?
-          <i data-lucide="chevron-down" style="width:16px;height:16px;"></i>
-        </summary>
-        <p class="exam-faq-answer">Score sur 100. On regarde la qualité, la clarté, l'exactitude. Pas de note de style — juste la substance.</p>
-      </details>
-
-      <details class="exam-faq-item">
-        <summary class="exam-faq-question">
-          Je peux revenir plus tard ?
-          <i data-lucide="chevron-down" style="width:16px;height:16px;"></i>
-        </summary>
-        <p class="exam-faq-answer">Oui, ton progrès est sauvegardé. Continue exactement où tu t'es arrêté quand tu reviens.</p>
-      </details>
-
-      <details class="exam-faq-item">
-        <summary class="exam-faq-question">
-          Quel score pour réussir ?
-          <i data-lucide="chevron-down" style="width:16px;height:16px;"></i>
-        </summary>
-        <p class="exam-faq-answer">60% minimum — c'est pas super haut. On teste surtout ta motivation et ta capacité à apprendre.</p>
-      </details>
-
-      <details class="exam-faq-item">
-        <summary class="exam-faq-question">
-          Y a-t-il une limite de temps ?
-          <i data-lucide="chevron-down" style="width:16px;height:16px;"></i>
-        </summary>
-        <p class="exam-faq-answer">Oui, 15 minutes. C'est serrée mais suffisant pour quelqu'un de préparé. On regarde ton temps de réaction aussi.</p>
-      </details>
-
-      <details class="exam-faq-item">
-        <summary class="exam-faq-question">
-          Je peux utiliser Google ?
-          <i data-lucide="chevron-down" style="width:16px;height:16px;"></i>
-        </summary>
-        <p class="exam-faq-answer">Ouais, vas-y. C'est pas un examen scolaire. On teste ta capacité à trouver des solutions dans le monde réel.</p>
-      </details>
-    </div>
-  </div>
-
 </div>
-
-<footer style="margin-top:80px;padding:40px 0;border-top:1px solid var(--border);text-align:center;color:var(--muted);font-size:13px;">
-  <p>TechPulse © 2025 — Ensemble, on fait bouger les lignes.</p>
-</footer>
 
 <script>
-  lucide.createIcons();
-  
-  function startTest(pole) {
-    window.location.href = `../admin/test-session.html?pole=${pole}`;
+// ─── STATE ──────────────────────────────────────────────
+const TOTAL_SECS = 15 * 60;
+let globalRemaining = TOTAL_SECS;
+let globalInterval = null;
+
+// Steps: A1,A2,A3,B1,B2,B3,C (C has 3 sub-questions visible at once)
+const steps = ['A1','A2','A3','B1','B2','B3','C'];
+let currentStep = 0;
+const answers = {};
+let qTimers = {};     // per-question countdown interval
+let qSeconds = {};    // per-question seconds remaining
+let abandoned = false;
+let abandonTimer = null;
+
+// ─── INIT ────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  renderDots();
+  updateNav();
+  startGlobalTimer();
+  startQTimer('A1');
+});
+
+// ─── GLOBAL TIMER ────────────────────────────────────────
+function startGlobalTimer() {
+  globalInterval = setInterval(() => {
+    globalRemaining--;
+    updateGlobalDisplay();
+    if (globalRemaining <= 0) { clearInterval(globalInterval); submitExam(); }
+  }, 1000);
+}
+function updateGlobalDisplay() {
+  const m = Math.floor(globalRemaining / 60);
+  const s = globalRemaining % 60;
+  document.getElementById('timer-display').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  const el = document.getElementById('global-timer');
+  if (globalRemaining <= 60) el.className = 'global-timer danger';
+  else if (globalRemaining <= 180) el.className = 'global-timer warn';
+  else el.className = 'global-timer';
+}
+
+// ─── PER-QUESTION TIMER (A & B only) ────────────────────
+function startQTimer(qid) {
+  if (!qid.startsWith('A') && !qid.startsWith('B')) return;
+  qSeconds[qid] = 20;
+  updateQDisplay(qid);
+  qTimers[qid] = setInterval(() => {
+    qSeconds[qid]--;
+    updateQDisplay(qid);
+    if (qSeconds[qid] <= 0) {
+      clearInterval(qTimers[qid]);
+      autoAdvance(qid);
+    }
+  }, 1000);
+}
+function updateQDisplay(qid) {
+  const s = qSeconds[qid] || 0;
+  const cdv = document.getElementById('cdv-'+qid);
+  const cdt = document.getElementById('cdt-'+qid);
+  const cd  = document.getElementById('cd-'+qid);
+  const qcr = document.getElementById('qcr-'+qid);
+  if (cdv) cdv.textContent = s;
+  if (cdt) cdt.textContent = s + 's';
+  if (qcr) {
+    const circumference = 62.8;
+    const offset = circumference * (1 - s / 20);
+    qcr.style.strokeDashoffset = offset;
   }
+  if (cd) {
+    if (s <= 5) cd.className = 'q-countdown danger';
+    else if (s <= 10) cd.className = 'q-countdown warn';
+    else cd.className = 'q-countdown';
+  }
+}
+function autoAdvance(qid) {
+  const advEl = document.getElementById('adv-'+qid);
+  if (advEl) { advEl.classList.add('show'); }
+  setTimeout(() => {
+    nextStep();
+  }, 700);
+}
+
+// ─── ANSWER ──────────────────────────────────────────────
+function onAnswer(qid) {
+  const checked = document.querySelector('input[name="q'+qid+'"]:checked');
+  if (checked) {
+    answers[qid] = checked.value;
+    // Stop countdown and auto-advance quickly
+    if (qTimers[qid]) { clearInterval(qTimers[qid]); }
+    const advEl = document.getElementById('adv-'+qid);
+    if (advEl) advEl.classList.add('show');
+    setTimeout(() => nextStep(), 600);
+  }
+}
+
+// ─── NAVIGATION ──────────────────────────────────────────
+function nextStep() {
+  if (currentStep >= steps.length - 1) return;
+  const prevId = steps[currentStep];
+  // Stop any running timer
+  if (qTimers[prevId]) clearInterval(qTimers[prevId]);
+  // Hide current
+  hideStep(prevId);
+  currentStep++;
+  const nextId = steps[currentStep];
+  showStep(nextId);
+  // Start timer if A or B
+  if (nextId !== 'C') startQTimer(nextId);
+  updateNav();
+  renderDots();
+}
+function prevStep() {
+  if (currentStep === 0 || steps[currentStep] !== 'C') return;
+  // Only allow back if in section C
+  currentStep--;
+  hideStep(steps[currentStep + 1]);
+  showStep(steps[currentStep]);
+  updateNav();
+}
+function hideStep(id) {
+  if (id === 'C') {
+    document.getElementById('section-C').classList.remove('active');
+    document.querySelector('[id="tab-C"]').classList.remove('active');
+  } else {
+    const wrap = document.getElementById('qwrap-'+id);
+    if (wrap) wrap.style.display = 'none';
+    // Hide adv overlay
+    const adv = document.getElementById('adv-'+id);
+    if (adv) adv.classList.remove('show');
+  }
+}
+function showStep(id) {
+  if (id === 'C') {
+    // Show section C
+    document.getElementById('section-A').classList.remove('active');
+    document.getElementById('section-B').classList.remove('active');
+    document.getElementById('section-C').classList.add('active');
+    document.getElementById('tab-A').classList.remove('active');
+    document.getElementById('tab-B').classList.remove('active');
+    document.getElementById('tab-C').classList.add('active');
+    document.getElementById('tab-A').classList.add('done');
+    document.getElementById('tab-B').classList.add('done');
+  } else if (id.startsWith('A')) {
+    document.getElementById('section-A').classList.add('active');
+    document.getElementById('section-B').classList.remove('active');
+    document.getElementById('tab-A').classList.add('active');
+    document.getElementById('tab-B').classList.remove('active');
+    document.getElementById('qwrap-'+id).style.display = 'block';
+  } else if (id.startsWith('B')) {
+    document.getElementById('section-A').classList.remove('active');
+    document.getElementById('section-B').classList.add('active');
+    document.getElementById('tab-A').classList.remove('active');
+    document.getElementById('tab-B').classList.add('active');
+    document.getElementById('tab-A').classList.add('done');
+    document.getElementById('qwrap-'+id).style.display = 'block';
+  }
+}
+
+// ─── NAV BAR ────────────────────────────────────────────
+function updateNav() {
+  const id = steps[currentStep];
+  const isC = id === 'C';
+  const isLast = currentStep === steps.length - 1;
+
+  document.getElementById('btn-prev').style.display = isC ? 'flex' : 'none';
+  document.getElementById('btn-next').style.display = isLast ? 'none' : (isC ? 'none' : 'flex');
+  document.getElementById('btn-submit').style.display = isLast ? 'flex' : 'none';
+
+  // Progress
+  const pct = Math.round(((currentStep) / steps.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+
+  if (isC) {
+    document.getElementById('nav-part').textContent = 'C';
+    document.getElementById('nav-q').textContent = '—';
+    document.getElementById('progress-label').textContent = 'Partie C · Situations';
+  } else {
+    const part = id[0];
+    const qnum = id[1];
+    document.getElementById('nav-part').textContent = part;
+    document.getElementById('nav-q').textContent = qnum;
+    document.getElementById('progress-label').textContent = 'Partie ' + part + ' · Q' + qnum + '/3';
+  }
+}
+
+// ─── DOTS ────────────────────────────────────────────────
+function renderDots() {
+  const container = document.getElementById('q-dots');
+  container.innerHTML = '';
+  steps.forEach((id, i) => {
+    const d = document.createElement('div');
+    d.className = 'q-dot' + (i === currentStep ? ' current' : (i < currentStep ? ' answered' : ''));
+    container.appendChild(d);
+  });
+}
+
+// ─── SUBMIT ─────────────────────────────────────────────
+function submitExam() {
+  clearInterval(globalInterval);
+  Object.values(qTimers).forEach(t => clearInterval(t));
+  document.getElementById('submit-overlay').classList.add('show');
+}
+
+// ─── ABANDON DETECTION ─────────────────────────────────
+let visibilityWarned = false;
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && !document.getElementById('submit-overlay').classList.contains('show')) {
+    showAbandon();
+  }
+});
+window.addEventListener('blur', () => {
+  if (!document.getElementById('submit-overlay').classList.contains('show')) {
+    showAbandon();
+  }
+});
+
+function showAbandon() {
+  if (abandoned) return;
+  const overlay = document.getElementById('abandon-overlay');
+  overlay.classList.add('show');
+  let countdown = 10;
+  document.getElementById('abandon-count').textContent = countdown;
+  abandonTimer = setInterval(() => {
+    countdown--;
+    document.getElementById('abandon-count').textContent = countdown;
+    if (countdown <= 0) {
+      clearInterval(abandonTimer);
+      abandoned = true;
+      overlay.classList.remove('show');
+      // Lock test
+      document.getElementById('exam-shell').innerHTML = `
+        <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:40px;">
+          <div style="width:60px;height:60px;border:2px solid var(--t-red);border-radius:2px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:var(--t-red);font-size:26px;">✗</div>
+          <div style="font-family:var(--display);font-size:32px;font-weight:800;color:var(--t-white);letter-spacing:-1px;margin-bottom:12px;">Test verrouillé.</div>
+          <div style="font-size:14px;color:var(--t-muted);max-width:380px;line-height:1.7;">Tu as quitté la fenêtre pendant le test. Ton lien est maintenant verrouillé définitivement. Contacte l'équipe TechPulse si c'est une erreur.</div>
+          <a href="mailto:admin@clubpulse.tech" style="margin-top:24px;display:inline-flex;align-items:center;gap:7px;color:var(--t-green);border:1px solid var(--t-green2);border-radius:2px;padding:10px 18px;font-family:var(--mono);font-size:13px;font-weight:600;text-decoration:none;">Contacter TechPulse</a>
+        </div>`;
+    }
+  }, 1000);
+}
+function returnToTest() {
+  clearInterval(abandonTimer);
+  document.getElementById('abandon-overlay').classList.remove('show');
+}
+
+// ─── CHAR COUNTER ────────────────────────────────────────
+function updateChar(id) {
+  const ta = document.getElementById('ans-'+id);
+  document.getElementById('char-'+id).textContent = ta.value.length;
+}
 </script>
-<script src="burger.js"></script>
 </body>
 </html>

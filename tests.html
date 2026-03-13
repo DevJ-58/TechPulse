@@ -1,392 +1,239 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tests — Admin TechPulse</title>
-  <link rel="stylesheet" href="admin.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tests — TechPulse Admin</title>
+<link rel="stylesheet" href="admin.css">
 </head>
 <body>
-
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <div class="sidebar-logo"><span class="dot"></span> TechPulse</div>
+    <div class="sidebar-logo"><span class="dot"></span>TechPulse</div>
     <div class="sidebar-sub">Administration</div>
   </div>
   <nav class="sidebar-nav">
-    <div class="sidebar-section-label">Pipeline</div>
-    <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard"></i> Dashboard</a>
-    <a href="candidatures.html" class="sidebar-link"><i data-lucide="inbox"></i> Candidatures<span class="sidebar-badge">8</span></a>
-    <a href="tests.html" class="sidebar-link active"><i data-lucide="flask-conical"></i> Tests<span class="sidebar-badge">5</span></a>
-    <a href="meets.html" class="sidebar-link"><i data-lucide="calendar-check"></i> Meets</a>
-    <div class="sidebar-section-label">Gestion</div>
-    <a href="membres.html" class="sidebar-link"><i data-lucide="users"></i> Membres</a>
-    <a href="annonces.html" class="sidebar-link"><i data-lucide="megaphone"></i> Annonces</a>
-    <div class="sidebar-section-label">Config</div>
-    <a href="editeur.html" class="sidebar-link"><i data-lucide="file-edit"></i> Éditeur Q.</a>
-    <a href="parametres.html" class="sidebar-link"><i data-lucide="settings"></i> Paramètres</a>
-    <div class="sidebar-section-label">Site</div>
-    <a href="../index.html" target="_blank" class="sidebar-link"><i data-lucide="external-link"></i> Voir le site</a>
+    <div class="sidebar-section-label">Sélection</div>
+    <a href="dashboard.html" class="sidebar-link" id="nl-dashboard">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </a>
+    <a href="candidatures.html" class="sidebar-link" id="nl-cand">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Candidatures
+      <span class="sidebar-badge">12</span>
+    </a>
+    <a href="tests.html" class="sidebar-link" id="nl-tests">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Tests
+    </a>
+    <a href="meets.html" class="sidebar-link" id="nl-meets">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Meets
+    </a>
+    <div class="sidebar-section-label">Club</div>
+    <a href="membres.html" class="sidebar-link" id="nl-membres">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Membres
+    </a>
+    <a href="annonces.html" class="sidebar-link" id="nl-annonces">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Annonces
+    </a>
+    <a href="editeur.html" class="sidebar-link" id="nl-editeur">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Éditeur de tests
+    </a>
+    <div class="sidebar-section-label">Système</div>
+    <a href="parametres.html" class="sidebar-link" id="nl-params">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Paramètres
+    </a>
   </nav>
   <div class="sidebar-footer">
     <div class="sidebar-user">
       <div class="sidebar-avatar">A</div>
-      <div class="sidebar-user-info">
-        <div class="sidebar-user-name">Admin</div>
-        <div class="sidebar-user-role">Administrateur</div>
-      </div>
-      <a href="login.html" style="color:var(--muted-dark);cursor:pointer;"><i data-lucide="log-out" style="width:15px;height:15px;"></i></a>
+      <div><div class="sidebar-user-name">Admin</div><div class="sidebar-user-role">Fondateur</div></div>
+      <a href="login.html" class="sidebar-logout" title="Déconnexion">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </a>
     </div>
   </div>
 </aside>
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
 
 <div class="main">
-  <div class="topbar">
-    <div class="topbar-title">Résultats des tests</div>
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-burger" onclick="openSidebar()"><span></span><span></span><span></span></button>
+      <h1 class="topbar-title">Résultats des tests</h1>
+    </div>
     <div class="topbar-actions">
-      <button class="btn btn-outline btn-sm" onclick="exportCSV()">
-        <i data-lucide="download" style="width:13px;height:13px;"></i> Exporter
-      </button>
+      <span style="font-size:12px;color:var(--muted);">10 complétés · 4 en attente</span>
     </div>
-  </div>
-
+  </header>
   <div class="content">
+    <div class="grid-4">
+      <div class="stat-card"><div class="stat-label">Tests envoyés</div><div class="stat-value">14</div><div class="stat-meta">Cette session</div></div>
+      <div class="stat-card"><div class="stat-label">Complétés</div><div class="stat-value">10</div><div class="stat-meta">71%</div></div>
+      <div class="stat-card"><div class="stat-label">Score moyen</div><div class="stat-value">68%</div><div class="stat-meta">Sur 100 pts</div></div>
+      <div class="stat-card"><div class="stat-label">En attente</div><div class="stat-value">4</div><div class="stat-meta">Liens non utilisés</div></div>
+    </div>
 
-    <!-- STATS RAPIDES -->
-    <div class="grid-4 mb-6">
-      <div class="stat-card">
-        <div class="stat-label">Tests reçus</div>
-        <div class="stat-value">5</div>
-        <div class="stat-meta">Sur 13 liens envoyés</div>
+    <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+      <div class="filter-bar">
+        <button class="filter-btn active">Tous</button>
+        <button class="filter-btn">Dev</button>
+        <button class="filter-btn">Sécu</button>
+        <button class="filter-btn">IoT</button>
       </div>
-      <div class="stat-card" style="--accent:var(--success);">
-        <div class="stat-label">Satisfaisants</div>
-        <div class="stat-value" style="color:var(--success);">3</div>
-        <div class="stat-meta">Score ≥ 60%</div>
-      </div>
-      <div class="stat-card" style="--accent:#A05800;">
-        <div class="stat-label">Insuffisants</div>
-        <div class="stat-value" style="color:var(--danger);">2</div>
-        <div class="stat-meta">Score < 60%</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">En attente</div>
-        <div class="stat-value" style="color:var(--muted);">8</div>
-        <div class="stat-meta">Liens non utilisés</div>
+      <div class="filter-bar">
+        <button class="filter-btn active">Score ↓</button>
+        <button class="filter-btn">Récents</button>
+        <button class="filter-btn">≥ 70%</button>
       </div>
     </div>
 
-    <!-- FILTRES -->
-    <div class="table-wrap mb-6">
-      <div class="table-header" style="flex-wrap:wrap;gap:12px;">
-        <div class="table-title">Résultats détaillés</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-          <div class="filter-bar">
-            <button class="filter-btn active" onclick="filterTests(this,'all')">Tous</button>
-            <button class="filter-btn f-success" onclick="filterTests(this,'ok')">Satisfaisants</button>
-            <button class="filter-btn f-danger" onclick="filterTests(this,'nok')">Insuffisants</button>
-            <button class="filter-btn" onclick="filterTests(this,'pending')">En attente</button>
+    <!-- RESULT CARDS -->
+    <div id="results-list">
+
+      <!-- CARD 1 — SCORE HI -->
+      <div class="test-result-card">
+        <div class="test-result-head" onclick="toggleResult(this)">
+          <div class="score-ring">
+            <svg width="42" height="42" viewBox="0 0 42 42">
+              <circle class="sr-track" cx="21" cy="21" r="17"/>
+              <circle class="sr-fill sr-hi" cx="21" cy="21" r="17" stroke-dasharray="107" stroke-dashoffset="22"/>
+            </svg>
+            <div class="sr-label" style="color:var(--success);">83</div>
           </div>
-          <div class="search-input-wrap">
-            <i data-lucide="search"></i>
-            <input type="text" class="form-input form-input" placeholder="Rechercher..." oninput="searchTests(this.value)" style="width:200px;">
+          <div class="test-result-info">
+            <div class="test-result-name">Traoré Moussa</div>
+            <div class="test-result-meta">Développement · M2 · 12 min 34s · 13 mars 2026</div>
           </div>
-          <select class="form-select form-input" style="width:140px;" onchange="filterPole(this.value)">
-            <option value="">Tous les pôles</option>
-            <option value="Dev">Développement</option>
-            <option value="Sécu">Sécurité</option>
-            <option value="IoT">Électronique</option>
-          </select>
+          <div class="sec-scores">
+            <div class="sec-s"><div class="sec-s-val">90%</div><div class="sec-s-lbl">Partie A</div></div>
+            <div class="sec-s"><div class="sec-s-val">80%</div><div class="sec-s-lbl">Partie B</div></div>
+            <div class="sec-s"><div class="sec-s-val">75%</div><div class="sec-s-lbl">Partie C</div></div>
+          </div>
+          <span class="tag tag-success">Recommandé</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="test-result-body">
+          <div class="ans-list">
+            <div class="ans-item">
+              <div class="ans-head">
+                <span class="ans-q">Q1 · Quelle méthode HTTP est idempotente ?</span>
+                <span class="ans-ok">✓ Correct</span>
+              </div>
+              <div class="ans-r">Réponse : <strong>PUT</strong> — PUT et DELETE sont idempotentes car leur répétition produit le même résultat.</div>
+            </div>
+            <div class="ans-item">
+              <div class="ans-head">
+                <span class="ans-q">Q2 · Qu'est-ce qu'une closure en JavaScript ?</span>
+                <span class="ans-ok">✓ Correct</span>
+              </div>
+              <div class="ans-r">Réponse : <strong>Une fonction qui retient les variables de son scope parent même après son exécution.</strong></div>
+            </div>
+            <div class="ans-item">
+              <div class="ans-head">
+                <span class="ans-q">Q3 · Exercice pratique : Complexité de l'algorithme</span>
+                <span class="ans-bad">✗ Partiel</span>
+              </div>
+              <div class="ans-r">Réponse donnée : "O(n)" — La réponse attendue était O(n²) pour l'algorithme présenté.</div>
+            </div>
+            <div class="ans-item">
+              <div class="ans-head">
+                <span class="ans-q">C1 · Mise en situation : Architecture d'une API de gestion de stock</span>
+                <span style="font-size:11px;color:var(--muted);">Réponse ouverte</span>
+              </div>
+              <div class="ans-r">Réponse : "Je concevrais une API REST avec Node.js/Express, base de données PostgreSQL avec des endpoints CRUD pour les produits, authentification JWT, et une couche de cache Redis pour les requêtes fréquentes. Documentation Swagger incluse."</div>
+            </div>
+          </div>
+          <div class="test-btns">
+            <button class="btn btn-outline btn-sm" onclick="showToast('Email résultat envoyé ✓')">Envoyer résultat par email</button>
+            <a href="meets.html" class="btn btn-primary btn-sm">Planifier un meet →</a>
+          </div>
         </div>
       </div>
 
-      <div style="padding:20px;" id="results-list">
-        <!-- Résultat 1 — Amara Koné, Dev, 78% -->
-        <div class="test-result-card" data-pole="Dev" data-status="ok" data-name="amara koné">
-          <div class="test-result-header" onclick="toggleResult(this)">
-            <div class="test-score-ring">
-              <svg viewBox="0 0 48 48" width="48" height="48">
-                <circle class="score-track" cx="24" cy="24" r="20"/>
-                <circle class="score-fill high" cx="24" cy="24" r="20"
-                  stroke-dasharray="125.6"
-                  stroke-dashoffset="27.6"/>
-              </svg>
-              <div class="score-label">78%</div>
-            </div>
-            <div class="test-result-info">
-              <div class="test-result-name">Amara Koné</div>
-              <div class="test-result-meta">Pôle Développement · Soumis le 11 Mar 2026 · Durée : 13min 42s</div>
-            </div>
-            <div class="test-section-scores">
-              <div class="section-score">
-                <div class="section-score-val" style="color:var(--success);">4/5</div>
-                <div class="section-score-label">QCM</div>
-              </div>
-              <div class="section-score">
-                <div class="section-score-val" style="color:var(--success);">16/20</div>
-                <div class="section-score-label">Pratique</div>
-              </div>
-              <div class="section-score">
-                <div class="section-score-val" style="color:var(--warning);">7/10</div>
-                <div class="section-score-label">Situation</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <span class="tag tag-success">Satisfaisant</span>
-              <i data-lucide="chevron-down" style="width:16px;height:16px;color:var(--muted);"></i>
-            </div>
+      <!-- CARD 2 — SCORE MD -->
+      <div class="test-result-card">
+        <div class="test-result-head" onclick="toggleResult(this)">
+          <div class="score-ring">
+            <svg width="42" height="42" viewBox="0 0 42 42">
+              <circle class="sr-track" cx="21" cy="21" r="17"/>
+              <circle class="sr-fill sr-md" cx="21" cy="21" r="17" stroke-dasharray="107" stroke-dashoffset="46"/>
+            </svg>
+            <div class="sr-label" style="color:var(--warning);">57</div>
           </div>
-          <div class="test-result-body" id="body-1">
-            <div class="answers-grid">
-              <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Partie A — QCM</div>
-              <div class="answer-item">
-                <div class="answer-item-head">
-                  <div class="answer-item-q">Q.01 — Complexité de la recherche binaire</div>
-                  <div class="answer-item-r answer-correct"><i data-lucide="check" style="width:13px;height:13px;display:inline;"></i> Correct</div>
-                </div>
-                <div class="answer-item-a">Réponse : <strong>O(log n) — logarithmique</strong></div>
-              </div>
-              <div class="answer-item">
-                <div class="answer-item-head">
-                  <div class="answer-item-q">Q.02 — Code HTTP ressource inexistante</div>
-                  <div class="answer-item-r answer-correct"><i data-lucide="check" style="width:13px;height:13px;display:inline;"></i> Correct</div>
-                </div>
-                <div class="answer-item-a">Réponse : <strong>404 — Not Found</strong></div>
-              </div>
-              <div class="answer-item">
-                <div class="answer-item-head">
-                  <div class="answer-item-q">Q.03 — Encapsulation en POO</div>
-                  <div class="answer-item-r answer-correct"><i data-lucide="check" style="width:13px;height:13px;display:inline;"></i> Correct</div>
-                </div>
-                <div class="answer-item-a">Réponse : <strong>Regroupement des données et méthodes avec contrôle d'accès</strong></div>
-              </div>
-              <div class="answer-item">
-                <div class="answer-item-head">
-                  <div class="answer-item-q">Q.04 — Définition d'une API REST</div>
-                  <div class="answer-item-r answer-correct"><i data-lucide="check" style="width:13px;height:13px;display:inline;"></i> Correct</div>
-                </div>
-                <div class="answer-item-a">Réponse : <strong>Interface de communication via HTTP avec ressources identifiées par URL</strong></div>
-              </div>
-              <div class="answer-item">
-                <div class="answer-item-head">
-                  <div class="answer-item-q">Q.05 — Structure de données FIFO</div>
-                  <div class="answer-item-r answer-wrong"><i data-lucide="x" style="width:13px;height:13px;display:inline;"></i> Incorrect</div>
-                </div>
-                <div class="answer-item-a">Répondu : <strong style="color:var(--danger);">Une pile (Stack)</strong> — Bonne réponse : <strong style="color:var(--success);">Liste chaînée ou tableau circulaire</strong></div>
-              </div>
-
-              <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin:12px 0 8px;">Partie B — Exercice pratique</div>
-              <div class="answer-item">
-                <div class="answer-item-head">
-                  <div class="answer-item-q">EX.01 — Recherche en temps réel sur 100K produits</div>
-                  <span class="tag tag-success" style="font-size:10px;">16 pts / 20</span>
-                </div>
-                <div class="answer-item-a">« Je mettrais en place un système d'indexation côté serveur (Elasticsearch ou Algolia), avec un debounce de 300ms côté frontend pour limiter les appels API. Les résultats seraient paginés (10 items) et mis en cache côté client. Pour les performances, j'utiliserais une CDN pour les assets et des requêtes préfetchées sur les recherches populaires... »</div>
-              </div>
-
-              <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin:12px 0 8px;">Partie C — Mise en situation</div>
-              <div class="answer-item">
-                <div class="answer-item-head">
-                  <div class="answer-item-q">SIT.01 — Bug en production à 2h du matin</div>
-                  <span class="tag tag-warning" style="font-size:10px;">7 pts / 10</span>
-                </div>
-                <div class="answer-item-a">« D'abord je consulterais les logs pour identifier l'erreur précise. Je testerais en staging pour reproduire. Si c'est un bug de configuration d'environnement, je l'isole. Si non, je préviens l'équipe même à 2h. Si on ne trouve pas en 2h, je prépare un rollback... »</div>
-              </div>
-            </div>
-            <div class="test-actions-row">
-              <button class="btn btn-success btn-sm" onclick="approveTest(1)">
-                <i data-lucide="check" style="width:13px;height:13px;"></i> Valider étape 2 — Envoyer convocation meet
-              </button>
-              <button class="btn btn-danger btn-sm" onclick="rejectTest(1)">
-                <i data-lucide="x" style="width:13px;height:13px;"></i> Refuser
-              </button>
-              <button class="btn btn-outline btn-sm">
-                <i data-lucide="mail" style="width:13px;height:13px;"></i> Contacter
-              </button>
-            </div>
+          <div class="test-result-info">
+            <div class="test-result-name">Ouédraogo Fatou</div>
+            <div class="test-result-meta">Électronique IoT · L2 · 14 min 02s · 12 mars 2026</div>
           </div>
+          <div class="sec-scores">
+            <div class="sec-s"><div class="sec-s-val">60%</div><div class="sec-s-lbl">Partie A</div></div>
+            <div class="sec-s"><div class="sec-s-val">50%</div><div class="sec-s-lbl">Partie B</div></div>
+            <div class="sec-s"><div class="sec-s-val">60%</div><div class="sec-s-lbl">Partie C</div></div>
+          </div>
+          <span class="tag tag-warning">À étudier</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-
-        <!-- Résultat 2 — Mariama Baldé, Sécu, 45% -->
-        <div class="test-result-card" data-pole="Sécu" data-status="nok" data-name="mariama baldé">
-          <div class="test-result-header" onclick="toggleResult(this)">
-            <div class="test-score-ring">
-              <svg viewBox="0 0 48 48" width="48" height="48">
-                <circle class="score-track" cx="24" cy="24" r="20"/>
-                <circle class="score-fill low" cx="24" cy="24" r="20"
-                  stroke-dasharray="125.6"
-                  stroke-dashoffset="69.1"/>
-              </svg>
-              <div class="score-label" style="color:var(--danger);">45%</div>
-            </div>
-            <div class="test-result-info">
-              <div class="test-result-name">Mariama Baldé</div>
-              <div class="test-result-meta">Pôle Sécurité · Soumis le 10 Mar 2026 · Durée : 14min 58s</div>
-            </div>
-            <div class="test-section-scores">
-              <div class="section-score">
-                <div class="section-score-val" style="color:var(--warning);">2/5</div>
-                <div class="section-score-label">QCM</div>
-              </div>
-              <div class="section-score">
-                <div class="section-score-val" style="color:var(--danger);">8/20</div>
-                <div class="section-score-label">Pratique</div>
-              </div>
-              <div class="section-score">
-                <div class="section-score-val" style="color:var(--warning);">5/10</div>
-                <div class="section-score-label">Situation</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <span class="tag tag-danger">Insuffisant</span>
-              <i data-lucide="chevron-down" style="width:16px;height:16px;color:var(--muted);"></i>
-            </div>
-          </div>
-          <div class="test-result-body" id="body-2">
-            <div class="answers-grid">
-              <div style="font-size:12px;color:var(--muted);padding:8px 0;">Cliquez sur l'en-tête pour voir le détail des réponses.</div>
-            </div>
-            <div class="test-actions-row">
-              <button class="btn btn-danger btn-sm" onclick="rejectTest(2)">
-                <i data-lucide="x" style="width:13px;height:13px;"></i> Refuser la candidature
-              </button>
-              <button class="btn btn-outline btn-sm">
-                <i data-lucide="mail" style="width:13px;height:13px;"></i> Contacter
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Résultat 3 — Cheick Touré, IoT, 82% -->
-        <div class="test-result-card" data-pole="IoT" data-status="ok" data-name="cheick touré">
-          <div class="test-result-header" onclick="toggleResult(this)">
-            <div class="test-score-ring">
-              <svg viewBox="0 0 48 48" width="48" height="48">
-                <circle class="score-track" cx="24" cy="24" r="20"/>
-                <circle class="score-fill high" cx="24" cy="24" r="20"
-                  stroke-dasharray="125.6"
-                  stroke-dashoffset="22.6"/>
-              </svg>
-              <div class="score-label">82%</div>
-            </div>
-            <div class="test-result-info">
-              <div class="test-result-name">Cheick Touré</div>
-              <div class="test-result-meta">Pôle Électronique · Soumis le 09 Mar 2026 · Durée : 12min 07s</div>
-            </div>
-            <div class="test-section-scores">
-              <div class="section-score">
-                <div class="section-score-val" style="color:var(--success);">5/5</div>
-                <div class="section-score-label">QCM</div>
-              </div>
-              <div class="section-score">
-                <div class="section-score-val" style="color:var(--success);">17/20</div>
-                <div class="section-score-label">Pratique</div>
-              </div>
-              <div class="section-score">
-                <div class="section-score-val" style="color:var(--success);">6/10</div>
-                <div class="section-score-label">Situation</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <span class="tag tag-success">Satisfaisant</span>
-              <i data-lucide="chevron-down" style="width:16px;height:16px;color:var(--muted);"></i>
-            </div>
-          </div>
-          <div class="test-result-body" id="body-3">
-            <div class="answers-grid">
-              <div style="font-size:12px;color:var(--muted);padding:8px 0;">Développez pour voir le détail.</div>
-            </div>
-            <div class="test-actions-row">
-              <button class="btn btn-success btn-sm">
-                <i data-lucide="check" style="width:13px;height:13px;"></i> Valider étape 2 — Envoyer convocation meet
-              </button>
-              <button class="btn btn-danger btn-sm"><i data-lucide="x" style="width:13px;height:13px;"></i> Refuser</button>
-              <button class="btn btn-outline btn-sm"><i data-lucide="mail" style="width:13px;height:13px;"></i> Contacter</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- EN ATTENTE -->
-        <div style="background:var(--surface);border:1px dashed var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:12px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-            <div style="display:flex;align-items:center;gap:12px;">
-              <div class="avatar-sm" style="background:var(--tag-bg);color:var(--muted);">IS</div>
-              <div>
-                <div style="font-weight:600;font-size:14px;">Ibrahim Sylla</div>
-                <div style="font-size:12px;color:var(--muted);">Pôle Développement · Lien envoyé le 09 Mar 2026</div>
-              </div>
-            </div>
-            <span class="tag tag-warning">En attente</span>
-          </div>
-        </div>
-        <div style="background:var(--surface);border:1px dashed var(--border);border-radius:var(--radius-lg);padding:20px 24px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-            <div style="display:flex;align-items:center;gap:12px;">
-              <div class="avatar-sm" style="background:var(--tag-bg);color:var(--muted);">FD</div>
-              <div>
-                <div style="font-weight:600;font-size:14px;">Fatoumata Diallo</div>
-                <div style="font-size:12px;color:var(--muted);">Pôle Sécurité · Lien envoyé le 08 Mar 2026</div>
-              </div>
-            </div>
-            <span class="tag tag-warning">En attente</span>
+        <div class="test-result-body">
+          <div style="color:var(--muted);font-size:13px;padding:8px 0;">Score moyen. Bases présentes, mais certaines lacunes techniques. Un meet permettrait d'évaluer le potentiel.</div>
+          <div class="test-btns">
+            <button class="btn btn-outline btn-sm" onclick="showToast('Email envoyé ✓')">Envoyer résultat</button>
+            <button class="btn btn-danger btn-sm" onclick="showToast('Refus envoyé')">Refuser</button>
+            <a href="meets.html" class="btn btn-primary btn-sm">Meet quand même →</a>
           </div>
         </div>
       </div>
+
+      <!-- CARD 3 — SCORE LO -->
+      <div class="test-result-card">
+        <div class="test-result-head" onclick="toggleResult(this)">
+          <div class="score-ring">
+            <svg width="42" height="42" viewBox="0 0 42 42">
+              <circle class="sr-track" cx="21" cy="21" r="17"/>
+              <circle class="sr-fill sr-lo" cx="21" cy="21" r="17" stroke-dasharray="107" stroke-dashoffset="78"/>
+            </svg>
+            <div class="sr-label" style="color:var(--danger);">27</div>
+          </div>
+          <div class="test-result-info">
+            <div class="test-result-name">Bamba Kader</div>
+            <div class="test-result-meta">Sécurité · L1 · 8 min 17s · 11 mars 2026</div>
+          </div>
+          <div class="sec-scores">
+            <div class="sec-s"><div class="sec-s-val">30%</div><div class="sec-s-lbl">Partie A</div></div>
+            <div class="sec-s"><div class="sec-s-val">20%</div><div class="sec-s-lbl">Partie B</div></div>
+            <div class="sec-s"><div class="sec-s-val">30%</div><div class="sec-s-lbl">Partie C</div></div>
+          </div>
+          <span class="tag tag-danger">Score insuffisant</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="test-result-body">
+          <div style="color:var(--muted);font-size:13px;padding:8px 0;">Score insuffisant. Bases techniques trop légères pour le pôle Sécurité à ce stade.</div>
+          <div class="test-btns">
+            <button class="btn btn-danger btn-sm" onclick="showToast('Refus envoyé')">Envoyer refus</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
-
-<!-- TOAST -->
-<div id="toast" style="position:fixed;bottom:24px;right:24px;background:var(--text);color:var(--bg);padding:14px 20px;border-radius:var(--radius-lg);font-size:14px;font-weight:500;display:none;align-items:center;gap:10px;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,0.15);">
-  <i data-lucide="check" style="width:16px;height:16px;color:var(--success);"></i>
-  <span id="toast-msg"></span>
-</div>
-
+<div class="toast" id="toast"></div>
 <script>
-lucide.createIcons();
-
-function toggleResult(header) {
-  const body = header.nextElementSibling;
-  const icon = header.querySelector('[data-lucide="chevron-down"]');
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.add('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+document.getElementById('nl-tests').classList.add('active');
+function toggleResult(head){
+  const body=head.nextElementSibling;
+  const ch=head.querySelector('.chevron');
   body.classList.toggle('open');
-  if (icon) icon.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
-  lucide.createIcons();
+  if(ch) ch.style.transform=body.classList.contains('open')?'rotate(180deg)':'';
 }
-
-function filterTests(btn, status) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.test-result-card').forEach(c => {
-    const s = c.dataset.status;
-    c.style.display = (status === 'all' || s === status) ? 'block' : 'none';
-  });
-}
-
-function filterPole(pole) {
-  document.querySelectorAll('.test-result-card').forEach(c => {
-    c.style.display = (!pole || c.dataset.pole === pole) ? 'block' : 'none';
-  });
-}
-
-function searchTests(q) {
-  const v = q.toLowerCase();
-  document.querySelectorAll('.test-result-card').forEach(c => {
-    c.style.display = c.dataset.name.includes(v) ? 'block' : 'none';
-  });
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toast-msg').textContent = msg;
-  t.style.display = 'flex';
-  lucide.createIcons();
-  setTimeout(() => t.style.display = 'none', 3000);
-}
-
-function approveTest(id) { showToast('Convocation meet envoyée par email.'); }
-function rejectTest(id)  { showToast('Email de refus envoyé au candidat.'); }
-function exportCSV()     { showToast('Export CSV téléchargé.'); }
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 </script>
 </body>
 </html>

@@ -1,276 +1,239 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Annonces — Admin TechPulse</title>
-  
-  <link rel="stylesheet" href="admin.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Annonces — TechPulse Admin</title>
+<link rel="stylesheet" href="admin.css">
 </head>
 <body>
-
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <div class="sidebar-logo"><span class="dot"></span> TechPulse</div>
+    <div class="sidebar-logo"><span class="dot"></span>TechPulse</div>
     <div class="sidebar-sub">Administration</div>
   </div>
   <nav class="sidebar-nav">
-    <div class="sidebar-section-label">Pipeline</div>
-    <a href="dashboard.html" class="sidebar-link ">
-      <i data-lucide="layout-dashboard"></i> Dashboard
+    <div class="sidebar-section-label">Sélection</div>
+    <a href="dashboard.html" class="sidebar-link" id="nl-dashboard">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
     </a>
-    <a href="candidatures.html" class="sidebar-link ">
-      <i data-lucide="inbox"></i> Candidatures
-      <span class="sidebar-badge">8</span>
+    <a href="candidatures.html" class="sidebar-link" id="nl-cand">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Candidatures
+      <span class="sidebar-badge">12</span>
     </a>
-    <a href="tests.html" class="sidebar-link ">
-      <i data-lucide="flask-conical"></i> Tests
-      <span class="sidebar-badge">5</span>
+    <a href="tests.html" class="sidebar-link" id="nl-tests">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Tests
     </a>
-    <a href="meets.html" class="sidebar-link ">
-      <i data-lucide="calendar-check"></i> Meets
+    <a href="meets.html" class="sidebar-link" id="nl-meets">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Meets
     </a>
-    <div class="sidebar-section-label">Gestion</div>
-    <a href="membres.html" class="sidebar-link ">
-      <i data-lucide="users"></i> Membres
+    <div class="sidebar-section-label">Club</div>
+    <a href="membres.html" class="sidebar-link" id="nl-membres">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Membres
     </a>
-    <a href="annonces.html" class="sidebar-link active">
-      <i data-lucide="megaphone"></i> Annonces
+    <a href="annonces.html" class="sidebar-link" id="nl-annonces">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Annonces
     </a>
-    <div class="sidebar-section-label">Config</div>
-    <a href="editeur.html" class="sidebar-link ">
-      <i data-lucide="file-edit"></i> Éditeur Q.
+    <a href="editeur.html" class="sidebar-link" id="nl-editeur">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Éditeur de tests
     </a>
-    <a href="parametres.html" class="sidebar-link ">
-      <i data-lucide="settings"></i> Paramètres
-    </a>
-    <div class="sidebar-section-label">Site</div>
-    <a href="../index.html" target="_blank" class="sidebar-link">
-      <i data-lucide="external-link"></i> Voir le site
+    <div class="sidebar-section-label">Système</div>
+    <a href="parametres.html" class="sidebar-link" id="nl-params">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Paramètres
     </a>
   </nav>
   <div class="sidebar-footer">
     <div class="sidebar-user">
       <div class="sidebar-avatar">A</div>
-      <div class="sidebar-user-info">
-        <div class="sidebar-user-name">Admin</div>
-        <div class="sidebar-user-role">Administrateur</div>
-      </div>
-      <a href="login.html" style="color:var(--muted-dark);cursor:pointer;">
-        <i data-lucide="log-out" style="width:15px;height:15px;"></i>
+      <div><div class="sidebar-user-name">Admin</div><div class="sidebar-user-role">Fondateur</div></div>
+      <a href="login.html" class="sidebar-logout" title="Déconnexion">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       </a>
     </div>
   </div>
 </aside>
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
 
-<main class="main">
-  <div class="topbar">
-    <div class="topbar-title">Annonces</div>
-    <div class="topbar-actions">
-      <span style="font-size:12px;color:var(--muted);">3 publiées · 1 brouillon</span>
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-burger" onclick="openSidebar()"><span></span><span></span><span></span></button>
+      <h1 class="topbar-title">Annonces</h1>
     </div>
-  </div>
-
+    <div class="topbar-actions">
+      <button class="btn btn-primary btn-sm" onclick="openNewModal()">+ Nouvelle annonce</button>
+    </div>
+  </header>
   <div class="content">
 
-    <div class="announcements-grid">
-
-      <!-- LIST -->
+    <div style="display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;">
+      <!-- ANNONCES LIST -->
       <div>
-        <!-- Filters -->
-        <div style="display:flex;gap:8px;margin-bottom:20px;align-items:center;">
-          <button class="filter-btn active" data-filter="all" onclick="filterAnn('all',this)">Toutes</button>
-          <button class="filter-btn" data-filter="published" onclick="filterAnn('published',this)">Publiées</button>
-          <button class="filter-btn" data-filter="draft" onclick="filterAnn('draft',this)">Brouillons</button>
-        </div>
-
-        <div id="ann-list" style="display:flex;flex-direction:column;gap:12px;"></div>
-      </div>
-
-      <!-- COMPOSE -->
-      <div class="compose-form">
-        <div class="compose-header">
-          <i data-lucide="pencil" style="width:15px;height:15px;color:var(--muted);"></i>
-          <span id="compose-title-label">Nouvelle annonce</span>
-        </div>
-        <div class="compose-body">
-          <div class="form-group">
-            <label class="form-label">Titre *</label>
-            <input type="text" class="form-input" id="ann-title" placeholder="Titre de l'annonce">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+          <div class="filter-bar">
+            <button class="filter-btn active">Toutes</button>
+            <button class="filter-btn">Publiées</button>
+            <button class="filter-btn">Brouillons</button>
           </div>
-          <div class="form-group">
-            <label class="form-label">Contenu *</label>
-            <div class="rte-wrap">
-              <div class="rte-toolbar">
-                <button class="rte-btn" onclick="execCmd('bold')"><b>B</b></button>
-                <button class="rte-btn" onclick="execCmd('italic')"><i>I</i></button>
-                <button class="rte-btn" onclick="execCmd('underline')"><u>U</u></button>
-                <button class="rte-btn" onclick="execCmd('insertUnorderedList')">—</button>
-              </div>
-              <div class="rte-area" id="ann-content" contenteditable="true" data-placeholder="Rédigez le contenu de votre annonce ici..."></div>
+          <div class="filter-bar">
+            <button class="filter-btn active">Tous</button>
+            <button class="filter-btn">Dev</button>
+            <button class="filter-btn">Sécu</button>
+            <button class="filter-btn">IoT</button>
+            <button class="filter-btn">Général</button>
+          </div>
+        </div>
+
+        <div class="annonce-card">
+          <div class="annonce-hd">
+            <div class="avatar-sm">KF</div>
+            <div class="annonce-info">
+              <div class="annonce-title">Session d'onboarding — tous les nouveaux membres</div>
+              <div class="annonce-meta">Kouadio Fréjus · 12 mars 2026 · Général</div>
+            </div>
+            <span class="tag tag-success">Publiée</span>
+          </div>
+          <div class="annonce-body">Bienvenue à tous les nouveaux membres de TechPulse Session 2026. Une séance d'onboarding est prévue le samedi 20 mars à 10h00 en salle B204. Présence obligatoire. Vous recevrez les accès WhatsApp, GitHub et les ressources du club.</div>
+          <div class="annonce-ft">
+            <span style="font-size:11px;color:var(--muted);">Envoyée à : 4 membres</span>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-ghost btn-sm" onclick="editAnnonce(this)">Modifier</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteAnnonce(this)">Supprimer</button>
             </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Pôle cible</label>
-            <select class="form-select" id="ann-pole">
-              <option value="Tous">Tous les pôles</option>
-              <option value="Développement">Développement</option>
-              <option value="Sécurité">Sécurité</option>
-              <option value="Électronique">Électronique</option>
-            </select>
+        </div>
+
+        <div class="annonce-card">
+          <div class="annonce-hd">
+            <div class="avatar-sm" style="background:var(--danger-bg);color:var(--danger);">DM</div>
+            <div class="annonce-info">
+              <div class="annonce-title">Workshop Pentest — Sécu · Vendredi 21 mars</div>
+              <div class="annonce-meta">Diomande Mickael · 11 mars 2026 · Pôle Sécu</div>
+            </div>
+            <span class="tag tag-success">Publiée</span>
+          </div>
+          <div class="annonce-body">Premier workshop du pôle Sécurité : introduction au pentest avec Kali Linux. Niveau requis : bases Linux. Matériel : votre laptop. On démarrera par le scan de ports et la reconnaissance passive.</div>
+          <div class="annonce-ft">
+            <span style="font-size:11px;color:var(--muted);">Envoyée à : 1 membre Sécu</span>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-ghost btn-sm" onclick="editAnnonce(this)">Modifier</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteAnnonce(this)">Supprimer</button>
+            </div>
           </div>
         </div>
-        <div class="compose-footer">
-          <button class="btn btn-outline" onclick="saveAnn('draft')">
-            <i data-lucide="save" style="width:13px;height:13px;"></i> Brouillon
-          </button>
-          <button class="btn btn-accent" onclick="saveAnn('published')">
-            <i data-lucide="send" style="width:13px;height:13px;"></i> Publier
-          </button>
+
+        <div class="annonce-card">
+          <div class="annonce-hd">
+            <div class="avatar-sm" style="background:var(--success-bg);color:var(--success);">DK</div>
+            <div class="annonce-info">
+              <div class="annonce-title">Repo GitHub du club — accès membres</div>
+              <div class="annonce-meta">Djeke Koffi · 10 mars 2026 · Général</div>
+            </div>
+            <span class="tag tag-default">Brouillon</span>
+          </div>
+          <div class="annonce-body">Le repo GitHub de TechPulse est maintenant accessible à tous les membres. Créez votre compte si ce n'est pas fait, et envoyez-moi votre nom d'utilisateur pour vous ajouter à l'organisation.</div>
+          <div class="annonce-ft">
+            <span style="font-size:11px;color:var(--muted);">Non publiée</span>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-outline btn-sm" onclick="publishAnnonce(this)">Publier</button>
+              <button class="btn btn-ghost btn-sm" onclick="editAnnonce(this)">Modifier</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteAnnonce(this)">Supprimer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPOSE SIDEBAR -->
+      <div>
+        <div class="compose-wrap" id="compose-box">
+          <div class="compose-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            Nouvelle annonce
+          </div>
+          <div class="compose-body">
+            <div class="form-group">
+              <label class="form-label">Titre</label>
+              <input type="text" class="form-input" id="ann-title" placeholder="Titre de l'annonce…">
+            </div>
+            <div class="date-grid">
+              <div class="form-group">
+                <label class="form-label">Destinataires</label>
+                <select class="form-input form-select" id="ann-dest">
+                  <option>Tous les membres</option>
+                  <option>Pôle Dev uniquement</option>
+                  <option>Pôle Sécu uniquement</option>
+                  <option>Pôle IoT uniquement</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Catégorie</label>
+                <select class="form-input form-select">
+                  <option>Général</option>
+                  <option>Événement</option>
+                  <option>Workshop</option>
+                  <option>Important</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Contenu</label>
+              <div style="border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+                <div class="editor-toolbar">
+                  <button class="editor-btn" title="Gras"><b>B</b></button>
+                  <button class="editor-btn" title="Italique"><i>I</i></button>
+                  <button class="editor-btn" title="Souligné"><u>U</u></button>
+                  <span class="editor-sep"></span>
+                  <button class="editor-btn" title="Liste">≡</button>
+                  <button class="editor-btn" title="Lien">🔗</button>
+                </div>
+                <div class="editor-area" contenteditable="true" id="ann-content" data-placeholder="Rédige ton annonce ici…"></div>
+              </div>
+            </div>
+          </div>
+          <div class="compose-footer">
+            <button class="btn btn-ghost btn-sm" onclick="saveDraft()">Sauver brouillon</button>
+            <button class="btn btn-primary btn-sm" onclick="publishNew()">Publier & envoyer</button>
+          </div>
         </div>
       </div>
     </div>
 
   </div>
-</main>
+</div>
 
+<div class="toast" id="toast"></div>
 <script>
-let announcements = [
-  { id:1, title:'Bienvenue sur TechPulse !', content:'Le club est officiellement lancé. Nous sommes ravis d\'accueillir notre première promotion et de démarrer cette aventure ensemble. Préparez vos claviers, la saison démarre !', pole:'Tous', status:'published', date:'01 Mar 2026', author:'Admin' },
-  { id:2, title:'Lancement du Sprint #1 — Développement', content:'Le premier sprint de 2 semaines est lancé pour le pôle Développement. Les équipes ont été formées aléatoirement. Rendu attendu le 15 Mars. Bonne chance à tous !', pole:'Développement', status:'published', date:'07 Mar 2026', author:'Admin' },
-  { id:3, title:'Masterclass Pentesting — Samedi 14 Mars', content:'Une masterclass sur les bases du pentesting sera animée par Ibrahim Sylla ce samedi à 10h. Lieu : Salle informatique B204. Ouverte à tous les membres, priorité au pôle Sécurité.', pole:'Sécurité', status:'published', date:'09 Mar 2026', author:'Admin' },
-  { id:4, title:'Recrutement formateur IoT', content:'Nous recherchons un(e) formateur/trice pour animer les TP du pôle Électronique à partir du mois prochain. Compétences souhaitées : Arduino, Raspberry Pi, protocoles IoT.', pole:'Électronique', status:'draft', date:'10 Mar 2026', author:'Admin' },
-];
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.add('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+document.getElementById('nl-annonces').classList.add('active');
 
-let editingId = null;
-let currentFilter = 'all';
-
-function getFiltered() {
-  return announcements.filter(a => currentFilter === 'all' || a.status === currentFilter);
+function publishNew(){
+  const t=document.getElementById('ann-title').value;
+  if(!t){showToast('Ajoute un titre.');return;}
+  showToast('Annonce publiée & envoyée aux membres ✓');
+  document.getElementById('ann-title').value='';
+  document.getElementById('ann-content').textContent='';
 }
+function saveDraft(){showToast('Brouillon sauvegardé');}
+function editAnnonce(btn){document.querySelector('.compose-wrap').scrollIntoView({behavior:'smooth'});showToast('Contenu chargé dans l\'éditeur');}
+function deleteAnnonce(btn){if(confirm('Supprimer cette annonce ?'))btn.closest('.annonce-card').remove();}
+function publishAnnonce(btn){btn.closest('.annonce-card').querySelector('.tag').className='tag tag-success';btn.closest('.annonce-card').querySelector('.tag').textContent='Publiée';showToast('Annonce publiée ✓');btn.remove();}
+function openNewModal(){document.getElementById('compose-box').scrollIntoView({behavior:'smooth'});document.getElementById('ann-title').focus();}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 
-function renderList() {
-  const filtered = getFiltered();
-  const container = document.getElementById('ann-list');
-  if (!filtered.length) {
-    container.innerHTML = `<div class="ann-empty"><i data-lucide="megaphone" style="width:36px;height:36px;margin:0 auto 16px;opacity:0.3;"></i><p>Aucune annonce</p></div>`;
-    lucide.createIcons();
-    return;
-  }
-  const poleMap = { 'Tous':'tag-default', 'Développement':'tag-accent', 'Sécurité':'tag-danger', 'Électronique':'tag-success' };
-  container.innerHTML = filtered.map(a => `
-    <div class="ann-card ${a.status}">
-      <div class="ann-card-header">
-        <div>
-          <div class="ann-card-title">${a.title}</div>
-          <div style="display:flex;gap:6px;margin-top:8px;">
-            <span class="tag ${a.status === 'published' ? 'tag-success' : 'tag-warning'}">${a.status === 'published' ? 'Publiée' : 'Brouillon'}</span>
-            <span class="tag ${poleMap[a.pole]||'tag-default'}">${a.pole}</span>
-          </div>
-        </div>
-      </div>
-      <div class="ann-card-body">${a.content.length > 160 ? a.content.slice(0,160)+'…' : a.content}</div>
-      <div class="ann-card-footer">
-        <span>${a.date} · par ${a.author}</span>
-        <div class="ann-card-footer-actions">
-          ${a.status === 'draft' ?
-            `<button class="btn btn-success btn-sm" onclick="togglePublish(${a.id})"><i data-lucide="send" style="width:11px;height:11px;"></i> Publier</button>` :
-            `<button class="btn btn-outline btn-sm" onclick="togglePublish(${a.id})"><i data-lucide="eye-off" style="width:11px;height:11px;"></i> Dépublier</button>`
-          }
-          <button class="btn btn-outline btn-sm btn-icon" onclick="editAnn(${a.id})" title="Modifier">
-            <i data-lucide="pencil" style="width:12px;height:12px;"></i>
-          </button>
-          <button class="btn btn-danger btn-sm btn-icon" onclick="deleteAnn(${a.id})" title="Supprimer">
-            <i data-lucide="trash-2" style="width:12px;height:12px;"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-  lucide.createIcons();
-}
-
-function filterAnn(f, btn) {
-  currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderList();
-}
-
-function togglePublish(id) {
-  const a = announcements.find(x => x.id === id);
-  if (a) {
-    a.status = a.status === 'published' ? 'draft' : 'published';
-    renderList();
-    showToast(a.status === 'published' ? 'Annonce publiée sur le site.' : 'Annonce dépubliée.', a.status === 'published' ? 'success' : 'danger');
-  }
-}
-
-function editAnn(id) {
-  const a = announcements.find(x => x.id === id);
-  if (!a) return;
-  editingId = id;
-  document.getElementById('ann-title').value = a.title;
-  document.getElementById('ann-content').innerHTML = a.content;
-  document.getElementById('ann-pole').value = a.pole;
-  document.getElementById('compose-title-label').textContent = 'Modifier l\'annonce';
-  document.getElementById('ann-title').scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-function saveAnn(status) {
-  const title = document.getElementById('ann-title').value.trim();
-  const content = document.getElementById('ann-content').innerText.trim();
-  const pole = document.getElementById('ann-pole').value;
-  if (!title || !content) { showToast('Veuillez remplir le titre et le contenu.', 'danger'); return; }
-
-  const now = new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
-
-  if (editingId) {
-    const a = announcements.find(x => x.id === editingId);
-    if (a) { a.title = title; a.content = content; a.pole = pole; a.status = status; a.date = now; }
-    editingId = null;
-    document.getElementById('compose-title-label').textContent = 'Nouvelle annonce';
-  } else {
-    announcements.unshift({ id: Date.now(), title, content, pole, status, date: now, author:'Admin' });
-  }
-  document.getElementById('ann-title').value = '';
-  document.getElementById('ann-content').innerHTML = '';
-  renderList();
-  showToast(status === 'published' ? 'Annonce publiée !' : 'Brouillon sauvegardé.', 'success');
-}
-
-function deleteAnn(id) {
-  if (confirm('Supprimer cette annonce ?')) {
-    announcements = announcements.filter(x => x.id !== id);
-    renderList();
-    showToast('Annonce supprimée.', 'danger');
-  }
-}
-
-function execCmd(cmd) {
-  document.execCommand(cmd, false, null);
-  document.getElementById('ann-content').focus();
-}
-
-function showToast(msg, type='success') {
-  const t = document.createElement('div');
-  t.style.cssText = `position:fixed;bottom:24px;right:24px;background:${type==='success'?'var(--success)':'var(--danger)'};color:#fff;padding:12px 18px;border-radius:4px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.2);`;
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 3000);
-}
-
-// filter btn style fix
-document.querySelectorAll('.filter-btn').forEach(b => {
-  b.addEventListener('click', function() {
-    document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
-    this.classList.add('active');
-  });
-});
-
-renderList();
-lucide.createIcons();
+// Placeholder for contenteditable
+const ca=document.getElementById('ann-content');
+ca.addEventListener('focus',()=>{if(ca.textContent===ca.dataset.placeholder)ca.textContent='';});
+ca.addEventListener('blur',()=>{if(!ca.textContent.trim())ca.textContent=ca.dataset.placeholder;});
+ca.textContent=ca.dataset.placeholder;
 </script>
 </body>
 </html>

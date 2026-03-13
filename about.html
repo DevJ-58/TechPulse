@@ -1,275 +1,185 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>À propos — TechPulse</title>
-  
-  <link rel="stylesheet" href="public.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>À propos — TechPulse</title>
+<link rel="stylesheet" href="public.css">
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><span class="dot"></span> TechPulse</a>
-    <div class="nav-links">
-      <a href="index.html">Accueil</a>
-      <a href="about.html" class="active">À propos</a>
-      <a href="index.html#poles">Pôles</a>
-      <a href="index.html#equipe">Équipe</a>
-    </div>
-    <div class="nav-cta">
-      <a href="admin/login.html" class="btn btn-ghost" style="font-size:13px;">
-        <i data-lucide="lock" style="width:14px;height:14px;"></i> Admin
-      </a>
-      <a href="join.html" class="btn btn-primary">
-        Rejoindre <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-      </a>
-    </div>
-    <button class="nav-burger" aria-label="Menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <div class="nav-drawer">
-      <div class="nav-drawer-header">
-        <a href="index.html" class="nav-logo"><span class="dot"></span> TechPulse</a>
-        <button class="nav-drawer-close" aria-label="Fermer">
-          <i data-lucide="x" style="width:20px;height:20px;"></i>
-        </button>
-      </div>
-      <div class="nav-drawer-divider"></div>
-      <div class="nav-drawer-links">
-        <a href="index.html">Accueil</a>
-        <a href="about.html" class="active">À propos</a>
-        <a href="index.html#poles">Pôles</a>
-        <a href="index.html#equipe">Équipe</a>
-      </div>
-      <div class="nav-drawer-divider"></div>
-      <div class="nav-drawer-cta">
-        <a href="admin/login.html" class="btn btn-ghost" style="font-size:12px;">
-          <i data-lucide="lock" style="width:14px;height:14px;"></i> Admin
-        </a>
-        <a href="join.html" class="btn btn-primary">
-          Rejoindre <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-        </a>
-      </div>
-    </div>
+    <a href="index.html" class="nav-logo"><span class="dot"></span>TechPulse</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="about.html" class="active">À propos</a></li>
+      <li><a href="join.html">Rejoindre</a></li>
+    </ul>
+    <a href="join.html" class="nav-cta">Candidater →</a>
+    <button class="nav-burger" id="burger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
   </div>
 </nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="index.html">Accueil</a>
+  <a href="about.html">À propos</a>
+  <a href="join.html">Rejoindre</a>
+  <a href="join.html" class="m-cta">Candidater →</a>
+</div>
 
-<!-- PAGE HERO -->
-<section class="page-hero">
-  <div class="container">
-    <div class="page-hero-label section-label">À propos</div>
-    <h1 class="page-hero-title">Un club. Un laboratoire.<br>Une ambition.</h1>
-    <p class="page-hero-sub">TechPulse n'est pas une simple association étudiante. C'est un écosystème d'apprentissage par la pratique, conçu pour forger les ingénieurs et développeurs qui feront la tech de demain.</p>
+<!-- HEADER -->
+<section class="about-header">
+  <div class="about-header-inner">
+    <div>
+      <div class="eyebrow">À propos</div>
+      <h1 class="h1">Ce qu'est<br><span style="color:var(--accent)">TechPulse.</span></h1>
+    </div>
+    <div class="about-intro">
+      <p>TechPulse est le club tech officiel de l'Université Internationale de Yamoussoukro (UIYA). Né de la conviction que la Côte d'Ivoire a besoin de bâtisseurs formés dans l'action, pas dans la théorie.</p>
+      <p>Nous ne sommes pas un club d'animation. Nous sommes un environnement de travail exigeant, structuré en trois pôles d'expertise, où chaque membre est sélectionné pour ce qu'il sait faire — et ce qu'il est prêt à apprendre.</p>
+      <p>La vision est large : commencer à l'UIYA, devenir un mouvement tech national. Chaque promotion est un maillon de cette chaîne.</p>
+    </div>
   </div>
 </section>
 
 <!-- VALEURS -->
-<section class="section-valeurs">
+<section class="section" style="border-bottom:1px solid var(--border);">
   <div class="container">
-    <div class="section-label" style="margin-bottom:16px;">Ce qui nous anime</div>
-    <h2 style="font-family:var(--font-display);font-size:clamp(28px,3.5vw,44px);font-weight:800;letter-spacing:-1.5px;">Nos valeurs fondamentales.</h2>
+    <div class="eyebrow">Ce qui nous guide</div>
+    <h2 class="h2">Nos valeurs fondamentales.</h2>
     <div class="valeurs-grid">
       <div class="valeur-card">
-        <div class="valeur-icon"><i data-lucide="hammer" style="width:20px;height:20px;"></i></div>
-        <div class="valeur-name">Faire avant tout</div>
-        <p class="valeur-desc">On apprend en construisant. Chaque concept théorique est immédiatement mis en pratique dans un projet concret.</p>
+        <div class="valeur-icon"><i data-lucide="target" style="width:16px;height:16px;color:var(--accent);"></i></div>
+        <div class="valeur-name">Exigence</div>
+        <p class="valeur-desc">On ne recrute pas pour remplir des rangs. Chaque membre passe par un processus de sélection rigoureux. La barre est haute parce que nos ambitions le sont.</p>
       </div>
       <div class="valeur-card">
-        <div class="valeur-icon"><i data-lucide="users" style="width:20px;height:20px;"></i></div>
-        <div class="valeur-name">Intelligence collective</div>
-        <p class="valeur-desc">Les meilleurs résultats viennent des équipes. Sprints en duo, grands projets collectifs — la collaboration est structurelle.</p>
+        <div class="valeur-icon"><i data-lucide="hammer" style="width:16px;height:16px;color:var(--accent);"></i></div>
+        <div class="valeur-name">Pratique</div>
+        <p class="valeur-desc">On apprend en faisant. Projets réels, challenges techniques, mises en situation. Pas de cours magistraux, pas de slides. Juste du travail concret.</p>
       </div>
       <div class="valeur-card">
-        <div class="valeur-icon"><i data-lucide="trending-up" style="width:20px;height:20px;"></i></div>
-        <div class="valeur-name">Progression continue</div>
-        <p class="valeur-desc">Tests réguliers (30% théorie, 70% pratique), feedbacks constants. On mesure les progrès, on ne les suppose pas.</p>
+        <div class="valeur-icon"><i data-lucide="users" style="width:16px;height:16px;color:var(--accent);"></i></div>
+        <div class="valeur-name">Collectif</div>
+        <p class="valeur-desc">L'intelligence individuelle est amplifiée par le groupe. On se tire vers le haut, on partage, on critique de façon constructive. Ensemble on va plus loin.</p>
       </div>
       <div class="valeur-card">
-        <div class="valeur-icon"><i data-lucide="compass" style="width:20px;height:20px;"></i></div>
-        <div class="valeur-name">Ambition réelle</div>
-        <p class="valeur-desc">On ne joue pas à la startup. On construit des projets vendables, on participe à des hackathons, on vise des partenariats.</p>
+        <div class="valeur-icon"><i data-lucide="zap" style="width:16px;height:16px;color:var(--accent);"></i></div>
+        <div class="valeur-name">Ambition</div>
+        <p class="valeur-desc">On vise grand. TechPulse aujourd'hui à l'UIYA, demain dans d'autres universités ivoiriennes. Chaque membre porte cette vision avec lui.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROGRAMME -->
-<section class="section-programme">
+<!-- PÔLES DÉTAIL -->
+<section class="section" style="border-bottom:1px solid var(--border);">
   <div class="container">
-    <div class="section-label" style="margin-bottom:16px;">Organisation</div>
-    <h2 style="font-family:var(--font-display);font-size:clamp(28px,3.5vw,44px);font-weight:800;letter-spacing:-1.5px;">Comment on travaille.</h2>
+    <div class="eyebrow">3 pôles d'expertise</div>
+    <h2 class="h2">Ce qu'on fait concrètement.</h2>
     <div class="programme-grid">
-      <div class="programme-sticky">
-        <div class="programme-nav">
-          <div class="prog-nav-item active">
-            <i data-lucide="book-open" style="width:15px;height:15px;"></i>
-            Structure des séances
-          </div>
-          <div class="prog-nav-item">
-            <i data-lucide="layers" style="width:15px;height:15px;"></i>
-            Organisation projets
-          </div>
-          <div class="prog-nav-item">
-            <i data-lucide="trophy" style="width:15px;height:15px;"></i>
-            Compétitions
-          </div>
-          <div class="prog-nav-item">
-            <i data-lucide="star" style="width:15px;height:15px;"></i>
-            Activités extra
-          </div>
-        </div>
+      <div class="prog-card">
+        <div class="prog-num">Pôle Dev</div>
+        <div class="prog-name">Développement Informatique</div>
+        <p class="prog-desc">Web full-stack, APIs REST, applications mobiles, architecture cloud. Les membres Dev construisent des outils utilisés par la communauté.</p>
       </div>
-
-      <div class="prog-blocks">
-        <!-- Séances -->
-        <div class="prog-block">
-          <div class="prog-block-header">
-            <div class="prog-block-icon"><i data-lucide="book-open" style="width:18px;height:18px;"></i></div>
-            <div>
-              <div class="prog-block-title">Structure des séances</div>
-              <div class="prog-block-sub">Format récurrent des sessions de travail</div>
-            </div>
-          </div>
-          <div class="prog-block-body">
-            <div class="prog-item">
-              <div class="prog-item-dot"></div>
-              <div class="prog-item-text">
-                <strong>Sessions théoriques & Masterclass</strong><br>
-                <span>Animées par nos aînés expérimentés, des professionnels du domaine ou des intervenants externes.</span>
-              </div>
-            </div>
-            <div class="prog-item">
-              <div class="prog-item-dot"></div>
-              <div class="prog-item-text">
-                <strong>Travaux Pratiques (TP)</strong><br>
-                <span>Mise en application directe des concepts vus en cours, guidée par les formateurs du pôle.</span>
-              </div>
-            </div>
-            <div class="prog-item">
-              <div class="prog-item-dot"></div>
-              <div class="prog-item-text">
-                <strong>Tests de contrôle</strong><br>
-                <span>30% théorique — 70% pratique. Pour s'assurer que tout le monde progresse réellement.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Projets -->
-        <div class="prog-block">
-          <div class="prog-block-header">
-            <div class="prog-block-icon"><i data-lucide="layers" style="width:18px;height:18px;"></i></div>
-            <div>
-              <div class="prog-block-title">Organisation des projets</div>
-              <div class="prog-block-sub">Du sprint court au grand projet collectif</div>
-            </div>
-          </div>
-          <div class="prog-block-body">
-            <div class="prog-item">
-              <div class="prog-item-dot"></div>
-              <div class="prog-item-text">
-                <strong>Sprints en DUO / TRIO</strong><br>
-                <span>Équipes formées aléatoirement. Objectif : livrer vite et bien. Évaluées sur la capacité à produire un résultat tangible.</span>
-              </div>
-            </div>
-            <div class="prog-item">
-              <div class="prog-item-dot"></div>
-              <div class="prog-item-text">
-                <strong>Grands Projets collectifs</strong><br>
-                <span>Une fois par période, tout le club s'unit pour construire un projet d'envergure. Cross-pôle, ambitieux, réel.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Compétitions -->
-        <div class="prog-block">
-          <div class="prog-block-header">
-            <div class="prog-block-icon"><i data-lucide="trophy" style="width:18px;height:18px;"></i></div>
-            <div>
-              <div class="prog-block-title">Compétitions</div>
-              <div class="prog-block-sub">Mesurer ses forces dans des contextes réels</div>
-            </div>
-          </div>
-          <div class="prog-block-body">
-            <div class="prog-item">
-              <div class="prog-item-dot"></div>
-              <div class="prog-item-text">
-                <strong>Compétitions internes</strong><br>
-                <span>Organisées en DUO/TRIO. Thèmes proposés par les formateurs ou des partenaires externes (entreprises, administrations).</span>
-              </div>
-            </div>
-            <div class="prog-item">
-              <div class="prog-item-dot"></div>
-              <div class="prog-item-text">
-                <strong>Hackathons externes</strong><br>
-                <span>Participation aux hackathons selon les offres disponibles. L'objectif : représenter le club et gagner.</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="prog-card">
+        <div class="prog-num">Pôle Sécu</div>
+        <div class="prog-name">Sécurité Informatique</div>
+        <p class="prog-desc">Pentest, CTF internes, analyse de vulnérabilités, sécurité réseau. Les membres Sécu cherchent les failles avant les attaquants.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-num">Pôle IoT</div>
+        <div class="prog-name">Électronique & IoT</div>
+        <p class="prog-desc">Arduino, Raspberry Pi, capteurs, protocoles sans fil. Les membres IoT fabriquent des objets connectés qui résolvent des problèmes réels.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-num">Sessions</div>
+        <div class="prog-name">Workshops hebdomadaires</div>
+        <p class="prog-desc">Chaque semaine, au moins un atelier pratique dans chaque pôle. Format court, dense, orienté résolution de problèmes.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-num">Projets</div>
+        <div class="prog-name">Projets transversaux</div>
+        <p class="prog-desc">Des équipes mixtes Dev + Sécu + IoT pour construire des solutions complètes. La vraie force du club : l'interdisciplinarité.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-num">Réseau</div>
+        <div class="prog-name">Connexions pro</div>
+        <p class="prog-desc">Liens avec des entreprises tech ivoiriennes et africaines. Stages, opportunités, mentors. Le réseau se construit dès la première année.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- REVENUS -->
-<section class="section-revenus">
+<!-- ÉQUIPE -->
+<section class="section" style="border-bottom:1px solid var(--border);">
   <div class="container">
-    <div class="section-label" style="margin-bottom:16px;">Modèle économique</div>
-    <h2 style="font-family:var(--font-display);font-size:clamp(28px,3.5vw,44px);font-weight:800;letter-spacing:-1.5px;">Un club qui s'autofinance.</h2>
-    <div class="revenus-grid">
-      <div class="revenu-card">
-        <div class="revenu-num">01</div>
-        <div class="revenu-title">Formations rémunérées</div>
-        <p class="revenu-desc">Organisation de formations en interne ou pour des externes sur des notions informatiques et concepts techniques. Tarification adaptée selon la situation.</p>
+    <div class="eyebrow">Les fondateurs</div>
+    <h2 class="h2">Ceux qui ont lancé TechPulse.</h2>
+    <div class="equipe-grid">
+      <div class="membre-card">
+        <div class="membre-avatar">KF</div>
+        <div class="membre-name">Kouadio Fréjus</div>
+        <div class="membre-role">Frontend & Direction créative</div>
+        <p class="membre-desc">Architecte des interfaces de TechPulse. Il conçoit l'expérience utilisateur et pilote la vision produit du club. Son truc : les UI qui ont de l'âme.</p>
       </div>
-      <div class="revenu-card">
-        <div class="revenu-num">02</div>
-        <div class="revenu-title">Vente de projets</div>
-        <p class="revenu-desc">Approcher des entreprises et proposer les projets réalisés en interne. Les projets du club deviennent des actifs commercialisables.</p>
+      <div class="membre-card">
+        <div class="membre-avatar" style="background:#CC2200;">DK</div>
+        <div class="membre-name">Djeke Koffi Kan Christ David</div>
+        <div class="membre-role">Base de données & Infrastructure</div>
+        <p class="membre-desc">Garant de l'architecture data et de l'infrastructure cloud. Il pense structure, scalabilité, fiabilité. Le socle invisible sur lequel tout repose.</p>
       </div>
-      <div class="revenu-card">
-        <div class="revenu-num">03</div>
-        <div class="revenu-title">Contributions membres</div>
-        <p class="revenu-desc">Un système de contribution interne pour financer les outils, les activités et les participations aux compétitions externes.</p>
+      <div class="membre-card">
+        <div class="membre-avatar" style="background:#007A3D;">DM</div>
+        <div class="membre-name">Diomande Keuwe Mickael</div>
+        <div class="membre-role">Backend & API</div>
+        <p class="membre-desc">Il construit la mécanique invisible de la plateforme. APIs, logique métier, sécurité des données. Python / FastAPI. Tout ce qui marche sans qu'on le voie.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
+<!-- CTA -->
+<div class="cta-band">
+  <div class="cta-band-inner">
     <div>
-      <div class="footer-brand"><span style="color:var(--accent);">●</span> TechPulse</div>
-      <p class="footer-tagline">Le club tech qui forge les<br>ingénieurs de demain.</p>
+      <h2 class="h2">Tu veux faire partie de l'aventure ?</h2>
+      <p>Candidature ouverte. Places limitées. Sois sérieux.</p>
+    </div>
+    <div class="cta-band-actions">
+      <a href="join.html" class="btn btn-accent btn-lg">Candidater maintenant</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo"><span class="dot"></span>TechPulse</div>
+      <p class="footer-desc">Le club technique de l'Université Internationale de Yamoussoukro. Dev, Sécu, IoT.</p>
     </div>
     <div class="footer-col">
-      <h5>Navigation</h5>
+      <div class="footer-col-title">Navigation</div>
       <a href="index.html">Accueil</a>
       <a href="about.html">À propos</a>
-      <a href="join.html">Rejoindre</a>
+      <a href="join.html">Candidater</a>
     </div>
     <div class="footer-col">
-      <h5>Pôles</h5>
-      <a href="#">Développement</a>
-      <a href="#">Sécurité</a>
-      <a href="#">Électronique</a>
+      <div class="footer-col-title">Contact</div>
+      <a href="mailto:admin@clubpulse.tech">admin@clubpulse.tech</a>
+      <a href="#">UIYA, Yamoussoukro</a>
+      <a href="#">Côte d'Ivoire</a>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 TechPulse</span>
-    <span>Fait avec rigueur et ambition.</span>
+    <span>© 2026 TechPulse — UIYA</span>
+    <span>Fait avec sérieux.</span>
   </div>
 </footer>
-
-<script>lucide.createIcons();</script>
-<script src="burger.js"></script>
+<script>
+lucide.createIcons();
+function toggleMenu(){document.getElementById('burger').classList.toggle('open');document.getElementById('nav-mobile').classList.toggle('open');}
+</script>
 </body>
 </html>

@@ -1,311 +1,235 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TechPulse — Club Tech Universitaire</title>
-  
-  <link rel="stylesheet" href="public.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechPulse — Club Tech UIYA</title>
+<link rel="stylesheet" href="public.css">
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
-<!-- NAVIGATION -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">
-      <span class="dot"></span> TechPulse
-    </a>
-    <div class="nav-links">
-      <a href="index.html" class="active">Accueil</a>
-      <a href="about.html">À propos</a>
-      <a href="index.html#poles">Pôles</a>
-      <a href="index.html#equipe">Équipe</a>
-    </div>
-    <div class="nav-cta">
-      <a href="admin/login.html" class="btn btn-ghost" style="font-size:13px;">
-        <i data-lucide="lock" style="width:14px;height:14px;"></i> Admin
-      </a>
-      <a href="join.html" class="btn btn-primary">
-        Rejoindre le club <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-      </a>
-    </div>
-    <button class="nav-burger" aria-label="Menu">
-      <span></span>
-      <span></span>
-      <span></span>
+    <a href="index.html" class="nav-logo"><span class="dot"></span>TechPulse</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Accueil</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="join.html">Rejoindre</a></li>
+    </ul>
+    <a href="join.html" class="nav-cta">Candidater →</a>
+    <button class="nav-burger" id="burger" aria-label="Menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
     </button>
-    <div class="nav-drawer">
-      <div class="nav-drawer-header">
-        <a href="index.html" class="nav-logo"><span class="dot"></span> TechPulse</a>
-        <button class="nav-drawer-close" aria-label="Fermer">
-          <i data-lucide="x" style="width:20px;height:20px;"></i>
-        </button>
-      </div>
-      <div class="nav-drawer-divider"></div>
-      <div class="nav-drawer-links">
-        <a href="index.html" class="active">Accueil</a>
-        <a href="about.html">À propos</a>
-        <a href="index.html#poles">Pôles</a>
-        <a href="index.html#equipe">Équipe</a>
-      </div>
-      <div class="nav-drawer-divider"></div>
-      <div class="nav-drawer-cta">
-        <a href="admin/login.html" class="btn btn-ghost" style="font-size:12px;">
-          <i data-lucide="lock" style="width:14px;height:14px;"></i> Admin
-        </a>
-        <a href="join.html" class="btn btn-primary">
-          Rejoindre le club <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-        </a>
-      </div>
-    </div>
   </div>
 </nav>
 
+<div class="nav-mobile" id="nav-mobile">
+  <a href="index.html">Accueil</a>
+  <a href="about.html">À propos</a>
+  <a href="join.html">Rejoindre</a>
+  <a href="join.html" class="m-cta">Candidater →</a>
+</div>
+
 <!-- HERO -->
 <section class="hero">
-  <div class="container">
-    <div class="hero-grid">
-      <div>
-        <div class="hero-eyebrow animate-fadeup">Club Tech Universitaire</div>
-        <h1 class="hero-title animate-fadeup delay-1">
-          Forger les <em>talents</em> de demain.
-        </h1>
-        <p class="hero-desc animate-fadeup delay-2">
-          Un mouvement de jeunes développeurs, ingénieurs et makers. On apprend ensemble, on construit des choses réelles, et on vise haut.
-        </p>
-        <div class="hero-actions animate-fadeup delay-3">
-          <a href="join.html" class="btn btn-primary btn-lg">
-            Candidater maintenant
-            <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>
-          </a>
-          <a href="about.html" class="btn btn-outline btn-lg">Découvrir le programme</a>
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow hero-eyebrow">Club Tech · UIYA · Yamoussoukro</div>
+      <h1 class="h1 hero-title anim-1">
+        On ne recrute<br><em>pas</em> — on<br>sélectionne.
+      </h1>
+      <p class="hero-desc anim-2">TechPulse est le club technique de l'Université Internationale de Yamoussoukro. Un espace pour ceux qui construisent, sécurisent et innovent.</p>
+      <div class="hero-actions anim-3">
+        <a href="join.html" class="btn btn-primary btn-lg">Candidater maintenant <span>→</span></a>
+        <a href="about.html" class="btn btn-outline btn-lg">Découvrir le club</a>
+      </div>
+    </div>
+    <div class="hero-aside">
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">3</div>
+          <div class="hero-stat-lbl">Pôles actifs</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">15</div>
+          <div class="hero-stat-lbl">Places / session</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">3</div>
+          <div class="hero-stat-lbl">Étapes de sélection</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">100%</div>
+          <div class="hero-stat-lbl">Pratique</div>
         </div>
       </div>
-      <div class="animate-fadeup delay-4">
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <i data-lucide="users" class="hero-stat-icon"></i>
-            <div class="hero-stat-num">3<span>+</span></div>
-            <div class="hero-stat-label">Pôles actifs</div>
-          </div>
-          <div class="hero-stat">
-            <i data-lucide="code-2" class="hero-stat-icon"></i>
-            <div class="hero-stat-num">0<span>1</span></div>
-            <div class="hero-stat-label">Promotion fondatrice</div>
-          </div>
-          <div class="hero-stat">
-            <i data-lucide="trophy" class="hero-stat-icon"></i>
-            <div class="hero-stat-num">∞</div>
-            <div class="hero-stat-label">Projets à construire</div>
-          </div>
-          <div class="hero-stat">
-            <i data-lucide="zap" class="hero-stat-icon"></i>
-            <div class="hero-stat-num">V<span>1</span></div>
-            <div class="hero-stat-label">En cours de déploiement</div>
-          </div>
-        </div>
+      <div class="hero-badge">
+        <span class="dot-live"></span>
+        Candidatures ouvertes — Session 2026
       </div>
     </div>
   </div>
 </section>
 
 <!-- MISSION -->
-<section class="section-mission">
-  <div class="container">
-    <div class="mission-grid">
-      <div>
-        <div class="section-label" style="margin-bottom:20px;">Notre mission</div>
-        <h2 class="mission-title">Pourquoi TechPulse ?</h2>
-      </div>
-      <div>
-        <p class="mission-body">
-          Nous sommes nés d'un constat simple : la formation académique ne suffit pas. Les <strong>vraies compétences</strong> se forgent dans la pratique, dans les projets qui tombent en panne à 2h du matin, dans les revues de code qui piquent un peu, dans les hackathons où tout se décide en 48h.
-        </p>
-        <p class="mission-body" style="margin-top:20px;">
-          TechPulse est l'espace où les <strong>étudiants ambitieux</strong> de notre université construisent, cassent, réparent et livrent. Pas pour une note. Pour la maîtrise.
-        </p>
-        <blockquote class="mission-quote">
-          "On ne rivalise pas avec les grands en les imitant. On les dépasse en construisant ce qu'ils n'ont pas encore imaginé."
-        </blockquote>
-      </div>
+<section class="section mission">
+  <div class="mission-inner">
+    <div>
+      <div class="eyebrow">Notre mission</div>
+      <blockquote class="mission-quote">
+        Former des <strong>bâtisseurs</strong>, pas des spectateurs.
+      </blockquote>
+    </div>
+    <div class="mission-body">
+      <p>TechPulse est né d'un constat simple : les compétences techniques se construisent par la pratique, pas par les cours magistraux. Nous créons un environnement où les étudiants travaillent sur de vrais projets, apprennent à collaborer sous pression et développent une expertise reconnue.</p>
+      <p>Notre processus de sélection est exigeant parce que nos standards le sont. Chaque membre de TechPulse est évalué sur ses compétences réelles, sa capacité à résoudre des problèmes et son état d'esprit. Sérieux, collectif, ambitieux.</p>
     </div>
   </div>
 </section>
 
-<!-- POLES -->
-<section class="section-poles" id="poles">
+<!-- PÔLES -->
+<section class="section poles">
   <div class="container">
-    <div class="poles-header">
-      <div>
-        <div class="section-label" style="margin-bottom:16px;">Nos spécialités</div>
-        <h2 class="poles-title">3 pôles,<br>1 vision.</h2>
-      </div>
-      <a href="join.html" class="btn btn-outline">
-        Choisir mon pôle <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-      </a>
-    </div>
+    <div class="eyebrow">3 pôles d'expertise</div>
+    <h2 class="h2">Choisissez votre domaine.</h2>
     <div class="poles-grid">
-
-      <!-- Dev -->
       <div class="pole-card">
-        <div class="pole-num">01</div>
-        <div class="pole-icon"><i data-lucide="code-2" style="width:22px;height:22px;"></i></div>
-        <h3 class="pole-name">Développement Informatique</h3>
-        <p class="pole-desc">Architecture logicielle, développement web & mobile, intelligence artificielle. Du concept à la production.</p>
+        <div class="pole-icon"><i data-lucide="code-2" style="width:18px;height:18px;"></i></div>
+        <div class="pole-num">Pôle 01</div>
+        <div class="pole-name">Développement Informatique</div>
+        <p class="pole-desc">Web, mobile, APIs, architecture logicielle. Tu codes des solutions, tu construis des produits. De la conception au déploiement.</p>
       </div>
-
-      <!-- Secu -->
       <div class="pole-card">
-        <div class="pole-num">02</div>
-        <div class="pole-icon"><i data-lucide="shield" style="width:22px;height:22px;"></i></div>
-        <h3 class="pole-name">Sécurité Informatique</h3>
-        <p class="pole-desc">Cryptographie, défense réseau, pentesting. Comprendre les failles pour mieux les anticiper.</p>
+        <div class="pole-icon"><i data-lucide="shield" style="width:18px;height:18px;"></i></div>
+        <div class="pole-num">Pôle 02</div>
+        <div class="pole-name">Sécurité Informatique</div>
+        <p class="pole-desc">Pentesting, CTF, sécurité réseau, analyse de vulnérabilités. Tu cherches les failles pour mieux défendre les systèmes.</p>
       </div>
-
-      <!-- IoT -->
       <div class="pole-card">
-        <div class="pole-num">03</div>
-        <div class="pole-icon"><i data-lucide="cpu" style="width:22px;height:22px;"></i></div>
-        <h3 class="pole-name">Électronique & IoT</h3>
-        <p class="pole-desc">Systèmes embarqués, robotique, objets connectés. Là où le code rencontre le monde physique.</p>
+        <div class="pole-icon"><i data-lucide="cpu" style="width:18px;height:18px;"></i></div>
+        <div class="pole-num">Pôle 03</div>
+        <div class="pole-name">Électronique & IoT</div>
+        <p class="pole-desc">Systèmes embarqués, microcontrôleurs, prototypes connectés. Tu fais dialoguer le matériel et le logiciel.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="section-how">
+<!-- PARCOURS -->
+<section class="section parcours">
   <div class="container">
-    <div class="how-header">
-      <div class="section-label" style="margin-bottom:16px;">Le parcours</div>
-      <h2 class="how-title">De candidat à bâtisseur.</h2>
-    </div>
-    <div class="how-steps">
-      <div class="how-step">
-        <div class="step-num">01</div>
-        <h3 class="step-title">Candidater</h3>
-        <p class="step-desc">Remplis le formulaire en ligne. Dis-nous qui tu es, ce qui te motive et quel pôle t'attire. Un CV, une conviction — c'est tout ce qu'il faut.</p>
+    <div class="eyebrow">Processus de sélection</div>
+    <h2 class="h2">3 étapes pour rejoindre TechPulse.</h2>
+    <div class="parcours-steps">
+      <div class="step">
+        <div class="step-num active">1</div>
+        <div>
+          <div class="step-name">Candidature</div>
+          <p class="step-desc">Remplis le formulaire en ligne. Présente-toi, choisis ton pôle, dis-nous ce qui te motive. Pas de CV requis.</p>
+        </div>
       </div>
-      <div class="how-step">
-        <div class="step-num">02</div>
-        <h3 class="step-title">Test de sélection</h3>
-        <p class="step-desc">Chaque pôle a ses propres critères. Un test rapide pour évaluer ton niveau de départ — pas pour éliminer, mais pour bien t'orienter.</p>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-name">Test hack-select</div>
+          <p class="step-desc">Un test en ligne chronométré, unique et non partageable. 15 minutes, 3 parties : théorie, pratique, situation. Adapté à ton pôle.</p>
+        </div>
       </div>
-      <div class="how-step">
-        <div class="step-num">03</div>
-        <h3 class="step-title">Rejoindre & construire</h3>
-        <p class="step-desc">Cours, TPs, sprints en duo/trio, grands projets collectifs et compétitions. Tu arrives étudiant, tu repars ingénieur.</p>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-name">Meet présentiel</div>
+          <p class="step-desc">Un entretien court avec l'équipe fondatrice. On se rencontre, on échange. C'est là que tout se décide.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ÉQUIPE -->
-<section class="section-team" id="equipe">
+<section class="section equipe">
   <div class="container">
-    <div class="team-header">
-      <div class="section-label" style="margin-bottom:16px;">Les fondateurs</div>
-      <h2 style="font-family:var(--font-display);font-size:clamp(28px,3.5vw,44px);font-weight:800;letter-spacing:-1px;">L'équipe derrière le mouvement.</h2>
-    </div>
-    <div class="team-grid">
-      <div class="team-member">
-        <div class="member-avatar">AK</div>
-        <div class="member-name">A. Koné</div>
-        <div class="member-role">Développement</div>
+    <div class="eyebrow">Les fondateurs</div>
+    <h2 class="h2">L'équipe derrière TechPulse.</h2>
+    <div class="equipe-grid">
+      <div class="membre-card">
+        <div class="membre-avatar">KF</div>
+        <div class="membre-name">Kouadio Fréjus</div>
+        <div class="membre-role">Frontend & Direction créative</div>
+        <p class="membre-desc">Architecte des interfaces de TechPulse. Il conçoit l'expérience utilisateur et pilote la vision produit du club.</p>
       </div>
-      <div class="team-member">
-        <div class="member-avatar">MB</div>
-        <div class="member-name">M. Bah</div>
-        <div class="member-role">Sécurité</div>
+      <div class="membre-card">
+        <div class="membre-avatar" style="background:#CC2200;">DK</div>
+        <div class="membre-name">Djeke Koffi Kan Christ David</div>
+        <div class="membre-role">Base de données & Infrastructure</div>
+        <p class="membre-desc">Responsable de l'architecture data et de l'infrastructure cloud. Il garantit que les systèmes tiennent sous la pression.</p>
       </div>
-      <div class="team-member">
-        <div class="member-avatar">FD</div>
-        <div class="member-name">F. Diabaté</div>
-        <div class="member-role">Électronique</div>
-      </div>
-      <div class="team-member">
-        <div class="member-avatar">OT</div>
-        <div class="member-name">O. Touré</div>
-        <div class="member-role">Développement</div>
-      </div>
-      <div class="team-member">
-        <div class="member-avatar">IN</div>
-        <div class="member-name">I. N'Diaye</div>
-        <div class="member-role">Sécurité</div>
-      </div>
-      <div class="team-member" style="background:var(--bg);cursor:pointer;" onclick="window.location='join.html'">
-        <div class="member-avatar" style="background:var(--border);color:var(--muted);">
-          <i data-lucide="plus" style="width:16px;height:16px;"></i>
-        </div>
-        <div class="member-name" style="color:var(--muted);">Et toi ?</div>
-        <div class="member-role">Rejoindre l'équipe</div>
+      <div class="membre-card">
+        <div class="membre-avatar" style="background:#007A3D;">DM</div>
+        <div class="membre-name">Diomande Keuwe Mickael</div>
+        <div class="membre-role">Backend & API</div>
+        <p class="membre-desc">Il construit la mécanique invisible de la plateforme. APIs, logique métier, sécurité des données — il orchestre tout.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA FINAL -->
-<section class="section-cta">
-  <div class="container">
-    <div class="cta-inner">
-      <div class="section-label" style="margin-bottom:24px;">Pret à commencer</div>
-      <h2 class="cta-title">Ta place est ici.<br>Tes idées aussi.</h2>
-      <p class="cta-desc">
-        Rejoins TechPulse. Construis des projets réels, apprends auprès de tes pairs, participe aux compétitions et trace ta voie dans la tech.
-      </p>
-      <a href="join.html" class="btn btn-primary btn-lg">
-        Soumettre ma candidature
-        <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>
-      </a>
-      <p class="cta-note">
-        <i data-lucide="info" style="width:13px;height:13px;"></i>
-        Entrée sur test de sélection — Toutes promotions acceptées
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
+<!-- CTA -->
+<div class="cta-band">
+  <div class="cta-band-inner">
     <div>
-      <div class="footer-brand">
-        <span style="color:var(--accent);">●</span> TechPulse
-      </div>
-      <p class="footer-tagline">Le club tech qui forge les<br>ingénieurs de demain.</p>
+      <h2 class="h2">Prêt à tenter ta chance ?</h2>
+      <p>Les places sont limitées. Sois parmi les premiers.</p>
+    </div>
+    <div class="cta-band-actions">
+      <a href="join.html" class="btn btn-accent btn-lg">Candidater maintenant</a>
+      <a href="about.html" class="btn btn-outline btn-lg" style="color:rgba(247,246,241,.6);border-color:rgba(255,255,255,.15);">En savoir plus</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo"><span class="dot"></span>TechPulse</div>
+      <p class="footer-desc">Le club technique de l'Université Internationale de Yamoussoukro. Développement, Sécurité, Électronique.</p>
     </div>
     <div class="footer-col">
-      <h5>Navigation</h5>
+      <div class="footer-col-title">Navigation</div>
       <a href="index.html">Accueil</a>
       <a href="about.html">À propos</a>
-      <a href="join.html">Rejoindre</a>
+      <a href="join.html">Candidater</a>
     </div>
     <div class="footer-col">
-      <h5>Pôles</h5>
-      <a href="#">Développement</a>
-      <a href="#">Sécurité</a>
-      <a href="#">Électronique</a>
+      <div class="footer-col-title">Contact</div>
+      <a href="mailto:admin@clubpulse.tech">admin@clubpulse.tech</a>
+      <a href="#">UIYA, Yamoussoukro</a>
+      <a href="#">Côte d'Ivoire</a>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 TechPulse — Tous droits réservés</span>
-    <span>Fait avec rigueur et ambition.</span>
+    <span>© 2026 TechPulse — Université Internationale de Yamoussoukro</span>
+    <span>Fait avec sérieux.</span>
   </div>
 </footer>
 
 <script>
-  lucide.createIcons();
-
-  // Counter animation
-  const counters = document.querySelectorAll('.hero-stat-num');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('animated');
-    });
-  }, { threshold: 0.5 });
-  counters.forEach(c => observer.observe(c));
+lucide.createIcons();
+function toggleMenu() {
+  const b = document.getElementById('burger');
+  const m = document.getElementById('nav-mobile');
+  b.classList.toggle('open');
+  m.classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  const m = document.getElementById('nav-mobile');
+  const b = document.getElementById('burger');
+  if (m.classList.contains('open') && !m.contains(e.target) && !b.contains(e.target)) {
+    m.classList.remove('open');
+    b.classList.remove('open');
+  }
+});
 </script>
-<script src="burger.js"></script>
 </body>
 </html>

@@ -1,311 +1,142 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hack-Select — TechPulse</title>
-  <link rel="stylesheet" href="../public.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { min-height: 100vh; display: flex; flex-direction: column; }
-
-    .test-nav {
-      height: var(--nav-h);
-      background: var(--text);
-      border-bottom: 1px solid #1E1E1E;
-      display: flex; align-items: center;
-      padding: 0 40px;
-      justify-content: space-between;
-    }
-    .test-nav-logo {
-      font-family: var(--font-display);
-      font-weight: 800; font-size: 17px;
-      color: var(--bg);
-      display: flex; align-items: center; gap: 10px;
-    }
-    .test-nav-logo .dot { width:8px;height:8px;background:var(--accent);border-radius:50%; }
-    .test-nav-tag {
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: rgba(247,246,241,0.4);
-      border: 1px solid #2A2A2A;
-      padding: 4px 12px; border-radius: 2px;
-    }
-
-    .access-wrap {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 1fr 520px;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 80px 40px;
-      gap: 80px;
-      align-items: center;
-      width: 100%;
-    }
-
-    /* LEFT INFO */
-    .access-eyebrow {
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--accent);
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 24px;
-    }
-    .access-eyebrow::before { content:''; width:24px; height:1px; background:var(--accent); }
-
-    .access-title {
-      font-family: var(--font-display);
-      font-size: clamp(36px, 4vw, 56px);
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -2px;
-      margin-bottom: 24px;
-    }
-    .access-desc {
-      font-size: 16px; color: var(--muted);
-      line-height: 1.7; max-width: 440px;
-      margin-bottom: 40px;
-    }
-
-    .info-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .info-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-    }
-    .info-block-icon {
-      width: 32px; height: 32px;
-      background: var(--tag-bg);
-      border-radius: var(--radius);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text); margin-bottom: 12px;
-    }
-    .info-block-label { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
-    .info-block-val { font-family: var(--font-display); font-size: 18px; font-weight: 700; }
-
-    /* RIGHT CARD */
-    .access-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
-    .access-card-header {
-      background: var(--text);
-      padding: 28px 32px;
-    }
-    .access-card-header-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: rgba(247,246,241,0.45);
-      margin-bottom: 8px;
-    }
-    .access-card-header-name {
-      font-family: var(--font-display);
-      font-size: 20px; font-weight: 700;
-      color: var(--bg);
-      display: flex; align-items: center; gap: 12px;
-    }
-    .pole-badge {
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      padding: 4px 10px; border-radius: 2px;
-      background: var(--accent); color: #fff;
-    }
-    .pole-badge.secu { background: var(--danger); }
-    .pole-badge.iot  { background: var(--success); }
-
-    .access-card-body { padding: 28px 32px; }
-
-    .checklist { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
-    .check-row {
-      display: flex; align-items: flex-start; gap: 12px;
-      font-size: 14px; line-height: 1.5;
-    }
-    .check-row-icon {
-      width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px;
-      background: #E0F2EA; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--success);
-    }
-    .check-row-icon.warn { background: #FFF4E0; color: #A05800; }
-
-    .divider-line { height:1px; background:var(--border); margin: 24px 0; }
-
-    .warning-box {
-      background: #FDEEE8;
-      border: 1px solid #F5C4B0;
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: 13px; color: var(--danger);
-      margin-bottom: 24px; line-height: 1.5;
-    }
-    .warning-box svg { flex-shrink:0; margin-top: 1px; }
-
-    .btn-start {
-      width: 100%;
-      background: var(--text);
-      color: var(--bg);
-      font-family: var(--font-body);
-      font-weight: 700; font-size: 15px;
-      padding: 16px;
-      border-radius: var(--radius);
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      transition: background 0.2s;
-    }
-    .btn-start:hover { background: var(--accent); }
-
-    .access-footer { text-align: center; font-size: 12px; color: var(--muted); margin-top: 16px; }
-
-    /* État : token invalide */
-    .invalid-state {
-      display: none;
-      flex: 1;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      text-align: center;
-      padding: 80px 20px;
-    }
-    .invalid-icon {
-      width: 64px; height: 64px;
-      background: #FDEEE8;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 24px;
-      color: var(--danger);
-    }
-    .invalid-title {
-      font-family: var(--font-display);
-      font-size: 28px; font-weight: 800;
-      letter-spacing: -1px; margin-bottom: 12px;
-    }
-    .invalid-desc { font-size: 15px; color: var(--muted); max-width: 400px; margin: 0 auto 28px; line-height: 1.6; }
-
-    @media (max-width: 900px) {
-      .access-wrap { grid-template-columns: 1fr; padding: 40px 20px; }
-      .info-grid { grid-template-columns: 1fr 1fr; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechPulse — Accès test</title>
+<link rel="stylesheet" href="test.css">
 </head>
 <body>
 
-<nav class="test-nav">
-  <div class="test-nav-logo">
-    <span class="dot"></span> TechPulse
-  </div>
-  <div class="test-nav-tag">Hack-Select · Session de sélection</div>
-</nav>
-
-<!-- État normal -->
-<div class="access-wrap" id="main-content">
-  <div>
-    <div class="access-eyebrow">Étape 2 sur 3</div>
-    <h1 class="access-title">Ton test de sélection t'attend.</h1>
-    <p class="access-desc">Ce test est personnel et confidentiel. Il est conçu pour évaluer ton niveau réel et ta façon de réfléchir — pas pour t'éliminer, mais pour te placer au bon endroit.</p>
-    <div class="info-grid">
-      <div class="info-block">
-        <div class="info-block-icon"><i data-lucide="clock" style="width:16px;height:16px;"></i></div>
-        <div class="info-block-label">Durée</div>
-        <div class="info-block-val">15 minutes</div>
-      </div>
-      <div class="info-block">
-        <div class="info-block-icon"><i data-lucide="layers" style="width:16px;height:16px;"></i></div>
-        <div class="info-block-label">Sections</div>
-        <div class="info-block-val">3 parties</div>
-      </div>
-      <div class="info-block">
-        <div class="info-block-icon"><i data-lucide="shield" style="width:16px;height:16px;"></i></div>
-        <div class="info-block-label">Tentatives</div>
-        <div class="info-block-val">1 seule</div>
-      </div>
-      <div class="info-block">
-        <div class="info-block-icon"><i data-lucide="wifi" style="width:16px;height:16px;"></i></div>
-        <div class="info-block-label">Connexion</div>
-        <div class="info-block-val">Requise</div>
-      </div>
-    </div>
+<!-- === ÉTAT VALIDE (par défaut) === -->
+<div class="access-shell" id="state-valid">
+  <div class="test-topbar">
+    <div class="test-logo">TechPulse</div>
+    <div class="test-topbar-tag">HACK-SELECT · SESSION 2026</div>
+    <div style="font-size:11px;color:var(--t-muted);letter-spacing:.04em;" id="clock-access"></div>
   </div>
 
-  <div>
-    <div class="access-card">
-      <div class="access-card-header">
-        <div class="access-card-header-label">Candidat identifié</div>
-        <div class="access-card-header-name">
-          Amara Koné
-          <span class="pole-badge" id="pole-badge">Dev</span>
+  <div class="boot-screen">
+    <div class="boot-inner">
+      <div class="boot-prompt">Lien de test personnel — 1 utilisation · 48h</div>
+
+      <h1 class="access-title">Test <em>Hack-Select</em></h1>
+      <p class="access-sub">Ce test évalue tes compétences réelles sur ton pôle. 15 minutes. Pas de retour en arrière.</p>
+
+      <!-- INFO GRID -->
+      <div class="access-info-grid">
+        <div class="aic">
+          <div class="aic-key">Durée totale</div>
+          <div class="aic-val">15 min</div>
+        </div>
+        <div class="aic">
+          <div class="aic-key">Questions</div>
+          <div class="aic-val">9</div>
+        </div>
+        <div class="aic">
+          <div class="aic-key">Parties</div>
+          <div class="aic-val">A · B · C</div>
+        </div>
+        <div class="aic">
+          <div class="aic-key">Tentatives</div>
+          <div class="aic-val">1 seule</div>
         </div>
       </div>
-      <div class="access-card-body">
-        <div class="checklist">
-          <div class="check-row">
-            <div class="check-row-icon"><i data-lucide="check" style="width:11px;height:11px;"></i></div>
-            <span><strong>Partie A — QCM :</strong> Questions à choix multiples sur les fondamentaux de ton pôle.</span>
+
+      <!-- CANDIDAT -->
+      <div class="cand-card">
+        <div class="cand-card-top">
+          <div>
+            <div class="cand-label">Candidat</div>
+            <div class="cand-name">Koné Aminata</div>
           </div>
-          <div class="check-row">
-            <div class="check-row-icon"><i data-lucide="check" style="width:11px;height:11px;"></i></div>
-            <span><strong>Partie B — Exercice pratique :</strong> Un problème concret à résoudre. Explique ta démarche.</span>
-          </div>
-          <div class="check-row">
-            <div class="check-row-icon"><i data-lucide="check" style="width:11px;height:11px;"></i></div>
-            <span><strong>Partie C — Mise en situation :</strong> Un scénario réel. Comment tu réagis, comment tu réfléchis.</span>
-          </div>
+          <span class="pole-badge">Dev</span>
         </div>
-        <div class="divider-line"></div>
-        <div class="warning-box">
-          <i data-lucide="alert-triangle" style="width:16px;height:16px;flex-shrink:0;margin-top:1px;"></i>
-          <span>Quitter cette page, changer d'onglet ou fermer le navigateur <strong>verrouillera définitivement ton test.</strong> Assure-toi d'être dans un endroit calme avant de commencer.</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;">
+          <div><span style="color:var(--t-muted);">Université</span><div style="color:var(--t-white);margin-top:2px;">UIYA</div></div>
+          <div><span style="color:var(--t-muted);">Expire dans</span><div style="color:var(--t-amber);font-weight:700;margin-top:2px;" id="expiry-countdown">23h 47m</div></div>
         </div>
-        <button class="btn-start" onclick="startTest()">
-          Démarrer le test maintenant
-          <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>
-        </button>
-        <div class="access-footer">Le chronomètre démarre dès que tu cliques</div>
       </div>
+
+      <!-- CHECKLIST -->
+      <div class="access-checks">
+        <div class="access-check">
+          <div class="check-bullet">✓</div>
+          <span>Partie A : 3 QCM · 20 secondes chacun · la page passe automatiquement</span>
+        </div>
+        <div class="access-check">
+          <div class="check-bullet">✓</div>
+          <span>Partie B : 3 exercices pratiques · 20 secondes chacun</span>
+        </div>
+        <div class="access-check">
+          <div class="check-bullet">✓</div>
+          <span>Partie C : 3 mises en situation · gère ton temps restant</span>
+        </div>
+        <div class="access-check">
+          <div class="check-bullet">✓</div>
+          <span>Tu peux naviguer entre les questions de la Partie C</span>
+        </div>
+      </div>
+
+      <!-- WARN -->
+      <div class="access-warn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Quitter la page durant le test = lien verrouillé définitivement. Reste sur cette fenêtre jusqu'à la fin.
+      </div>
+
+      <button class="start-btn" onclick="startTest()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Commencer le test maintenant
+      </button>
+      <div class="start-btn-sub">En cliquant, tu confirmes avoir lu les règles · Non réversible</div>
     </div>
   </div>
 </div>
 
-<!-- État token invalide / expiré -->
-<div class="invalid-state" id="invalid-state">
-  <div class="invalid-icon">
-    <i data-lucide="lock" style="width:28px;height:28px;"></i>
+<!-- === ÉTAT INVALIDE === -->
+<div class="access-shell" id="state-invalid" style="display:none;">
+  <div class="test-topbar">
+    <div class="test-logo">TechPulse</div>
+    <div class="test-topbar-tag">HACK-SELECT</div>
   </div>
-  <h2 class="invalid-title">Accès non autorisé</h2>
-  <p class="invalid-desc" id="invalid-msg">Ce lien est invalide, a déjà été utilisé ou a expiré. Contacte les administrateurs de TechPulse pour plus d'informations.</p>
-  <a href="../index.html" class="btn btn-outline">Retour au site</a>
+  <div class="invalid-shell">
+    <div class="invalid-inner">
+      <div class="invalid-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </div>
+      <h2 class="invalid-title">Lien invalide.</h2>
+      <p class="invalid-desc" id="invalid-reason">Ce lien de test est invalide ou a expiré. Si tu penses que c'est une erreur, contacte l'équipe TechPulse.</p>
+      <a href="mailto:admin@clubpulse.tech" class="back-btn">Contacter TechPulse →</a>
+    </div>
+  </div>
 </div>
 
 <script>
-lucide.createIcons();
+// Toggle états (démo)
+const params = new URLSearchParams(location.search);
+if(params.get('state') === 'invalid') showState('invalid', 'Ce lien a expiré ou a déjà été utilisé.');
+if(params.get('state') === 'used')    showState('invalid', 'Ce lien a déjà été utilisé. Chaque lien est personnel et à usage unique.');
+if(params.get('state') === 'expired') showState('invalid', 'Ce lien a expiré. Il était valable 48h après envoi.');
 
-// Simuler la vérification du token via URL
-const params = new URLSearchParams(window.location.search);
-const token  = params.get('token');
-const state  = params.get('state'); // 'used' | 'expired' pour démo
-
-if (state === 'used') {
-  document.getElementById('main-content').style.display  = 'none';
-  document.getElementById('invalid-state').style.display = 'flex';
-  document.getElementById('invalid-msg').textContent = 'Ce lien a déjà été utilisé. Chaque candidat ne dispose que d\'une seule tentative.';
-  lucide.createIcons();
-} else if (state === 'expired') {
-  document.getElementById('main-content').style.display  = 'none';
-  document.getElementById('invalid-state').style.display = 'flex';
-  lucide.createIcons();
+function showState(s, reason) {
+  document.getElementById('state-valid').style.display = 'none';
+  document.getElementById('state-invalid').style.display = 'flex';
+  if(reason) document.getElementById('invalid-reason').textContent = reason;
 }
 
-function startTest() {
-  // Transmettre le token et le pôle à la page exam
-  const pole = 'dev'; // viendra du token en prod
-  window.location.href = `exam.html?token=${token || 'demo'}&pole=${pole}`;
+function startTest() { window.location.href = 'exam.html'; }
+
+// Clock
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const el = document.getElementById('clock-access');
+  if(el) el.textContent = h+':'+m+':'+s;
 }
+setInterval(updateClock, 1000);
+updateClock();
 </script>
 </body>
 </html>
