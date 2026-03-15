@@ -7,6 +7,26 @@ import { qs } from '../../utils/dom.utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   requireAdmin();
+
+  // Burger menu functionality
+  const burger = qs('#topbar-burger');
+  const sidebar = qs('#sidebar');
+  const overlay = qs('.sidebar-overlay');
+
+  if (burger && sidebar) {
+    burger.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      overlay?.classList.toggle('show');
+    });
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+    });
+  }
+
   const statsEls = {
     candidatures: qs('#stat-candidatures'),
     tests: qs('#stat-tests'),
