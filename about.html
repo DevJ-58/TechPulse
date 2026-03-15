@@ -178,6 +178,17 @@
     <span>Fait avec sérieux.</span>
   </div>
 </footer>
-<script type="module" src="./js/public/about.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const burger = document.querySelector('#burger');
+  const mobileNav = document.querySelector('#nav-mobile');
+  if (burger && mobileNav) {
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+    });
+  }
+});
+</script>
 </body>
 </html>

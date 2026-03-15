@@ -309,6 +309,28 @@
 </div>
 
 <div class="toast" id="toast"></div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Burger menu functionality for admin
+  const burger = document.querySelector('#topbar-burger');
+  const sidebar = document.querySelector('#sidebar');
+  const overlay = document.querySelector('.sidebar-overlay');
+
+  if (burger && sidebar) {
+    burger.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      if (overlay) overlay.classList.toggle('show');
+    });
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+    });
+  }
+});
+</script>
 <script type="module" src="./js/parametres.js"></script>
 </body>
 </html>

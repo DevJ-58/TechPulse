@@ -316,6 +316,27 @@ function openSidebar(){document.getElementById('sidebar').classList.add('open');
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
 document.getElementById('nl-editeur').classList.add('active');
 
+// Burger menu functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const burger = document.querySelector('#topbar-burger');
+  const sidebar = document.querySelector('#sidebar');
+  const overlay = document.querySelector('.sidebar-overlay');
+
+  if (burger && sidebar) {
+    burger.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      if (overlay) overlay.classList.toggle('show');
+    });
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+    });
+  }
+});
+
 function switchPole(el,pole){
   document.querySelectorAll('.pole-nav').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
