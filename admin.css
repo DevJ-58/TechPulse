@@ -317,9 +317,19 @@ ul {
     animation: slideIn .4s cubic-bezier(.4, 0, .2, 1);
   }
 
+  .topbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 150;
+  }
+
   .main {
     margin-left: 0;
     overflow-x: hidden;
+    padding-top: var(--topbar-h);
   }
 
   .sidebar-overlay {
