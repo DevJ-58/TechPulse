@@ -3,6 +3,7 @@
 
 const API_CONFIG = {
   BASE_URL: "https://pulseclub-backend.onrender.com",
+  TIMEOUT: 15000, // ms (set to 0 to disable)
 
   ENDPOINTS: {
 

@@ -26,7 +26,8 @@ function buildUrl(endpoint, params = {}) {
  */
 async function request(method, endpoint, params = {}, body = null) {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.TIMEOUT);
+  const timeoutMs = typeof API_CONFIG.TIMEOUT === 'number' ? API_CONFIG.TIMEOUT : 0;
+  const timeoutId = timeoutMs > 0 ? setTimeout(() => controller.abort(), timeoutMs) : null;
   let url = API_CONFIG.BASE_URL + buildUrl(endpoint, params);
   const headers = {
     'Content-Type': 'application/json',
