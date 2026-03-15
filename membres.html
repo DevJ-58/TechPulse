@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
 <title>Membres — TechPulse Admin</title>
 <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <div class="sidebar-logo"><span class="dot"></span>TechPulse</div>
+    <div class="sidebar-logo"><img src="images/1773340127513.png" alt="TechPulse Logo"></div>
     <div class="sidebar-sub">Administration</div>
   </div>
   <nav class="sidebar-nav">
@@ -74,11 +75,8 @@
   </header>
   <div class="content">
 
-    <div class="grid-4" style="margin-bottom:18px;">
-      <div class="stat-card"><div class="stat-label">Membres actifs</div><div class="stat-value">4</div><div class="stat-meta">Session 2026</div></div>
-      <div class="stat-card"><div class="stat-label">Pôle Dev</div><div class="stat-value">2</div><div class="stat-meta">membres</div></div>
-      <div class="stat-card"><div class="stat-label">Pôle Sécu</div><div class="stat-value">1</div><div class="stat-meta">membre</div></div>
-      <div class="stat-card"><div class="stat-label">Pôle IoT</div><div class="stat-value">1</div><div class="stat-meta">membre</div></div>
+    <div class="grid-4" style="margin-bottom:18px;" id="membres-stats-loading">
+      <div class="loading-state">Chargement des statistiques…</div>
     </div>
 
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
@@ -95,121 +93,14 @@
     </div>
 
     <div class="membres-grid">
-      <div class="m-card">
-        <div class="m-card-top">
-          <div class="m-av" style="background:var(--accent-bg);color:var(--accent);">TM</div>
-          <div>
-            <div class="m-name">Traoré Moussa</div>
-            <div class="m-pole" style="color:var(--accent);">Dev</div>
-          </div>
-          <span class="tag tag-success" style="margin-left:auto;">Actif</span>
-        </div>
-        <div class="m-meta">
-          <span>M2 · Informatique</span>
-          <span>Score : 83%</span>
-        </div>
-        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;">
-          <button class="btn btn-ghost btn-sm" onclick="showToast('Email envoyé à Moussa')">Email</button>
-          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="openMemberPanel('Traoré Moussa','TM','dev')">Voir profil</button>
-        </div>
-      </div>
-
-      <div class="m-card">
-        <div class="m-card-top">
-          <div class="m-av" style="background:var(--danger-bg);color:var(--danger);">CM</div>
-          <div>
-            <div class="m-name">Coulibaly Mariama</div>
-            <div class="m-pole" style="color:var(--danger);">Sécu</div>
-          </div>
-          <span class="tag tag-success" style="margin-left:auto;">Actif</span>
-        </div>
-        <div class="m-meta">
-          <span>L3 · Réseaux</span>
-          <span>Score : 76%</span>
-        </div>
-        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;">
-          <button class="btn btn-ghost btn-sm" onclick="showToast('Email envoyé')">Email</button>
-          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="openMemberPanel('Coulibaly Mariama','CM','secu')">Voir profil</button>
-        </div>
-      </div>
-
-      <div class="m-card">
-        <div class="m-card-top">
-          <div class="m-av" style="background:var(--success-bg);color:var(--success);">NK</div>
-          <div>
-            <div class="m-name">N'Goran Kouakou</div>
-            <div class="m-pole" style="color:var(--accent);">Dev</div>
-          </div>
-          <span class="tag tag-success" style="margin-left:auto;">Actif</span>
-        </div>
-        <div class="m-meta">
-          <span>M1 · Informatique</span>
-          <span>Score : 71%</span>
-        </div>
-        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;">
-          <button class="btn btn-ghost btn-sm" onclick="showToast('Email envoyé')">Email</button>
-          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="openMemberPanel('N\'Goran Kouakou','NK','dev')">Voir profil</button>
-        </div>
-      </div>
-
-      <div class="m-card">
-        <div class="m-card-top">
-          <div class="m-av" style="background:rgba(34,153,255,.12);color:#2299FF;">AS</div>
-          <div>
-            <div class="m-name">Assane Sow</div>
-            <div class="m-pole" style="color:#2299FF;">IoT</div>
-          </div>
-          <span class="tag tag-success" style="margin-left:auto;">Actif</span>
-        </div>
-        <div class="m-meta">
-          <span>L3 · Génie Élec.</span>
-          <span>Score : 68%</span>
-        </div>
-        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;">
-          <button class="btn btn-ghost btn-sm" onclick="showToast('Email envoyé')">Email</button>
-          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="openMemberPanel('Assane Sow','AS','iot')">Voir profil</button>
-        </div>
-      </div>
+      <div id="membres-loading" class="loading-state">Chargement des membres…</div>
+      <div id="membres-list"></div>
     </div>
 
     <!-- FONDATEURS -->
     <div style="margin-top:28px;">
       <div style="font-family:var(--font-display);font-size:14px;font-weight:700;margin-bottom:12px;">Équipe fondatrice</div>
-      <div class="membres-grid">
-        <div class="m-card" style="border-color:var(--accent);">
-          <div class="m-card-top">
-            <div class="m-av" style="background:var(--accent);color:#fff;">KF</div>
-            <div>
-              <div class="m-name">Kouadio Fréjus</div>
-              <div class="m-pole" style="color:var(--accent);">Fondateur · Frontend</div>
-            </div>
-            <span class="tag tag-accent" style="margin-left:auto;">Admin</span>
-          </div>
-          <div class="m-meta"><span>Direction créative</span></div>
-        </div>
-        <div class="m-card" style="border-color:var(--accent);">
-          <div class="m-card-top">
-            <div class="m-av" style="background:var(--accent);color:#fff;">DK</div>
-            <div>
-              <div class="m-name">Djeke Koffi K.C.D.</div>
-              <div class="m-pole" style="color:var(--accent);">Fondateur · Base de données</div>
-            </div>
-            <span class="tag tag-accent" style="margin-left:auto;">Admin</span>
-          </div>
-          <div class="m-meta"><span>Infrastructure & data</span></div>
-        </div>
-        <div class="m-card" style="border-color:var(--accent);">
-          <div class="m-card-top">
-            <div class="m-av" style="background:var(--accent);color:#fff;">DM</div>
-            <div>
-              <div class="m-name">Diomande K. Mickael</div>
-              <div class="m-pole" style="color:var(--accent);">Fondateur · Backend</div>
-            </div>
-            <span class="tag tag-accent" style="margin-left:auto;">Admin</span>
-          </div>
-          <div class="m-meta"><span>API & systèmes</span></div>
-        </div>
-      </div>
+      <div class="membres-grid" id="founders-list"></div>
     </div>
 
   </div>
@@ -227,31 +118,6 @@
 </div>
 
 <div class="toast" id="toast"></div>
-<script>
-function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.add('show');}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
-document.getElementById('nl-membres').classList.add('active');
-
-function openMemberPanel(name,init,pole){
-  const poleLabel={dev:'Développement',secu:'Sécurité',iot:'Électronique IoT'}[pole];
-  document.getElementById('p-name').textContent=name;
-  document.getElementById('p-body').innerHTML=`
-    <div style="text-align:center;padding:20px 0 24px;">
-      <div style="width:56px;height:56px;border-radius:var(--radius-lg);background:var(--accent);color:#fff;font-family:var(--font-display);font-weight:800;font-size:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">${init}</div>
-      <div style="font-family:var(--font-display);font-size:16px;font-weight:700;">${name}</div>
-      <span class="tag tag-success" style="margin-top:6px;">Membre actif</span>
-    </div>
-    <div style="font-size:13px;display:flex;flex-direction:column;gap:10px;">
-      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);">Pôle</span><span>${poleLabel}</span></div>
-      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);">Date d'admission</span><span>10 mars 2026</span></div>
-      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);">Score test</span><span>76%</span></div>
-      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);">WhatsApp</span><span style="color:var(--success);">Ajouté au groupe</span></div>
-    </div>`;
-  document.getElementById('det-panel').classList.add('open');
-  document.getElementById('det-overlay').classList.add('show');
-}
-function closePanels(){document.getElementById('det-panel').classList.remove('open');document.getElementById('det-overlay').classList.remove('show');}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
-</script>
+<script type="module" src="./js/membres.js"></script>
 </body>
 </html>

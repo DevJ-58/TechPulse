@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
 <title>Dashboard — TechPulse Admin</title>
 <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <div class="sidebar-logo"><span class="dot"></span>TechPulse</div>
+    <div class="sidebar-logo"><img src="images/h.png" alt="TechPulse Logo"></div>
     <div class="sidebar-sub">Administration</div>
   </div>
   <nav class="sidebar-nav">
@@ -60,12 +61,12 @@
     </div>
   </div>
 </aside>
-<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="sidebar-overlay" id="overlay"></div>
 
 <div class="main">
   <header class="topbar">
     <div class="topbar-left">
-      <button class="topbar-burger" onclick="openSidebar()"><span></span><span></span><span></span></button>
+      <button class="topbar-burger" id="topbar-burger"><span></span><span></span><span></span></button>
       <h1 class="topbar-title">Dashboard</h1>
     </div>
     <div class="topbar-actions">
@@ -79,23 +80,23 @@
     <div class="grid-4">
       <div class="stat-card">
         <div class="stat-label">Candidatures</div>
-        <div class="stat-value">24</div>
-        <div class="stat-meta">+3 cette semaine</div>
+        <div class="stat-value" id="stat-candidatures"><span class="loading-state">—</span></div>
+        <div class="stat-meta"><span class="loading-state">Chargement…</span></div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Tests envoyés</div>
-        <div class="stat-value">14</div>
-        <div class="stat-meta">10 complétés</div>
+        <div class="stat-value" id="stat-tests"><span class="loading-state">—</span></div>
+        <div class="stat-meta"><span class="loading-state">Chargement…</span></div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Meets planifiés</div>
-        <div class="stat-value">7</div>
-        <div class="stat-meta">3 à venir</div>
+        <div class="stat-value" id="stat-meets"><span class="loading-state">—</span></div>
+        <div class="stat-meta"><span class="loading-state">Chargement…</span></div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Membres admis</div>
-        <div class="stat-value">4</div>
-        <div class="stat-meta">sur 15 places</div>
+        <div class="stat-value" id="stat-membres"><span class="loading-state">—</span></div>
+        <div class="stat-meta"><span class="loading-state">Chargement…</span></div>
       </div>
     </div>
 
@@ -111,9 +112,9 @@
             <div class="pipeline-step-name">Candidatures</div>
           </div>
         </div>
-        <div class="pipeline-step-count">24</div>
-        <div class="pipeline-step-bar"><div class="pipeline-step-fill" style="width:100%"></div></div>
-        <div class="pipeline-step-meta">10 en attente de décision</div>
+        <div class="pipeline-step-count"><span class="loading-state">—</span></div>
+        <div class="pipeline-step-bar"><div class="pipeline-step-fill" style="width:0%"></div></div>
+        <div class="pipeline-step-meta"><span class="loading-state">Chargement…</span></div>
       </div>
       <div class="pipeline-arrow">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
@@ -128,9 +129,9 @@
             <div class="pipeline-step-name">Tests hack-select</div>
           </div>
         </div>
-        <div class="pipeline-step-count">14</div>
-        <div class="pipeline-step-bar"><div class="pipeline-step-fill" style="width:58%"></div></div>
-        <div class="pipeline-step-meta">10 complétés · 4 en attente</div>
+        <div class="pipeline-step-count"><span class="loading-state">—</span></div>
+        <div class="pipeline-step-bar"><div class="pipeline-step-fill" style="width:0%"></div></div>
+        <div class="pipeline-step-meta"><span class="loading-state">Chargement…</span></div>
       </div>
       <div class="pipeline-arrow">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
@@ -145,9 +146,9 @@
             <div class="pipeline-step-name">Meets présentiel</div>
           </div>
         </div>
-        <div class="pipeline-step-count">7</div>
-        <div class="pipeline-step-bar"><div class="pipeline-step-fill" style="width:29%"></div></div>
-        <div class="pipeline-step-meta">4 admis · 3 à venir</div>
+        <div class="pipeline-step-count"><span class="loading-state">—</span></div>
+        <div class="pipeline-step-bar"><div class="pipeline-step-fill" style="width:0%"></div></div>
+        <div class="pipeline-step-meta"><span class="loading-state">Chargement…</span></div>
       </div>
     </div>
 
@@ -156,40 +157,16 @@
       <div class="chart-box">
         <div class="chart-header">
           <span class="chart-title">Répartition par pôle</span>
-          <span class="tag tag-default">24 candidatures</span>
+          <span class="tag tag-default"><span class="loading-state">Chargement…</span></span>
         </div>
         <div class="chart-body">
-          <div class="bar-row">
-            <span class="bar-lbl">Dev Informatique</span>
-            <div class="bar-track"><div class="bar-fill" style="width:58%;background:var(--accent);"></div></div>
-            <span class="bar-num">14</span>
-          </div>
-          <div class="bar-row">
-            <span class="bar-lbl">Sécurité</span>
-            <div class="bar-track"><div class="bar-fill" style="width:29%;background:var(--danger);"></div></div>
-            <span class="bar-num">7</span>
-          </div>
-          <div class="bar-row">
-            <span class="bar-lbl">Électronique IoT</span>
-            <div class="bar-track"><div class="bar-fill" style="width:13%;background:var(--success);"></div></div>
-            <span class="bar-num">3</span>
-          </div>
+          <div class="bar-row"><span class="bar-lbl">Dev Informatique</span><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--accent);"></div></div><span class="bar-num loading-state">—</span></div>
+          <div class="bar-row"><span class="bar-lbl">Sécurité</span><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--danger);"></div></div><span class="bar-num loading-state">—</span></div>
+          <div class="bar-row"><span class="bar-lbl">Électronique IoT</span><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--success);"></div></div><span class="bar-num loading-state">—</span></div>
           <hr style="border:none;border-top:1px solid var(--border);margin:16px 0;">
-          <div class="bar-row">
-            <span class="bar-lbl" style="color:var(--muted);">L1–L2</span>
-            <div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--muted);"></div></div>
-            <span class="bar-num" style="color:var(--muted);">8</span>
-          </div>
-          <div class="bar-row">
-            <span class="bar-lbl" style="color:var(--muted);">L3–M1</span>
-            <div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--muted);"></div></div>
-            <span class="bar-num" style="color:var(--muted);">12</span>
-          </div>
-          <div class="bar-row">
-            <span class="bar-lbl" style="color:var(--muted);">M2</span>
-            <div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--muted);"></div></div>
-            <span class="bar-num" style="color:var(--muted);">4</span>
-          </div>
+          <div class="bar-row"><span class="bar-lbl" style="color:var(--muted);">L1–L2</span><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--muted);"></div></div><span class="bar-num loading-state" style="color:var(--muted);">—</span></div>
+          <div class="bar-row"><span class="bar-lbl" style="color:var(--muted);">L3–M1</span><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--muted);"></div></div><span class="bar-num loading-state" style="color:var(--muted);">—</span></div>
+          <div class="bar-row"><span class="bar-lbl" style="color:var(--muted);">M2</span><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--muted);"></div></div><span class="bar-num loading-state" style="color:var(--muted);">—</span></div>
         </div>
       </div>
       <div class="quick-actions">
@@ -234,35 +211,8 @@
           <thead><tr>
             <th>Candidat</th><th>Pôle</th><th>Niveau</th><th>Date</th><th>Statut</th><th></th>
           </tr></thead>
-          <tbody>
-            <tr>
-              <td><div class="td-name">Koné Aminata</div><div class="td-meta">aminata.kone@etudiant.uiya.ci</div></td>
-              <td><span class="tag tag-accent">Dev</span></td>
-              <td>L3</td><td>Aujourd'hui</td>
-              <td><span class="tag tag-warning">En attente</span></td>
-              <td class="td-actions"><button class="btn btn-ghost btn-icon" title="Voir">›</button></td>
-            </tr>
-            <tr>
-              <td><div class="td-name">Bah Ibrahim</div><div class="td-meta">ibrahim.bah@etudiant.uiya.ci</div></td>
-              <td><span class="tag tag-danger">Sécu</span></td>
-              <td>M1</td><td>Hier</td>
-              <td><span class="tag tag-warning">En attente</span></td>
-              <td class="td-actions"><button class="btn btn-ghost btn-icon">›</button></td>
-            </tr>
-            <tr>
-              <td><div class="td-name">Ouédraogo Fatou</div><div class="td-meta">fatou.ouedraogo@etudiant.uiya.ci</div></td>
-              <td><span class="tag tag-success">IoT</span></td>
-              <td>L2</td><td>Il y a 2j</td>
-              <td><span class="tag tag-accent">Test envoyé</span></td>
-              <td class="td-actions"><button class="btn btn-ghost btn-icon">›</button></td>
-            </tr>
-            <tr>
-              <td><div class="td-name">Traoré Moussa</div><div class="td-meta">moussa.traore@etudiant.uiya.ci</div></td>
-              <td><span class="tag tag-accent">Dev</span></td>
-              <td>M2</td><td>Il y a 3j</td>
-              <td><span class="tag tag-success">Meet planifié</span></td>
-              <td class="td-actions"><button class="btn btn-ghost btn-icon">›</button></td>
-            </tr>
+          <tbody id="recent-candidates-tbody">
+            <tr><td colspan="5"><span class="loading-state">Chargement…</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -270,10 +220,6 @@
 
   </div>
 </div>
-<script>
-function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.add('show');}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
-document.getElementById('nl-dashboard').classList.add('active');
-</script>
+<script type="module" src="./js/admin/dashboard.js"></script>
 </body>
 </html>

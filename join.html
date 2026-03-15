@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
 <title>Candidater — TechPulse</title>
 <link rel="stylesheet" href="public.css">
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -10,7 +11,7 @@
 <body>
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><span class="dot"></span>TechPulse</a>
+    <a href="index.html" class="nav-logo"><img src="images/1773340127513.png" alt="TechPulse Logo"></a>
     <ul class="nav-links">
       <li><a href="index.html">Accueil</a></li>
       <li><a href="about.html">À propos</a></li>
@@ -108,7 +109,7 @@
             </select>
           </div>
         </div>
-        <button class="btn btn-primary w-full" onclick="next(1)" style="margin-top:8px;">Continuer <span>→</span></button>
+        <button class="btn btn-primary w-full" id="btn-next-1" style="margin-top:8px;">Continuer <span>→</span></button>
       </div>
 
       <!-- ÉTAPE 2 : PÔLE -->
@@ -143,8 +144,8 @@
           </select>
         </div>
         <div style="display:flex;gap:10px;margin-top:8px;">
-          <button class="btn btn-outline" onclick="prev(2)" style="flex:1;">← Retour</button>
-          <button class="btn btn-primary" onclick="next(2)" style="flex:2;">Continuer →</button>
+          <button class="btn btn-outline" id="btn-prev-2" style="flex:1;">← Retour</button>
+          <button class="btn btn-primary" id="btn-next-2" style="flex:2;">Continuer →</button>
         </div>
       </div>
 
@@ -170,40 +171,14 @@
           </select>
         </div>
         <div style="display:flex;gap:10px;margin-top:8px;">
-          <button class="btn btn-outline" onclick="prev(3)" style="flex:1;">← Retour</button>
-          <button class="btn btn-accent" onclick="submit()" style="flex:2;">Envoyer ma candidature ✓</button>
+          <button class="btn btn-outline" id="btn-prev-3" style="flex:1;">← Retour</button>
+          <button class="btn btn-accent" id="btn-submit" style="flex:2;">Envoyer ma candidature ✓</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<script>
-lucide.createIcons();
-function toggleMenu(){document.getElementById('burger').classList.toggle('open');document.getElementById('nav-mobile').classList.toggle('open');}
-let current=1;
-function goTo(n){
-  document.querySelectorAll('.form-step').forEach(s=>s.classList.remove('active'));
-  document.getElementById('step-'+n).classList.add('active');
-  for(let i=1;i<=3;i++){
-    const d=document.getElementById('dot-'+i);
-    d.className='stepper-dot'+(i===n?' active':(i<n?' done':''));
-  }
-  document.getElementById('step-label').textContent=n+' sur 3';
-  current=n;
-  document.querySelector('.join-form-area').scrollTop=0;
-}
-function next(n){
-  if(n===1){if(!document.getElementById('prenom').value||!document.getElementById('email').value){alert('Remplis les champs obligatoires.');return;}}
-  if(n===2){if(!document.querySelector('input[name=pole]:checked')){alert('Choisis ton pôle.');return;}}
-  goTo(n+1);
-}
-function prev(n){goTo(n-1);}
-function submit(){
-  if(!document.getElementById('motivation').value){alert('La motivation est obligatoire.');return;}
-  document.getElementById('form-content').style.display='none';
-  document.getElementById('success').classList.add('show');
-}
-</script>
+<script type="module" src="./js/public/join.js"></script>
 </body>
 </html>

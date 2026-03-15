@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
 <title>À propos — TechPulse</title>
 <link rel="stylesheet" href="public.css">
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -10,14 +11,14 @@
 <body>
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><span class="dot"></span>TechPulse</a>
+    <a href="index.html" class="nav-logo"><img src="images/1773340127513.png" alt="TechPulse Logo"></a>
     <ul class="nav-links">
       <li><a href="index.html">Accueil</a></li>
       <li><a href="about.html" class="active">À propos</a></li>
       <li><a href="join.html">Rejoindre</a></li>
     </ul>
     <a href="join.html" class="nav-cta">Candidater →</a>
-    <button class="nav-burger" id="burger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    <button class="nav-burger" id="burger"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="nav-mobile" id="nav-mobile">
@@ -177,9 +178,6 @@
     <span>Fait avec sérieux.</span>
   </div>
 </footer>
-<script>
-lucide.createIcons();
-function toggleMenu(){document.getElementById('burger').classList.toggle('open');document.getElementById('nav-mobile').classList.toggle('open');}
-</script>
+<script type="module" src="./js/public/about.js"></script>
 </body>
 </html>

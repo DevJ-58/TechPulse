@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
 <title>TechPulse — Club Tech UIYA</title>
 <link rel="stylesheet" href="public.css">
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -11,14 +12,14 @@
 
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><span class="dot"></span>TechPulse</a>
+    <a href="index.html" class="nav-logo"><img src="images/1773340127513.png" alt="TechPulse Logo"></a>
     <ul class="nav-links">
       <li><a href="index.html" class="active">Accueil</a></li>
       <li><a href="about.html">À propos</a></li>
       <li><a href="join.html">Rejoindre</a></li>
     </ul>
     <a href="join.html" class="nav-cta">Candidater →</a>
-    <button class="nav-burger" id="burger" aria-label="Menu" onclick="toggleMenu()">
+    <button class="nav-burger" id="burger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -214,22 +215,6 @@
   </div>
 </footer>
 
-<script>
-lucide.createIcons();
-function toggleMenu() {
-  const b = document.getElementById('burger');
-  const m = document.getElementById('nav-mobile');
-  b.classList.toggle('open');
-  m.classList.toggle('open');
-}
-document.addEventListener('click', e => {
-  const m = document.getElementById('nav-mobile');
-  const b = document.getElementById('burger');
-  if (m.classList.contains('open') && !m.contains(e.target) && !b.contains(e.target)) {
-    m.classList.remove('open');
-    b.classList.remove('open');
-  }
-});
-</script>
+<script type="module" src="./js/public/index.js"></script>
 </body>
 </html>

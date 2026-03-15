@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
 <title>Meets — TechPulse Admin</title>
 <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <div class="sidebar-logo"><span class="dot"></span>TechPulse</div>
+    <div class="sidebar-logo"><img src="images/1773340127513.png" alt="TechPulse Logo"></div>
     <div class="sidebar-sub">Administration</div>
   </div>
   <nav class="sidebar-nav">
@@ -74,10 +75,8 @@
   </header>
   <div class="content">
 
-    <div class="meet-stats">
-      <div class="meet-stat-box"><div class="meet-stat-num">7</div><div class="meet-stat-lbl">Meets planifiés</div></div>
-      <div class="meet-stat-box"><div class="meet-stat-num">4</div><div class="meet-stat-lbl">Réalisés</div></div>
-      <div class="meet-stat-box"><div class="meet-stat-num">3</div><div class="meet-stat-lbl">À venir</div></div>
+    <div class="meet-stats" id="meet-stats-loading">
+      <div class="loading-state">Chargement des statistiques…</div>
     </div>
 
     <div class="meets-layout">
@@ -91,91 +90,9 @@
           </div>
         </div>
 
-        <!-- MEET CARD 1 — À VENIR -->
-        <div class="meet-card">
-          <div class="meet-card-hd">
-            <div class="meet-av">TM</div>
-            <div class="meet-info">
-              <div class="meet-name">Traoré Moussa</div>
-              <div class="meet-meta">Développement · M2 · Score test : 83%</div>
-            </div>
-            <div class="meet-date-bl">
-              <div class="meet-date-val">15 Mar 2026</div>
-              <div class="meet-date-time">10h00 – 10h30</div>
-            </div>
-            <span class="tag tag-accent">À venir</span>
-          </div>
-          <div class="meet-card-ft">
-            <span style="font-size:12px;color:var(--muted);">Salle B204 · UIYA</span>
-            <div style="display:flex;gap:7px;">
-              <button class="btn btn-sm btn-outline" onclick="openResultModal('Traoré Moussa','TM','dev')">Décision →</button>
-              <button class="btn btn-sm btn-ghost" onclick="showToast('Email rappel envoyé ✓')">Rappel email</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- MEET CARD 2 — À VENIR -->
-        <div class="meet-card">
-          <div class="meet-card-hd">
-            <div class="meet-av" style="background:rgba(34,153,255,.15);color:#2299FF;">OF</div>
-            <div class="meet-info">
-              <div class="meet-name">Ouédraogo Fatou</div>
-              <div class="meet-meta">Électronique IoT · L2 · Score test : 57%</div>
-            </div>
-            <div class="meet-date-bl">
-              <div class="meet-date-val">16 Mar 2026</div>
-              <div class="meet-date-time">14h00 – 14h30</div>
-            </div>
-            <span class="tag tag-accent">À venir</span>
-          </div>
-          <div class="meet-card-ft">
-            <span style="font-size:12px;color:var(--muted);">Salle B204 · UIYA</span>
-            <div style="display:flex;gap:7px;">
-              <button class="btn btn-sm btn-outline" onclick="openResultModal('Ouédraogo Fatou','OF','iot')">Décision →</button>
-              <button class="btn btn-sm btn-ghost" onclick="showToast('Email rappel envoyé ✓')">Rappel email</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- MEET CARD 3 — RÉALISÉ + ADMIS -->
-        <div class="meet-card" style="opacity:.75;">
-          <div class="meet-card-hd">
-            <div class="meet-av" style="background:rgba(0,122,61,.15);color:var(--success);">CM</div>
-            <div class="meet-info">
-              <div class="meet-name">Coulibaly Mariama</div>
-              <div class="meet-meta">Sécurité · L3 · Score test : 76%</div>
-            </div>
-            <div class="meet-date-bl">
-              <div class="meet-date-val">10 Mar 2026</div>
-              <div class="meet-date-time">11h00 – 11h30</div>
-            </div>
-            <span class="tag tag-success">Admise ✓</span>
-          </div>
-          <div class="meet-card-ft">
-            <span style="font-size:12px;color:var(--muted);">Réalisé</span>
-            <button class="btn btn-sm btn-ghost" onclick="showToast('Email admission déjà envoyé')">Email envoyé ✓</button>
-          </div>
-        </div>
-
-        <!-- MEET CARD 4 — RÉALISÉ + REFUSÉ -->
-        <div class="meet-card" style="opacity:.75;">
-          <div class="meet-card-hd">
-            <div class="meet-av" style="background:rgba(204,34,0,.1);color:var(--danger);">DS</div>
-            <div class="meet-info">
-              <div class="meet-name">Diallo Seydou</div>
-              <div class="meet-meta">Développement · L1 · Score test : 27%</div>
-            </div>
-            <div class="meet-date-bl">
-              <div class="meet-date-val">8 Mar 2026</div>
-              <div class="meet-date-time">09h00 – 09h30</div>
-            </div>
-            <span class="tag tag-danger">Refusé</span>
-          </div>
-          <div class="meet-card-ft">
-            <span style="font-size:12px;color:var(--muted);">Réalisé</span>
-            <button class="btn btn-sm btn-ghost" onclick="showToast('Email refus déjà envoyé')">Email envoyé ✓</button>
-          </div>
-        </div>
+        <!-- Zone dynamique : meet-cards -->
+        <div id="meets-loading" class="loading-state">Chargement des meets…</div>
+        <div id="meets-list"></div>
       </div>
 
       <!-- SIDEBAR SCHEDULE -->
@@ -184,33 +101,31 @@
         <div style="padding:16px;display:flex;flex-direction:column;gap:14px;">
           <div class="form-group" style="margin-bottom:0;">
             <label class="form-label">Candidat</label>
-            <select class="form-input form-select">
+            <select class="form-input form-select" id="meet-candidate-select">
               <option value="">Sélectionner…</option>
-              <option>Koné Aminata (Dev)</option>
-              <option>Bah Ibrahim (Sécu)</option>
             </select>
           </div>
           <div class="date-grid">
             <div class="form-group" style="margin-bottom:0;">
               <label class="form-label">Date</label>
-              <input type="date" class="form-input" value="2026-03-18">
+              <input type="date" class="form-input" id="meet-date-input">
             </div>
             <div class="form-group" style="margin-bottom:0;">
               <label class="form-label">Heure</label>
-              <input type="time" class="form-input" value="10:00">
+              <input type="time" class="form-input" id="meet-time-input">
             </div>
           </div>
           <div class="form-group" style="margin-bottom:0;">
             <label class="form-label">Lieu</label>
-            <input type="text" class="form-input" value="Salle B204 · UIYA">
+            <input type="text" class="form-input" id="meet-location-input">
           </div>
           <div class="form-group" style="margin-bottom:0;">
             <label class="form-label">Durée</label>
-            <select class="form-input form-select">
-              <option>30 minutes</option>
-              <option>45 minutes</option>
-              <option>1 heure</option>
-            </select>
+            <select class="form-input form-select" id="meet-duration-select">
+                <option value="30">30 minutes</option>
+                <option value="45">45 minutes</option>
+                <option value="60">1 heure</option>
+              </select>
           </div>
 
           <!-- APERÇU EMAIL -->
@@ -223,7 +138,7 @@
             <p style="margin-top:8px;">— L'équipe TechPulse</p>
           </div>
 
-          <button class="btn btn-primary w-full" onclick="scheduleAndSend()">Planifier & envoyer email</button>
+          <button class="btn btn-primary w-full" id="schedule-meet-btn">Planifier & envoyer email</button>
         </div>
       </div>
     </div>
@@ -235,7 +150,7 @@
   <div class="modal">
     <div class="modal-header">
       <h3 class="modal-title">Décision après meet</h3>
-      <span class="modal-close" onclick="closeModal()">✕</span>
+      <span class="modal-close" id="close-modal-btn">✕</span>
     </div>
     <div style="text-align:center;padding:8px 0 20px;">
       <div id="modal-av" style="width:52px;height:52px;border-radius:var(--radius-lg);font-family:var(--font-display);font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;background:var(--accent-bg);color:var(--accent);"></div>
@@ -256,33 +171,13 @@
     </div>
 
     <div class="modal-footer" style="justify-content:space-between;">
-      <button class="btn btn-danger" onclick="sendDecision('refuse')">✗ Refuser & envoyer email</button>
-      <button class="btn btn-success" onclick="sendDecision('admit')">✓ Admettre & envoyer email</button>
+      <button class="btn btn-danger" id="refuse-btn">✗ Refuser & envoyer email</button>
+      <button class="btn btn-success" id="admit-btn">✓ Admettre & envoyer email</button>
     </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
-<script>
-function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.add('show');}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
-document.getElementById('nl-meets').classList.add('active');
-
-function openResultModal(name,initials,pole){
-  const poleLabel={dev:'Développement',secu:'Sécurité',iot:'Électronique IoT'}[pole];
-  document.getElementById('modal-av').textContent=initials;
-  document.getElementById('modal-name').textContent=name;
-  document.getElementById('modal-pole').textContent='Pôle '+poleLabel;
-  document.getElementById('result-modal').classList.add('open');
-}
-function closeModal(){document.getElementById('result-modal').classList.remove('open');}
-function sendDecision(d){
-  closeModal();
-  showToast(d==='admit'?'Admission confirmée · Email envoyé ✓':'Refus envoyé · Email notifié');
-}
-function scheduleAndSend(){showToast('Meet planifié & email envoyé ✓');}
-function openScheduleModal(){document.querySelector('.meet-schedule').scrollIntoView({behavior:'smooth'});}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
-</script>
+<script type="module" src="./js/meets.js"></script>
 </body>
 </html>

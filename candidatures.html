@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
 <title>Candidatures — TechPulse Admin</title>
 <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <div class="sidebar-logo"><span class="dot"></span>TechPulse</div>
+    <div class="sidebar-logo"><img src="images/1773340127513.png" alt="TechPulse Logo"></div>
     <div class="sidebar-sub">Administration</div>
   </div>
   <nav class="sidebar-nav">
@@ -69,7 +70,7 @@
       <h1 class="topbar-title">Candidatures</h1>
     </div>
     <div class="topbar-actions">
-      <span class="tag tag-warning">10 en attente</span>
+      <span class="tag tag-warning"><span class="loading-state">Chargement…</span></span>
     </div>
   </header>
   <div class="content">
@@ -82,18 +83,18 @@
           <input type="text" placeholder="Rechercher un candidat…" oninput="filterTable(this.value)">
         </div>
         <div class="filter-bar">
-          <button class="filter-btn active" onclick="setFilter(this,'all')">Tous (24)</button>
-          <button class="filter-btn" onclick="setFilter(this,'attente')">En attente (10)</button>
-          <button class="filter-btn" onclick="setFilter(this,'test')">Test envoyé (8)</button>
-          <button class="filter-btn" onclick="setFilter(this,'meet')">Meet (4)</button>
-          <button class="filter-btn f-success" onclick="setFilter(this,'admis')">Admis (4)</button>
-          <button class="filter-btn f-danger" onclick="setFilter(this,'refuse')">Refusés (2)</button>
+          <button class="filter-btn active">Tous</button>
+          <button class="filter-btn">En attente</button>
+          <button class="filter-btn">Test envoyé</button>
+          <button class="filter-btn">Meet</button>
+          <button class="filter-btn f-success">Admis</button>
+          <button class="filter-btn f-danger">Refusés</button>
         </div>
         <div class="filter-bar">
-          <button class="filter-btn active" onclick="setFilter(this,'all-pole')">Tous pôles</button>
-          <button class="filter-btn" onclick="setFilter(this,'dev')">Dev</button>
-          <button class="filter-btn" onclick="setFilter(this,'secu')">Sécu</button>
-          <button class="filter-btn" onclick="setFilter(this,'iot')">IoT</button>
+          <button class="filter-btn active">Tous pôles</button>
+          <button class="filter-btn">Dev</button>
+          <button class="filter-btn">Sécu</button>
+          <button class="filter-btn">IoT</button>
         </div>
       </div>
       <div class="table-scroll">
@@ -101,59 +102,8 @@
           <thead><tr>
             <th>Candidat</th><th>Pôle</th><th>Niveau</th><th>Date</th><th>Statut</th><th>Actions</th>
           </tr></thead>
-          <tbody>
-            <tr data-status="attente" data-pole="dev">
-              <td><div class="td-name">Koné Aminata</div><div class="td-meta">aminata.kone@etudiant.uiya.ci · +225 07 12 34 56 78</div></td>
-              <td><span class="tag tag-accent">Dev</span></td><td>L3</td><td>Auj.</td>
-              <td><span class="tag tag-warning">En attente</span></td>
-              <td class="td-actions">
-                <button class="btn btn-sm btn-outline" onclick="openPanel('Koné Aminata','dev','attente')">Voir</button>
-                <button class="btn btn-sm btn-primary" onclick="sendTestEmail('Koné Aminata')">Envoyer test →</button>
-              </td>
-            </tr>
-            <tr data-status="attente" data-pole="secu">
-              <td><div class="td-name">Bah Ibrahim</div><div class="td-meta">ibrahim.bah@etudiant.uiya.ci · +225 07 98 76 54 32</div></td>
-              <td><span class="tag tag-danger">Sécu</span></td><td>M1</td><td>Hier</td>
-              <td><span class="tag tag-warning">En attente</span></td>
-              <td class="td-actions">
-                <button class="btn btn-sm btn-outline" onclick="openPanel('Bah Ibrahim','secu','attente')">Voir</button>
-                <button class="btn btn-sm btn-primary" onclick="sendTestEmail('Bah Ibrahim')">Envoyer test →</button>
-              </td>
-            </tr>
-            <tr data-status="test" data-pole="iot">
-              <td><div class="td-name">Ouédraogo Fatou</div><div class="td-meta">fatou.ouedraogo@etudiant.uiya.ci</div></td>
-              <td><span class="tag tag-success">IoT</span></td><td>L2</td><td>Il y a 2j</td>
-              <td><span class="tag tag-accent">Test envoyé</span></td>
-              <td class="td-actions">
-                <button class="btn btn-sm btn-outline" onclick="openPanel('Ouédraogo Fatou','iot','test')">Voir</button>
-                <a href="tests.html" class="btn btn-sm btn-ghost">Résultats</a>
-              </td>
-            </tr>
-            <tr data-status="meet" data-pole="dev">
-              <td><div class="td-name">Traoré Moussa</div><div class="td-meta">moussa.traore@etudiant.uiya.ci</div></td>
-              <td><span class="tag tag-accent">Dev</span></td><td>M2</td><td>Il y a 3j</td>
-              <td><span class="tag tag-success">Meet planifié</span></td>
-              <td class="td-actions">
-                <button class="btn btn-sm btn-outline" onclick="openPanel('Traoré Moussa','dev','meet')">Voir</button>
-                <a href="meets.html" class="btn btn-sm btn-ghost">Meet</a>
-              </td>
-            </tr>
-            <tr data-status="admis" data-pole="secu">
-              <td><div class="td-name">Coulibaly Mariama</div><div class="td-meta">mariama.coulibaly@etudiant.uiya.ci</div></td>
-              <td><span class="tag tag-danger">Sécu</span></td><td>L3</td><td>Il y a 5j</td>
-              <td><span class="tag tag-success">Admis</span></td>
-              <td class="td-actions">
-                <button class="btn btn-sm btn-outline" onclick="openPanel('Coulibaly Mariama','secu','admis')">Voir</button>
-              </td>
-            </tr>
-            <tr data-status="refuse" data-pole="dev">
-              <td><div class="td-name">Diallo Seydou</div><div class="td-meta">seydou.diallo@etudiant.uiya.ci</div></td>
-              <td><span class="tag tag-accent">Dev</span></td><td>L1</td><td>Il y a 6j</td>
-              <td><span class="tag tag-danger">Refusé</span></td>
-              <td class="td-actions">
-                <button class="btn btn-sm btn-outline" onclick="openPanel('Diallo Seydou','dev','refuse')">Voir</button>
-              </td>
-            </tr>
+          <tbody id="cand-table-tbody">
+            <tr><td colspan="6"><span class="loading-state">Chargement…</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -195,68 +145,6 @@
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script>
-function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.add('show');}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
-document.getElementById('nl-cand').classList.add('active');
-
-function setFilter(btn,f){btn.closest('.filter-bar').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
-
-function filterTable(q){
-  document.querySelectorAll('#cand-table tbody tr').forEach(r=>{
-    r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';
-  });
-}
-
-function openPanel(name,pole,status){
-  document.getElementById('p-name').textContent=name;
-  const poleLabel={dev:'Développement',secu:'Sécurité',iot:'Électronique IoT'}[pole]||pole;
-  const poleTag={dev:'tag-accent',secu:'tag-danger',iot:'tag-success'}[pole]||'tag-default';
-  document.getElementById('p-body').innerHTML=`
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
-      <div class="avatar-sm" style="width:42px;height:42px;font-size:14px;">${name.split(' ').map(w=>w[0]).slice(0,2).join('')}</div>
-      <div><div style="font-family:var(--font-display);font-size:15px;font-weight:700;">${name}</div><span class="tag ${poleTag}">${poleLabel}</span></div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
-      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
-        <span style="color:var(--muted);">Email</span><span>candidat@etudiant.uiya.ci</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
-        <span style="color:var(--muted);">Filière</span><span>Informatique · L3</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
-        <span style="color:var(--muted);">Niveau tech</span><span>Intermédiaire</span>
-      </div>
-      <div style="padding:10px 0;border-bottom:1px solid var(--border);">
-        <div style="color:var(--muted);margin-bottom:6px;">Motivation</div>
-        <div style="line-height:1.65;">Je veux rejoindre TechPulse pour progresser rapidement sur des projets réels, sortir de la théorie et construire des choses qui ont de la valeur.</div>
-      </div>
-      <div style="padding:10px 0;">
-        <div style="color:var(--muted);margin-bottom:6px;">Projet cité</div>
-        <div style="line-height:1.65;">Portfolio web en React/Node.js déployé sur Vercel. Gestion d'API REST, authentification JWT.</div>
-      </div>
-    </div>`;
-  let footer='';
-  if(status==='attente') footer=`<button class="btn btn-danger btn-sm" onclick="refuseCandidat('${name}')">Refuser</button><button class="btn btn-primary" onclick="sendTestEmail('${name}')">Envoyer test →</button>`;
-  else if(status==='test') footer=`<a href="tests.html" class="btn btn-outline btn-sm">Voir résultats</a>`;
-  else if(status==='meet') footer=`<button class="btn btn-danger btn-sm" onclick="toast('Refus envoyé')">Refuser</button><button class="btn btn-success" onclick="toast('Admission confirmée ✓')">Admettre ✓</button>`;
-  else if(status==='admis') footer=`<span class="tag tag-success">✓ Admis au club</span>`;
-  document.getElementById('p-footer').innerHTML=footer;
-  document.getElementById('det-panel').classList.add('open');
-  document.getElementById('det-overlay').classList.add('show');
-}
-function closePanel(){document.getElementById('det-panel').classList.remove('open');document.getElementById('det-overlay').classList.remove('show');}
-
-function sendTestEmail(name){document.getElementById('modal-cand-name').textContent=name;document.getElementById('test-modal').classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-function confirmSendTest(){closeModal('test-modal');closePanel();showToast('Lien de test envoyé ✓');}
-function refuseCandidat(name){closePanel();showToast('Refus envoyé à '+name);}
-
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
-}
-</script>
+<script type="module" src="./js/admin/candidatures.js"></script>
 </body>
 </html>

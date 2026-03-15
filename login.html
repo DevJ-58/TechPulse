@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
 <title>Connexion — TechPulse Admin</title>
 <link rel="stylesheet" href="admin.css">
 <style>
 body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
 .login-wrap{width:100%;max-width:400px;}
-.login-logo{font-family:var(--font-display);font-weight:800;font-size:20px;display:flex;align-items:center;gap:9px;margin-bottom:40px;}
-.login-logo .dot{width:8px;height:8px;background:var(--accent);border-radius:50%;}
+.login-logo{display:flex;align-items:center;gap:9px;margin-bottom:40px;}
+.login-logo img { height: 64px; }
 .login-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;}
 .login-title{font-family:var(--font-display);font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px;}
 .login-sub{font-size:13px;color:var(--muted);margin-bottom:28px;}
@@ -20,31 +21,26 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;pad
 </head>
 <body>
 <div class="login-wrap">
-  <div class="login-logo"><span class="dot"></span>TechPulse <span style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;">Admin</span></div>
-  <div class="login-box">
-    <h2 class="login-title">Connexion</h2>
-    <p class="login-sub">Espace réservé aux administrateurs du club.</p>
-    <div class="login-error" id="login-error">Email ou mot de passe incorrect.</div>
-    <div class="form-group">
-      <label class="form-label">Email admin</label>
-      <input type="email" class="form-input" id="email" placeholder="admin@clubpulse.tech" value="admin@clubpulse.tech">
+  <div class="login-logo"><img src="images/1773340127513.png" alt="TechPulse Logo"> <span style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;">Admin</span></div>
+    <div class="login-box">
+      <h2 class="login-title">Connexion</h2>
+      <p class="login-sub">Espace réservé aux administrateurs du club.</p>
+      <div class="login-error" id="login-error">Email ou mot de passe incorrect.</div>
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label">Email admin</label>
+          <input type="email" class="form-input" id="email" placeholder="admin@clubpulse.tech">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mot de passe</label>
+          <input type="password" class="form-input" id="pwd" placeholder="••••••••">
+        </div>
+        <button class="btn btn-primary w-full" style="margin-top:8px;" type="submit">Se connecter →</button>
+        <div class="loading-state" style="display:none">Chargement…</div>
+      </form>
     </div>
-    <div class="form-group">
-      <label class="form-label">Mot de passe</label>
-      <input type="password" class="form-input" id="pwd" placeholder="••••••••" value="admin123">
-    </div>
-    <button class="btn btn-primary w-full" style="margin-top:8px;" onclick="login()">Se connecter →</button>
-  </div>
   <div class="login-footer">TechPulse — Université Internationale de Yamoussoukro</div>
 </div>
-<script>
-function login(){
-  const e=document.getElementById('email').value;
-  const p=document.getElementById('pwd').value;
-  if(e&&p){window.location.href='dashboard.html';}
-  else{document.getElementById('login-error').classList.add('show');}
-}
-document.addEventListener('keydown',e=>{if(e.key==='Enter')login();});
-</script>
+<script type="module" src="./js/admin/login.js"></script>
 </body>
 </html>

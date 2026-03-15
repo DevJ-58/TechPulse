@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
 <title>Éditeur de tests — TechPulse Admin</title>
 <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <div class="sidebar-logo"><span class="dot"></span>TechPulse</div>
+    <div class="sidebar-logo"><img src="images/1773340127513.png" alt="TechPulse Logo"></div>
     <div class="sidebar-sub">Administration</div>
   </div>
   <nav class="sidebar-nav">
@@ -80,13 +81,13 @@
       <div class="editeur-side">
         <div class="editeur-side-hd">Pôles</div>
         <div class="pole-nav active" onclick="switchPole(this,'dev')" data-pole="dev">
-          Développement <span class="qc" id="qc-dev">9</span>
+          Développement <span class="qc" id="qc-dev"><span class="loading-state">Chargement…</span></span>
         </div>
         <div class="pole-nav" onclick="switchPole(this,'secu')" data-pole="secu">
-          Sécurité <span class="qc" id="qc-secu">9</span>
+          Sécurité <span class="qc" id="qc-secu"><span class="loading-state">Chargement…</span></span>
         </div>
         <div class="pole-nav" onclick="switchPole(this,'iot')" data-pole="iot">
-          Électronique IoT <span class="qc" id="qc-iot">9</span>
+          Électronique IoT <span class="qc" id="qc-iot"><span class="loading-state">Chargement…</span></span>
         </div>
         <div style="padding:14px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);line-height:1.6;">
           <strong style="color:var(--text);">Structure du test :</strong><br>
@@ -95,31 +96,7 @@
           Partie C — 3 Situations (temps libre)
         </div>
       </div>
-
-      <!-- MAIN EDITOR -->
-      <div id="editor-main">
-
-        <!-- DEV -->
-        <div class="pole-content active" id="pole-dev">
-          <div class="editeur-hd-bar">
-            <div>
-              <div style="font-family:var(--font-display);font-size:15px;font-weight:700;">Pôle Développement</div>
-              <div style="font-size:12px;color:var(--muted);">9 questions · 15 minutes total</div>
-            </div>
-            <div style="display:flex;gap:8px;">
-              <span class="tag tag-accent">Dev</span>
-            </div>
-          </div>
-
-          <!-- PARTIE A -->
-          <div class="sec-grp-hd">
-            <span class="sec-grp-lbl">Partie A — QCM (3 × 20s)</span>
-            <button class="btn btn-sm btn-outline" onclick="addQuestion('dev','A')">+ Question</button>
-          </div>
-
-          <div class="q-card">
-            <div class="q-card-hd">
-              <span class="q-num-tag">A-1</span>
+<script type="module" src="./js/admin/editeur.js"></script>
               <div style="display:flex;gap:6px;">
                 <span class="tag tag-default">QCM · 20s</span>
                 <button class="btn btn-ghost btn-icon btn-sm" onclick="deleteQ(this)" title="Supprimer">✕</button>

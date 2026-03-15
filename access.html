@@ -3,79 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
 <title>TechPulse — Accès test</title>
 <link rel="stylesheet" href="test.css">
 </head>
 <body>
-
-<!-- === ÉTAT VALIDE (par défaut) === -->
-<div class="access-shell" id="state-valid">
-  <div class="test-topbar">
-    <div class="test-logo">TechPulse</div>
-    <div class="test-topbar-tag">HACK-SELECT · SESSION 2026</div>
-    <div style="font-size:11px;color:var(--t-muted);letter-spacing:.04em;" id="clock-access"></div>
-  </div>
-
-  <div class="boot-screen">
-    <div class="boot-inner">
-      <div class="boot-prompt">Lien de test personnel — 1 utilisation · 48h</div>
-
-      <h1 class="access-title">Test <em>Hack-Select</em></h1>
-      <p class="access-sub">Ce test évalue tes compétences réelles sur ton pôle. 15 minutes. Pas de retour en arrière.</p>
-
-      <!-- INFO GRID -->
-      <div class="access-info-grid">
-        <div class="aic">
-          <div class="aic-key">Durée totale</div>
-          <div class="aic-val">15 min</div>
-        </div>
-        <div class="aic">
-          <div class="aic-key">Questions</div>
-          <div class="aic-val">9</div>
-        </div>
-        <div class="aic">
-          <div class="aic-key">Parties</div>
-          <div class="aic-val">A · B · C</div>
-        </div>
-        <div class="aic">
-          <div class="aic-key">Tentatives</div>
-          <div class="aic-val">1 seule</div>
-        </div>
+<script type="module" src="./js/test/access.js"></script>
+        <div class="aic" id="access-parts-loading">
+            <div class="loading-state">Chargement des infos test…</div>
+          </div>
       </div>
 
       <!-- CANDIDAT -->
-      <div class="cand-card">
-        <div class="cand-card-top">
-          <div>
-            <div class="cand-label">Candidat</div>
-            <div class="cand-name">Koné Aminata</div>
-          </div>
-          <span class="pole-badge">Dev</span>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;">
-          <div><span style="color:var(--t-muted);">Université</span><div style="color:var(--t-white);margin-top:2px;">UIYA</div></div>
-          <div><span style="color:var(--t-muted);">Expire dans</span><div style="color:var(--t-amber);font-weight:700;margin-top:2px;" id="expiry-countdown">23h 47m</div></div>
-        </div>
+      <div class="cand-card" id="cand-card-loading">
+        <div class="loading-state">Chargement du candidat…</div>
       </div>
 
       <!-- CHECKLIST -->
-      <div class="access-checks">
-        <div class="access-check">
-          <div class="check-bullet">✓</div>
-          <span>Partie A : 3 QCM · 20 secondes chacun · la page passe automatiquement</span>
-        </div>
-        <div class="access-check">
-          <div class="check-bullet">✓</div>
-          <span>Partie B : 3 exercices pratiques · 20 secondes chacun</span>
-        </div>
-        <div class="access-check">
-          <div class="check-bullet">✓</div>
-          <span>Partie C : 3 mises en situation · gère ton temps restant</span>
-        </div>
-        <div class="access-check">
-          <div class="check-bullet">✓</div>
-          <span>Tu peux naviguer entre les questions de la Partie C</span>
-        </div>
+      <div class="access-checks" id="access-checks-loading">
+        <div class="loading-state">Chargement des consignes…</div>
       </div>
 
       <!-- WARN -->
@@ -84,7 +30,7 @@
         Quitter la page durant le test = lien verrouillé définitivement. Reste sur cette fenêtre jusqu'à la fin.
       </div>
 
-      <button class="start-btn" onclick="startTest()">
+      <button class="start-btn" id="start-test-btn">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         Commencer le test maintenant
       </button>
@@ -111,32 +57,6 @@
   </div>
 </div>
 
-<script>
-// Toggle états (démo)
-const params = new URLSearchParams(location.search);
-if(params.get('state') === 'invalid') showState('invalid', 'Ce lien a expiré ou a déjà été utilisé.');
-if(params.get('state') === 'used')    showState('invalid', 'Ce lien a déjà été utilisé. Chaque lien est personnel et à usage unique.');
-if(params.get('state') === 'expired') showState('invalid', 'Ce lien a expiré. Il était valable 48h après envoi.');
-
-function showState(s, reason) {
-  document.getElementById('state-valid').style.display = 'none';
-  document.getElementById('state-invalid').style.display = 'flex';
-  if(reason) document.getElementById('invalid-reason').textContent = reason;
-}
-
-function startTest() { window.location.href = 'exam.html'; }
-
-// Clock
-function updateClock() {
-  const now = new Date();
-  const h = String(now.getHours()).padStart(2,'0');
-  const m = String(now.getMinutes()).padStart(2,'0');
-  const s = String(now.getSeconds()).padStart(2,'0');
-  const el = document.getElementById('clock-access');
-  if(el) el.textContent = h+':'+m+':'+s;
-}
-setInterval(updateClock, 1000);
-updateClock();
-</script>
+<script type="module" src="./js/test/access.js"></script>
 </body>
 </html>

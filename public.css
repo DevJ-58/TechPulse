@@ -1,3 +1,21 @@
+/* TITRES MODERNES — Police Noskale */
+
+@font-face {
+  font-family:Phantom Silence;
+  src: local('Capital Grunge'), local('CapitalGrunge');
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  --font-title: 'Phantom Silence', 'Syne', sans-serif;
+}
+
+.nav-logo,
+h1, h2, h3, .main-title, .public-title, .hero-title {
+  font-family: var(--font-title) !important;
+  letter-spacing: -0.5px;
+}
 /* ═══════════════════════════════════════════════════════════
    TECHPULSE — public.css  ·  Swiss Editorial  ·  v3
    Mobile-First · Full Responsive
@@ -66,10 +84,9 @@ ul { list-style:none; }
   justify-content:space-between; gap:24px;
 }
 .nav-logo {
-  font-family:var(--font-display); font-weight:800; font-size:18px;
   display:flex; align-items:center; gap:9px; flex-shrink:0;
 }
-.nav-logo .dot { width:8px;height:8px;background:var(--accent);border-radius:50%; }
+.nav-logo img { height: 80px; }
 .nav-links {
   display:flex; align-items:center; gap:2px;
 }

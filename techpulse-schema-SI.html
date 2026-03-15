@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
+<title>TechPulse — Schéma Système d'Information Complet</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0D0F0D;
+    --surface: #141614;
+    --surface2: #1A1C1A;
+    --border: #2A2E2A;
+    --text: #E8EDE8;
+    --muted: #6B736B;
+    --green: #00FF88;
+    --green2: #00CC6A;
+    --green-dim: rgba(0,255,136,.12);
+    --blue: #4488FF;
+    --blue-dim: rgba(68,136,255,.12);
+    --amber: #FFB830;
+    --amber-dim: rgba(255,184,48,.1);
+    --red: #FF4444;
+    --red-dim: rgba(255,68,68,.1);
+    --purple: #AA88FF;
+    --purple-dim: rgba(170,136,255,.1);
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Syne', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+    overflow-x: auto;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-logo {
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--green);
+    letter-spacing: -.5px;
+  }
+  .header-sep { width: 1px; height: 20px; background: var(--border); }
+  .header-title {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: .04em;
+  }
+  .header-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    padding: 3px 10px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    border: 1px solid;
+  }
+  .pill-green { color: var(--green); border-color: rgba(0,255,136,.3); background: var(--green-dim); }
+  .pill-blue  { color: var(--blue);  border-color: rgba(68,136,255,.3); background: var(--blue-dim); }
+  .pill-amber { color: var(--amber); border-color: rgba(255,184,48,.3);  background: var(--amber-dim); }
+  .pill-purple{ color: var(--purple);border-color: rgba(170,136,255,.3); background: var(--purple-dim); }
+
+  /* ── CANVAS ── */
+  .canvas {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    min-width: 1100px;
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .section-num {
+    width: 28px; height: 28px;
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -.3px;
+  }
+  .section-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── BOX ── */
+  .schema-box {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .schema-box-header {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .box-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+
+  /* ══════════════════════════════════════════════
+     PARTIE 1 — MCD
+  ══════════════════════════════════════════════ */
+  .mcd-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding: 16px;
+  }
+  .entity-card {
+    border: 1.5px solid;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .entity-card.green { border-color: rgba(0,255,136,.4); }
+  .entity-card.blue  { border-color: rgba(68,136,255,.4); }
+  .entity-card.amber { border-color: rgba(255,184,48,.4); }
+  .entity-card.red   { border-color: rgba(255,68,68,.4); }
+  .entity-card.purple{ border-color: rgba(170,136,255,.4); }
+
+  .entity-head {
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .04em;
+  }
+  .entity-head.green  { background: var(--green-dim);  color: var(--green); }
+  .entity-head.blue   { background: var(--blue-dim);   color: var(--blue); }
+  .entity-head.amber  { background: var(--amber-dim);  color: var(--amber); }
+  .entity-head.red    { background: var(--red-dim);    color: var(--red); }
+  .entity-head.purple { background: var(--purple-dim); color: var(--purple); }
+
+  .entity-attrs {
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    background: rgba(255,255,255,.015);
+  }
+  .attr {
+    font-size: 10px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .attr-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+  }
+  .attr.pk .attr-dot { background: var(--amber); }
+  .attr.pk { color: var(--amber); }
+
+  /* relations MCD */
+  .mcd-relations {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .rel-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+  .rel-ent { font-weight: 700; color: var(--green); }
+  .rel-assoc { color: var(--amber); font-style: italic; }
+  .rel-card { color: var(--muted); }
+  .rel-arrow { color: var(--border); font-size: 12px; }
+
+  /* ══════════════════════════════════════════════
+     PARTIE 2 — MLD
+  ══════════════════════════════════════════════ */
+  .mld-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 16px;
+  }
+  .table-card {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .table-head {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    padding: 7px 10px;
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .table-body {
+    padding: 6px 0;
+  }
+  .col-row {
+    padding: 3px 10px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border-left: 2px solid transparent;
+  }
+  .col-row.pk { border-left-color: var(--amber); }
+  .col-row.fk { border-left-color: var(--blue); }
+  .col-row.pk .col-name { color: var(--amber); font-weight: 700; }
+  .col-row.fk .col-name { color: var(--blue); }
+  .col-name { flex: 1; }
+  .col-type { color: var(--muted); font-size: 9px; }
+  .col-badge {
+    font-size: 8px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 1px;
+    letter-spacing: .06em;
+  }
+  .badge-pk { background: rgba(255,184,48,.15); color: var(--amber); }
+  .badge-fk { background: rgba(68,136,255,.15); color: var(--blue); }
+
+  /* FK arrows legend */
+  .fk-legend {
+    padding: 10px 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .fk-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .fk-from { color: var(--blue); font-weight: 700; }
+  .fk-to   { color: var(--amber); font-weight: 700; }
+
+  /* ══════════════════════════════════════════════
+     PARTIE 3 — TRANSITION
+  ══════════════════════════════════════════════ */
+  .transition-grid {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    gap: 0;
+    padding: 16px;
+    align-items: start;
+  }
+  .trans-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .trans-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .trans-item {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid;
+    border-radius: 2px;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .trans-item.sql  { border-color: rgba(68,136,255,.3); background: var(--blue-dim); color: var(--text); }
+  .trans-item.nosql{ border-color: rgba(0,255,136,.3); background: var(--green-dim); color: var(--text); }
+  .trans-item strong { font-weight: 700; }
+  .trans-item .label { font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+  .trans-item.sql .label  { color: var(--blue); }
+  .trans-item.nosql .label{ color: var(--green); }
+  .trans-center-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 4px;
+  }
+  .trans-arrow-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    width: 52px;
+    font-size: 13px;
+    color: var(--amber);
+  }
+  .rules-box {
+    margin: 0 16px 16px;
+    border: 1px solid rgba(255,184,48,.3);
+    border-radius: 3px;
+    background: var(--amber-dim);
+    padding: 12px 14px;
+  }
+  .rules-title {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--amber);
+    margin-bottom: 8px;
+    letter-spacing: .04em;
+  }
+  .rules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .rule-item {
+    display: flex;
+    gap: 8px;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .rule-num {
+    font-weight: 800;
+    color: var(--amber);
+    flex-shrink: 0;
+  }
+
+  /* ══════════════════════════════════════════════
+     PARTIE 4 — FIRESTORE
+  ══════════════════════════════════════════════ */
+  .firestore-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 16px;
+  }
+  .fs-collection {
+    border: 1.5px solid rgba(0,255,136,.25);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .fs-col-head {
+    background: rgba(0,255,136,.08);
+    border-bottom: 1px solid rgba(0,255,136,.2);
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .fs-col-name {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--green);
+  }
+  .fs-col-tag {
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: .06em;
+  }
+  .fs-doc-head {
+    padding: 5px 10px 0;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .fs-fields {
+    padding: 5px 10px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .fs-field {
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .fs-field-key  { color: var(--green2); }
+  .fs-field-val  { color: var(--muted); }
+  .fs-field-note {
+    font-size: 9px;
+    color: var(--amber);
+    font-style: italic;
+  }
+  .fs-subcol {
+    margin: 0 8px 8px;
+    border: 1px solid rgba(68,136,255,.25);
+    border-radius: 2px;
+    background: rgba(68,136,255,.04);
+    overflow: hidden;
+  }
+  .fs-subcol-head {
+    padding: 4px 8px;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: .06em;
+    border-bottom: 1px solid rgba(68,136,255,.15);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .fs-subcol-fields {
+    padding: 4px 8px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* ══════════════════════════════════════════════
+     PARTIE 5 — PIPELINE
+  ══════════════════════════════════════════════ */
+  .pipeline-wrap {
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+  }
+  .pip-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .pip-node {
+    width: 100%;
+    border: 1.5px solid;
+    border-radius: 3px;
+    overflow: hidden;
+    text-align: center;
+  }
+  .pip-node.e1 { border-color: rgba(0,255,136,.4); }
+  .pip-node.e2 { border-color: rgba(255,184,48,.4); }
+  .pip-node.e3 { border-color: rgba(68,136,255,.4); }
+  .pip-node-head {
+    padding: 8px 10px;
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 800;
+  }
+  .pip-node.e1 .pip-node-head { background: rgba(0,255,136,.1); color: var(--green); }
+  .pip-node.e2 .pip-node-head { background: rgba(255,184,48,.1); color: var(--amber); }
+  .pip-node.e3 .pip-node-head { background: rgba(68,136,255,.1); color: var(--blue); }
+  .pip-node-body {
+    padding: 8px 10px;
+    font-size: 10px;
+    line-height: 1.7;
+    color: var(--text);
+    background: rgba(255,255,255,.02);
+  }
+  .pip-node-sub {
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .pip-admin {
+    font-size: 9px;
+    color: var(--amber);
+    text-align: center;
+    padding: 4px 8px;
+    border: 1px dashed rgba(255,184,48,.3);
+    border-radius: 2px;
+    background: var(--amber-dim);
+    max-width: 120px;
+    line-height: 1.5;
+  }
+  .pip-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 28px;
+    width: 50px;
+    flex-shrink: 0;
+    gap: 2px;
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .pip-email {
+    font-size: 9px;
+    color: var(--green2);
+    text-align: center;
+    padding: 3px 6px;
+    border: 1px solid rgba(0,255,136,.2);
+    border-radius: 2px;
+    background: rgba(0,255,136,.05);
+    max-width: 80px;
+    line-height: 1.5;
+  }
+  .pip-result-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+    width: 120px;
+  }
+  .pip-result {
+    border: 1.5px solid;
+    border-radius: 3px;
+    padding: 10px;
+    text-align: center;
+  }
+  .pip-result.ok  { border-color: rgba(0,255,136,.4); background: rgba(0,255,136,.06); }
+  .pip-result.ko  { border-color: rgba(255,68,68,.4);  background: rgba(255,68,68,.06); }
+  .pip-result-label { font-family: var(--display); font-size: 12px; font-weight: 800; }
+  .pip-result.ok .pip-result-label { color: var(--green); }
+  .pip-result.ko .pip-result-label { color: var(--red); }
+  .pip-result-desc { font-size: 9px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+
+  /* ══════════════════════════════════════════════
+     FOOTER
+  ══════════════════════════════════════════════ */
+  .page-footer {
+    border-top: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 10px;
+  }
+
+  /* ══════════════════════════════════════════════
+     SEPARATEURS DE FLUX
+  ══════════════════════════════════════════════ */
+  .flow-separator {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 8px;
+    color: var(--muted);
+  }
+  .flow-sep-line { flex: 1; height: 1px; background: var(--border); }
+  .flow-sep-text { font-size: 10px; white-space: nowrap; }
+  .flow-arrow-down {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 0;
+    color: var(--amber);
+    font-size: 18px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════ HEADER ════════ -->
+<div class="page-header">
+  <div class="header-brand">
+    <div class="header-logo">TechPulse</div>
+    <div class="header-sep"></div>
+    <div>
+      <div class="header-title">Étude du Système d'Information</div>
+    </div>
+  </div>
+  <div class="header-pills">
+    <span class="pill pill-blue">MERISE · MCD</span>
+    <span class="pill pill-purple">MERISE · MLD</span>
+    <span class="pill pill-amber">Transition NoSQL</span>
+    <span class="pill pill-green">Firestore</span>
+  </div>
+</div>
+
+<div class="canvas">
+
+  <!-- ════════════════════════════════════════════
+       PARTIE 1 — MCD
+  ════════════════════════════════════════════ -->
+  <div>
+    <div class="section-header">
+      <div class="section-num" style="background:var(--blue-dim);color:var(--blue);">01</div>
+      <div>
+        <div class="section-title" style="color:var(--blue);">Modèle Conceptuel des Données — MCD</div>
+        <div class="section-sub">Entités métier, attributs et associations — niveau abstrait, sans technique</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="schema-box">
+      <div class="schema-box-header">
+        <span style="font-family:var(--display);font-size:11px;font-weight:700;color:var(--text);">11 entités identifiées</span>
+        <span class="box-tag" style="background:var(--blue-dim);color:var(--blue);border:1px solid rgba(68,136,255,.3);">NIVEAU CONCEPTUEL</span>
+      </div>
+      <div class="mcd-grid">
+
+        <div class="entity-card green">
+          <div class="entity-head green">CANDIDAT</div>
+          <div class="entity-attrs">
+            <div class="attr pk"><div class="attr-dot"></div>id</div>
+            <div class="attr"><div class="attr-dot"></div>prénom</div>
+            <div class="attr"><div class="attr-dot"></div>nom</div>
+            <div class="attr"><div class="attr-dot"></div>email</div>
+            <div class="attr"><div class="attr-dot"></div>téléphone</div>
+            <div class="attr"><div class="attr-dot"></div>filière</div>
+            <div class="attr"><div class="attr-dot"></div>niveau</div>
+            <div class="attr"><div class="attr-dot"></div>statut</div>
+            <div class="attr"><div class="attr-dot"></div>date_candidature</div>
+          </div>
+        </div>
+
+        <div class="entity-card blue">
+          <div class="entity-head blue">PÔLE</div>
+          <div class="entity-attrs">
+            <div class="attr pk"><div class="attr-dot"></div>id</div>
+            <div class="attr"><div class="attr-dot"></div>nom</div>
+            <div class="attr"><div class="attr-dot"></div>description</div>
+          </div>
+        </div>
+
+        <div class="entity-card amber">
+          <div class="entity-head amber">TOKEN_TEST</div>
+          <div class="entity-attrs">
+            <div class="attr pk"><div class="attr-dot"></div>id</div>
+            <div class="attr"><div class="attr-dot"></div>uuid (unique)</div>
+            <div class="attr"><div class="attr-dot"></div>date_expiration</div>
+            <div class="attr"><div class="attr-dot"></div>utilisé</div>
+            <div class="attr"><div class="attr-dot"></div>abandonné</div>
+          </div>
+        </div>
+
+        <div class="entity-card amber">
+          <div class="entity-head amber">SESSION_TEST</div>
+          <div class="entity-attrs">
+            <div class="attr pk"><div class="attr-dot"></div>id</div>
+            <div class="attr"><div class="attr-dot"></div>score_total</div>
+            <div class="attr"><div class="attr-dot"></div>score_A</div>
+            <div class="attr"><div class="attr-dot"></div>score_B</div>
+            <div class="attr"><div class="attr-dot"></div>score_C</div>
+            <div class="attr"><div class="attr-dot"></div>date_début</div>
+            <div class="attr"><div class="attr-dot"></div>date_fin</div>
+            <div class="attr"><div class="attr-dot"></div>soumis</div>
+          </div>
+        </div>
+
+        <div class="entity-card blue">
+          <div class="entity-head blue">QUESTION</div>
+          <div class="entity-attrs">
+            <div class="attr pk"><div class="attr-dot"></div>id</div>
+            <div class="attr"><div class="attr-dot"></div>énoncé</div>
+            <div class="attr"><div class="attr-dot"></div>type (QCM/pratique/situation)</div>
+            <div class="attr"><div class="attr-dot"></div>partie (A / B / C)</div>
+            <div class="attr"><div class="attr-dot"></div>durée_sec</div>
+          </div>
+        </div>
+
+        <div class="entity-card purple">
+          <div class="entity-head purple">CHOIX</div>
+          <div class="entity-attrs">
+            <div class="attr pk"><div class="attr-dot"></div>id</div>
+            <div class="attr"><div class="attr-dot"></div>texte</div>
+            <div class="attr"><div class="attr-dot"></div>est_correct</div>
+          </div>
+        </div>
+
+        <div class="entity-card purple">
+          <div class="entity-head purple">RÉPONSE</div>
+          <div class="entity-attrs">
+            <div class="attr pk"><div class="attr-dot"></div>id</div>
+            <div class="attr"><div class="attr-dot"></div>valeur_saisie</div>
+            <div class="attr"><div class="attr-dot"></div>est_correcte</div>
+          </div>
+        </div>
+
+        <div class="entity-card blue">
+          <div class="entity-head blue">MEET</div>
+          <div class="entity-attrs">
+            <div class="attr pk"><div class="attr-dot"></div>id</div>
+            <div class="attr"><div class="attr-dot"></div>date</div>
+            <div class="attr"><div class="attr-dot"></div>heure</div>
+            <div class="attr"><div class="attr-dot"></div>lieu</div>
+            <div class="attr"><div class="attr-dot"></div>durée</div>
+            <div class="attr"><div class="attr-dot"></div>statut</div>
+          </div>
+        </div>
+
+        <div class="entity-card green">
+          <div class="entity-head green">MEMBRE</div>
+          <div class="entity-attrs">
+            <div class="attr pk"><div class="attr-dot"></div>id</div>
+            <div class="attr"><div class="attr-dot"></div>date_admission</div>
+            <div class="attr"><div class="attr-dot"></div>wa_envoyé</div>
+          </div>
+        </div>
+
+        <div class="entity-card red">
+          <div class="entity-head red">ADMIN</div>
+          <div class="entity-attrs">
+            <div class="attr pk"><div class="attr-dot"></div>id</div>
+            <div class="attr"><div class="attr-dot"></div>nom</div>
+            <div class="attr"><div class="attr-dot"></div>email</div>
+            <div class="attr"><div class="attr-dot"></div>password_hash</div>
+            <div class="attr"><div class="attr-dot"></div>rôle</div>
+          </div>
+        </div>
+
+        <div class="entity-card amber">
+          <div class="entity-head amber">PARAMÈTRES</div>
+          <div class="entity-attrs">
+            <div class="attr pk"><div class="attr-dot"></div>id</div>
+            <div class="attr"><div class="attr-dot"></div>clé (unique)</div>
+            <div class="attr"><div class="attr-dot"></div>valeur</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ASSOCIATIONS -->
+      <div class="mcd-relations">
+        <div class="rel-chip"><span class="rel-ent">CANDIDAT</span><span class="rel-arrow"> ─</span><span class="rel-assoc">candidate dans</span><span class="rel-arrow">─ </span><span class="rel-ent">PÔLE</span><span class="rel-card">&nbsp;(1,1)—(0,n)</span></div>
+        <div class="rel-chip"><span class="rel-ent">CANDIDAT</span><span class="rel-arrow"> ─</span><span class="rel-assoc">reçoit</span><span class="rel-arrow">─ </span><span class="rel-ent">TOKEN_TEST</span><span class="rel-card">&nbsp;(1,1)—(0,1)</span></div>
+        <div class="rel-chip"><span class="rel-ent">TOKEN_TEST</span><span class="rel-arrow"> ─</span><span class="rel-assoc">génère</span><span class="rel-arrow">─ </span><span class="rel-ent">SESSION_TEST</span><span class="rel-card">&nbsp;(0,1)—(1,1)</span></div>
+        <div class="rel-chip"><span class="rel-ent">SESSION_TEST</span><span class="rel-arrow"> ─</span><span class="rel-assoc">contient</span><span class="rel-arrow">─ </span><span class="rel-ent">RÉPONSE</span><span class="rel-card">&nbsp;(1,n)</span></div>
+        <div class="rel-chip"><span class="rel-ent">RÉPONSE</span><span class="rel-arrow"> ─</span><span class="rel-assoc">répond à</span><span class="rel-arrow">─ </span><span class="rel-ent">QUESTION</span><span class="rel-card">&nbsp;(1,1)</span></div>
+        <div class="rel-chip"><span class="rel-ent">QUESTION</span><span class="rel-arrow"> ─</span><span class="rel-assoc">appartient à</span><span class="rel-arrow">─ </span><span class="rel-ent">PÔLE</span><span class="rel-card">&nbsp;(1,1)—(0,n)</span></div>
+        <div class="rel-chip"><span class="rel-ent">QUESTION</span><span class="rel-arrow"> ─</span><span class="rel-assoc">possède</span><span class="rel-arrow">─ </span><span class="rel-ent">CHOIX</span><span class="rel-card">&nbsp;(0,n)</span></div>
+        <div class="rel-chip"><span class="rel-ent">CANDIDAT</span><span class="rel-arrow"> ─</span><span class="rel-assoc">convoqué à</span><span class="rel-arrow">─ </span><span class="rel-ent">MEET</span><span class="rel-card">&nbsp;(0,1)</span></div>
+        <div class="rel-chip"><span class="rel-ent">CANDIDAT</span><span class="rel-arrow"> ─</span><span class="rel-assoc">devient</span><span class="rel-arrow">─ </span><span class="rel-ent">MEMBRE</span><span class="rel-card">&nbsp;(0,1)</span></div>
+        <div class="rel-chip"><span class="rel-ent">MEMBRE</span><span class="rel-arrow"> ─</span><span class="rel-assoc">intègre</span><span class="rel-arrow">─ </span><span class="rel-ent">PÔLE</span><span class="rel-card">&nbsp;(1,1)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow-down">↓</div>
+
+  <!-- ════════════════════════════════════════════
+       PARTIE 2 — MLD
+  ════════════════════════════════════════════ -->
+  <div>
+    <div class="section-header">
+      <div class="section-num" style="background:var(--purple-dim);color:var(--purple);">02</div>
+      <div>
+        <div class="section-title" style="color:var(--purple);">Modèle Logique des Données — MLD</div>
+        <div class="section-sub">Tables relationnelles, clés primaires (PK) et étrangères (FK) — niveau logique SQL</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="schema-box">
+      <div class="schema-box-header">
+        <div style="display:flex;gap:14px;font-size:10px;">
+          <span><span style="display:inline-block;width:8px;height:8px;background:var(--amber);border-radius:1px;margin-right:4px;vertical-align:middle;"></span>Clé primaire PK</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:var(--blue);border-radius:1px;margin-right:4px;vertical-align:middle;"></span>Clé étrangère FK</span>
+        </div>
+        <span class="box-tag" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(170,136,255,.3);">NIVEAU LOGIQUE</span>
+      </div>
+      <div class="mld-grid">
+
+        <div class="table-card">
+          <div class="table-head">POLE <span style="font-size:9px;color:var(--muted);font-weight:400;">référence</span></div>
+          <div class="table-body">
+            <div class="col-row pk"><span class="col-badge badge-pk">PK</span><span class="col-name">id</span><span class="col-type">INT</span></div>
+            <div class="col-row"><span class="col-name">nom</span><span class="col-type">VARCHAR(50)</span></div>
+            <div class="col-row"><span class="col-name">description</span><span class="col-type">TEXT</span></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-head">CANDIDAT <span style="font-size:9px;color:var(--muted);font-weight:400;">centrale</span></div>
+          <div class="table-body">
+            <div class="col-row pk"><span class="col-badge badge-pk">PK</span><span class="col-name">id</span><span class="col-type">INT</span></div>
+            <div class="col-row"><span class="col-name">prenom</span><span class="col-type">VARCHAR</span></div>
+            <div class="col-row"><span class="col-name">nom</span><span class="col-type">VARCHAR</span></div>
+            <div class="col-row"><span class="col-name">email</span><span class="col-type">VARCHAR</span></div>
+            <div class="col-row"><span class="col-name">tel</span><span class="col-type">VARCHAR</span></div>
+            <div class="col-row"><span class="col-name">filiere</span><span class="col-type">VARCHAR</span></div>
+            <div class="col-row"><span class="col-name">niveau</span><span class="col-type">ENUM</span></div>
+            <div class="col-row"><span class="col-name">statut</span><span class="col-type">ENUM</span></div>
+            <div class="col-row fk"><span class="col-badge badge-fk">FK</span><span class="col-name">pole_id → POLE</span></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-head">TOKEN_TEST</div>
+          <div class="table-body">
+            <div class="col-row pk"><span class="col-badge badge-pk">PK</span><span class="col-name">id</span></div>
+            <div class="col-row"><span class="col-name">uuid</span><span class="col-type">UNIQUE</span></div>
+            <div class="col-row fk"><span class="col-badge badge-fk">FK</span><span class="col-name">candidat_id → CANDIDAT</span></div>
+            <div class="col-row"><span class="col-name">date_expiration</span></div>
+            <div class="col-row"><span class="col-name">utilise</span><span class="col-type">BOOL</span></div>
+            <div class="col-row"><span class="col-name">abandonne</span><span class="col-type">BOOL</span></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-head">SESSION_TEST</div>
+          <div class="table-body">
+            <div class="col-row pk"><span class="col-badge badge-pk">PK</span><span class="col-name">id</span></div>
+            <div class="col-row fk"><span class="col-badge badge-fk">FK</span><span class="col-name">token_id → TOKEN_TEST</span></div>
+            <div class="col-row fk"><span class="col-badge badge-fk">FK</span><span class="col-name">candidat_id → CANDIDAT</span></div>
+            <div class="col-row"><span class="col-name">score_total</span><span class="col-type">INT</span></div>
+            <div class="col-row"><span class="col-name">score_A · score_B · score_C</span></div>
+            <div class="col-row"><span class="col-name">date_debut · date_fin</span></div>
+            <div class="col-row"><span class="col-name">soumis</span><span class="col-type">BOOL</span></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-head">QUESTION</div>
+          <div class="table-body">
+            <div class="col-row pk"><span class="col-badge badge-pk">PK</span><span class="col-name">id</span></div>
+            <div class="col-row fk"><span class="col-badge badge-fk">FK</span><span class="col-name">pole_id → POLE</span></div>
+            <div class="col-row"><span class="col-name">enonce</span><span class="col-type">TEXT</span></div>
+            <div class="col-row"><span class="col-name">type</span><span class="col-type">ENUM(qcm,pratique,sit)</span></div>
+            <div class="col-row"><span class="col-name">partie</span><span class="col-type">ENUM(A,B,C)</span></div>
+            <div class="col-row"><span class="col-name">duree_sec</span><span class="col-type">INT</span></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-head">CHOIX</div>
+          <div class="table-body">
+            <div class="col-row pk"><span class="col-badge badge-pk">PK</span><span class="col-name">id</span></div>
+            <div class="col-row fk"><span class="col-badge badge-fk">FK</span><span class="col-name">question_id → QUESTION</span></div>
+            <div class="col-row"><span class="col-name">texte</span><span class="col-type">TEXT</span></div>
+            <div class="col-row"><span class="col-name">est_correct</span><span class="col-type">BOOL</span></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-head">REPONSE</div>
+          <div class="table-body">
+            <div class="col-row pk"><span class="col-badge badge-pk">PK</span><span class="col-name">id</span></div>
+            <div class="col-row fk"><span class="col-badge badge-fk">FK</span><span class="col-name">session_id → SESSION_TEST</span></div>
+            <div class="col-row fk"><span class="col-badge badge-fk">FK</span><span class="col-name">question_id → QUESTION</span></div>
+            <div class="col-row"><span class="col-name">valeur_saisie</span><span class="col-type">TEXT</span></div>
+            <div class="col-row"><span class="col-name">est_correcte</span><span class="col-type">BOOL</span></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-head">MEET</div>
+          <div class="table-body">
+            <div class="col-row pk"><span class="col-badge badge-pk">PK</span><span class="col-name">id</span></div>
+            <div class="col-row fk"><span class="col-badge badge-fk">FK</span><span class="col-name">candidat_id → CANDIDAT</span></div>
+            <div class="col-row"><span class="col-name">date · heure · lieu</span></div>
+            <div class="col-row"><span class="col-name">duree</span></div>
+            <div class="col-row"><span class="col-name">statut</span><span class="col-type">ENUM</span></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-head">MEMBRE</div>
+          <div class="table-body">
+            <div class="col-row pk"><span class="col-badge badge-pk">PK</span><span class="col-name">id</span></div>
+            <div class="col-row fk"><span class="col-badge badge-fk">FK</span><span class="col-name">candidat_id → CANDIDAT</span></div>
+            <div class="col-row fk"><span class="col-badge badge-fk">FK</span><span class="col-name">pole_id → POLE</span></div>
+            <div class="col-row"><span class="col-name">date_admission</span></div>
+            <div class="col-row"><span class="col-name">wa_envoye</span><span class="col-type">BOOL</span></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-head">ADMIN</div>
+          <div class="table-body">
+            <div class="col-row pk"><span class="col-badge badge-pk">PK</span><span class="col-name">id</span></div>
+            <div class="col-row"><span class="col-name">nom · email</span></div>
+            <div class="col-row"><span class="col-name">password_hash</span></div>
+            <div class="col-row"><span class="col-name">role</span><span class="col-type">ENUM</span></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-head">PARAMETRE</div>
+          <div class="table-body">
+            <div class="col-row pk"><span class="col-badge badge-pk">PK</span><span class="col-name">id</span></div>
+            <div class="col-row"><span class="col-name">cle</span><span class="col-type">UNIQUE</span></div>
+            <div class="col-row"><span class="col-name">valeur</span><span class="col-type">TEXT</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow-down">↓</div>
+
+  <!-- ════════════════════════════════════════════
+       PARTIE 3 — TRANSITION
+  ════════════════════════════════════════════ -->
+  <div>
+    <div class="section-header">
+      <div class="section-num" style="background:var(--amber-dim);color:var(--amber);">03</div>
+      <div>
+        <div class="section-title" style="color:var(--amber);">Transition MLD → NoSQL Firestore</div>
+        <div class="section-sub">4 règles de re-projection : dénormalisation orientée lecture, sous-collections, duplication contrôlée</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="schema-box">
+      <div class="schema-box-header">
+        <span style="font-family:var(--display);font-size:11px;font-weight:700;color:var(--text);">Correspondances SQL → Firestore</span>
+        <span class="box-tag" style="background:var(--amber-dim);color:var(--amber);border:1px solid rgba(255,184,48,.3);">TRANSITION</span>
+      </div>
+
+      <div class="rules-box">
+        <div class="rules-title">Les 4 règles de la transition</div>
+        <div class="rules-list">
+          <div class="rule-item"><span class="rule-num">R1</span><span>Table → Collection · Ligne → Document JSON autonome identifié par un ID auto-généré Firestore</span></div>
+          <div class="rule-item"><span class="rule-num">R2</span><span>Clé étrangère lue conjointement → <strong>Dénormalisation</strong> : on embarque le champ directement dans le document (ex : pole: "dev" dans le document candidat)</span></div>
+          <div class="rule-item"><span class="rule-num">R3</span><span>Relation 1-N volumineuse → <strong>Sous-collection</strong> Firestore (ex : answers/ et choices/) pour ne charger que ce qu'on lit</span></div>
+          <div class="rule-item"><span class="rule-num">R4</span><span>On modélise pour la <strong>lecture</strong>, pas pour l'écriture. La redondance est acceptée car il n'y a pas de jointures en NoSQL</span></div>
+        </div>
+      </div>
+
+      <div class="transition-grid">
+        <div class="trans-col">
+          <div style="font-family:var(--display);font-size:11px;font-weight:800;color:var(--blue);padding:0 0 8px;letter-spacing:.04em;">SQL / MERISE MLD</div>
+          <div class="trans-item sql"><div class="label">Table CANDIDAT</div>pole_id FK → POLE<br><span style="color:var(--muted);">Jointure nécessaire pour lire le nom du pôle</span></div>
+          <div class="trans-item sql"><div class="label">Table REPONSE</div>N lignes par session<br>session_id FK + question_id FK</div>
+          <div class="trans-item sql"><div class="label">Table CHOIX</div>N lignes par question<br>question_id FK</div>
+          <div class="trans-item sql"><div class="label">Table PARAMETRE</div>Clé/valeur — 1 ligne par paramètre</div>
+          <div class="trans-item sql"><div class="label">Jointure MEMBRE ⋈ POLE</div>SELECT m.*, p.nom FROM membre m JOIN pole p ON m.pole_id = p.id</div>
+          <div class="trans-item sql"><div class="label">Table MEET</div>candidat_id FK → CANDIDAT</div>
+        </div>
+        <div class="trans-center-col">
+          <div style="font-family:var(--display);font-size:10px;font-weight:700;color:var(--muted);text-align:center;margin-bottom:4px;">RÈGLE</div>
+          <div class="trans-arrow-item"><span title="R2 — Dénormalisation">R2 →</span></div>
+          <div class="trans-arrow-item"><span title="R3 — Sous-collection">R3 →</span></div>
+          <div class="trans-arrow-item"><span title="R3 — Sous-collection">R3 →</span></div>
+          <div class="trans-arrow-item"><span title="R1 + R4">R1 →</span></div>
+          <div class="trans-arrow-item"><span title="R4 — Duplication">R4 →</span></div>
+          <div class="trans-arrow-item"><span title="R4 — Duplication">R4 →</span></div>
+        </div>
+        <div class="trans-col">
+          <div style="font-family:var(--display);font-size:11px;font-weight:800;color:var(--green);padding:0 0 8px;letter-spacing:.04em;">Firestore NoSQL</div>
+          <div class="trans-item nosql"><div class="label">Document candidates/{id}</div>pole: "dev" <span class="fs-field-note">← embarqué</span><br><span style="color:var(--muted);">Zéro jointure, lecture directe</span></div>
+          <div class="trans-item nosql"><div class="label">Sous-collection answers/</div>test_sessions/{id}/answers/<br><span style="color:var(--muted);">Chargée séparément, query indépendante</span></div>
+          <div class="trans-item nosql"><div class="label">Sous-collection choices/</div>questions/{id}/choices/<br><span style="color:var(--muted);">Idem — chargée à la demande</span></div>
+          <div class="trans-item nosql"><div class="label">Document settings/global</div>wa_dev, wa_secu, wa_iot, tpl_* <span class="fs-field-note">← 1 seul doc</span></div>
+          <div class="trans-item nosql"><div class="label">Document members/{id}</div>pole: "dev", pole_nom: "Développement" <span class="fs-field-note">← dupliqué</span></div>
+          <div class="trans-item nosql"><div class="label">Document meets/{id}</div>candidat_nom: "Koné Aminata" <span class="fs-field-note">← dupliqué</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow-down">↓</div>
+
+  <!-- ════════════════════════════════════════════
+       PARTIE 4 — FIRESTORE
+  ════════════════════════════════════════════ -->
+  <div>
+    <div class="section-header">
+      <div class="section-num" style="background:var(--green-dim);color:var(--green);">04</div>
+      <div>
+        <div class="section-title" style="color:var(--green);">Structure Firestore — Collections & Documents</div>
+        <div class="section-sub">Modèle physique final · 8 collections · sous-collections pour les relations 1-N</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="schema-box">
+      <div class="schema-box-header">
+        <div style="display:flex;gap:14px;font-size:10px;">
+          <span><span style="display:inline-block;width:8px;height:8px;background:rgba(0,255,136,.3);border-radius:1px;margin-right:4px;vertical-align:middle;"></span>Collection principale</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:rgba(68,136,255,.3);border-radius:1px;margin-right:4px;vertical-align:middle;"></span>Sous-collection</span>
+          <span style="color:var(--amber);">← dénormalisé</span>
+          <span style="color:var(--blue);">Ref = référence Firestore</span>
+        </div>
+        <span class="box-tag" style="background:var(--green-dim);color:var(--green);border:1px solid rgba(0,255,136,.3);">NIVEAU PHYSIQUE</span>
+      </div>
+      <div class="firestore-grid">
+
+        <div class="fs-collection">
+          <div class="fs-col-head">
+            <span class="fs-col-name">candidates/</span>
+            <span class="fs-col-tag">{candidatId}</span>
+          </div>
+          <div class="fs-doc-head">Fields</div>
+          <div class="fs-fields">
+            <div class="fs-field"><span class="fs-field-key">prenom</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">nom</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">email</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">filiere</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">niveau</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">pole</span><span class="fs-field-val">&nbsp;"dev"</span><span class="fs-field-note">&nbsp;← dénorm.</span></div>
+            <div class="fs-field"><span class="fs-field-key">statut</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">date_candidature</span><span class="fs-field-val">&nbsp;Timestamp</span></div>
+          </div>
+        </div>
+
+        <div class="fs-collection">
+          <div class="fs-col-head">
+            <span class="fs-col-name">test_tokens/</span>
+            <span class="fs-col-tag">{tokenId}</span>
+          </div>
+          <div class="fs-doc-head">Fields</div>
+          <div class="fs-fields">
+            <div class="fs-field"><span class="fs-field-key">uuid</span><span class="fs-field-val">&nbsp;string UNIQUE</span></div>
+            <div class="fs-field"><span class="fs-field-key">candidat_id</span><span class="fs-field-val">&nbsp;Ref</span></div>
+            <div class="fs-field"><span class="fs-field-key">date_expiration</span><span class="fs-field-val">&nbsp;Timestamp</span></div>
+            <div class="fs-field"><span class="fs-field-key">utilise</span><span class="fs-field-val">&nbsp;false</span></div>
+            <div class="fs-field"><span class="fs-field-key">abandonne</span><span class="fs-field-val">&nbsp;false</span></div>
+          </div>
+        </div>
+
+        <div class="fs-collection">
+          <div class="fs-col-head">
+            <span class="fs-col-name">test_sessions/</span>
+            <span class="fs-col-tag">{sessionId}</span>
+          </div>
+          <div class="fs-doc-head">Fields</div>
+          <div class="fs-fields">
+            <div class="fs-field"><span class="fs-field-key">token_id</span><span class="fs-field-val">&nbsp;Ref</span></div>
+            <div class="fs-field"><span class="fs-field-key">candidat_id</span><span class="fs-field-val">&nbsp;Ref</span></div>
+            <div class="fs-field"><span class="fs-field-key">score_total</span><span class="fs-field-val">&nbsp;int</span></div>
+            <div class="fs-field"><span class="fs-field-key">score_A · score_B · score_C</span></div>
+            <div class="fs-field"><span class="fs-field-key">date_debut · date_fin</span></div>
+            <div class="fs-field"><span class="fs-field-key">soumis</span><span class="fs-field-val">&nbsp;bool</span></div>
+          </div>
+          <div class="fs-subcol">
+            <div class="fs-subcol-head">
+              <span>↳</span> answers/ {answerId}
+            </div>
+            <div class="fs-subcol-fields">
+              <div class="fs-field"><span class="fs-field-key">question_id</span><span class="fs-field-val">&nbsp;Ref</span></div>
+              <div class="fs-field"><span class="fs-field-key">valeur</span><span class="fs-field-val">&nbsp;string</span></div>
+              <div class="fs-field"><span class="fs-field-key">est_correcte</span><span class="fs-field-val">&nbsp;bool</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fs-collection">
+          <div class="fs-col-head">
+            <span class="fs-col-name">questions/</span>
+            <span class="fs-col-tag">{questionId}</span>
+          </div>
+          <div class="fs-doc-head">Fields</div>
+          <div class="fs-fields">
+            <div class="fs-field"><span class="fs-field-key">pole</span><span class="fs-field-val">&nbsp;"dev"|"secu"|"iot"</span></div>
+            <div class="fs-field"><span class="fs-field-key">partie</span><span class="fs-field-val">&nbsp;"A"|"B"|"C"</span></div>
+            <div class="fs-field"><span class="fs-field-key">type</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">enonce</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">duree_sec</span><span class="fs-field-val">&nbsp;int</span></div>
+          </div>
+          <div class="fs-subcol">
+            <div class="fs-subcol-head">↳ choices/ {choiceId}</div>
+            <div class="fs-subcol-fields">
+              <div class="fs-field"><span class="fs-field-key">texte</span><span class="fs-field-val">&nbsp;string</span></div>
+              <div class="fs-field"><span class="fs-field-key">est_correct</span><span class="fs-field-val">&nbsp;bool</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fs-collection">
+          <div class="fs-col-head">
+            <span class="fs-col-name">meets/</span>
+            <span class="fs-col-tag">{meetId}</span>
+          </div>
+          <div class="fs-doc-head">Fields</div>
+          <div class="fs-fields">
+            <div class="fs-field"><span class="fs-field-key">candidat_id</span><span class="fs-field-val">&nbsp;Ref</span></div>
+            <div class="fs-field"><span class="fs-field-key">candidat_nom</span><span class="fs-field-note">&nbsp;← dupliqué</span></div>
+            <div class="fs-field"><span class="fs-field-key">date</span><span class="fs-field-val">&nbsp;Timestamp</span></div>
+            <div class="fs-field"><span class="fs-field-key">heure</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">lieu</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">statut</span><span class="fs-field-val">&nbsp;string</span></div>
+          </div>
+        </div>
+
+        <div class="fs-collection">
+          <div class="fs-col-head">
+            <span class="fs-col-name">members/</span>
+            <span class="fs-col-tag">{memberId}</span>
+          </div>
+          <div class="fs-doc-head">Fields</div>
+          <div class="fs-fields">
+            <div class="fs-field"><span class="fs-field-key">candidat_id</span><span class="fs-field-val">&nbsp;Ref</span></div>
+            <div class="fs-field"><span class="fs-field-key">pole</span><span class="fs-field-val">&nbsp;"dev"</span></div>
+            <div class="fs-field"><span class="fs-field-key">pole_nom</span><span class="fs-field-note">&nbsp;← dupliqué</span></div>
+            <div class="fs-field"><span class="fs-field-key">date_admission</span><span class="fs-field-val">&nbsp;Timestamp</span></div>
+            <div class="fs-field"><span class="fs-field-key">wa_envoye</span><span class="fs-field-val">&nbsp;bool</span></div>
+          </div>
+        </div>
+
+        <div class="fs-collection">
+          <div class="fs-col-head">
+            <span class="fs-col-name">admins/</span>
+            <span class="fs-col-tag">{adminId}</span>
+          </div>
+          <div class="fs-doc-head">Fields</div>
+          <div class="fs-fields">
+            <div class="fs-field"><span class="fs-field-key">nom</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">email</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">role</span><span class="fs-field-val">&nbsp;string</span></div>
+            <div class="fs-field"><span class="fs-field-key">password_hash</span><span class="fs-field-val">&nbsp;string</span></div>
+          </div>
+        </div>
+
+        <div class="fs-collection">
+          <div class="fs-col-head">
+            <span class="fs-col-name">settings/</span>
+            <span class="fs-col-tag">global</span>
+          </div>
+          <div class="fs-doc-head">Fields — document unique</div>
+          <div class="fs-fields">
+            <div class="fs-field"><span class="fs-field-key">wa_dev</span><span class="fs-field-val">&nbsp;url</span></div>
+            <div class="fs-field"><span class="fs-field-key">wa_secu</span><span class="fs-field-val">&nbsp;url</span></div>
+            <div class="fs-field"><span class="fs-field-key">wa_iot</span><span class="fs-field-val">&nbsp;url</span></div>
+            <div class="fs-field"><span class="fs-field-key">tpl_etape1</span><span class="fs-field-val">&nbsp;text</span></div>
+            <div class="fs-field"><span class="fs-field-key">tpl_meet</span><span class="fs-field-val">&nbsp;text</span></div>
+            <div class="fs-field"><span class="fs-field-key">tpl_admission</span><span class="fs-field-val">&nbsp;text</span></div>
+            <div class="fs-field"><span class="fs-field-key">tpl_refus</span><span class="fs-field-val">&nbsp;text</span></div>
+            <div class="fs-field"><span class="fs-field-key">tpl_rappel</span><span class="fs-field-val">&nbsp;text</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow-down">↓</div>
+
+  <!-- ════════════════════════════════════════════
+       PARTIE 5 — PIPELINE
+  ════════════════════════════════════════════ -->
+  <div>
+    <div class="section-header">
+      <div class="section-num" style="background:rgba(0,255,136,.08);color:var(--green);">05</div>
+      <div>
+        <div class="section-title" style="color:var(--green);">Pipeline de sélection — 3 étapes</div>
+        <div class="section-sub">Flux complet candidat → membre · emails automatiques Resend déclenchés par les admins</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="schema-box">
+      <div class="pipeline-wrap">
+
+        <div class="pip-step">
+          <div class="pip-node e1">
+            <div class="pip-node-head">ÉTAPE 1</div>
+            <div class="pip-node-body">
+              Formulaire candidature<br>
+              <div class="pip-node-sub">join.html · 3 écrans</div>
+              <div class="pip-node-sub">Identité · Pôle · Motivation</div>
+              <div class="pip-node-sub" style="margin-top:6px;color:var(--green2);">→ candidates/ Firestore</div>
+            </div>
+          </div>
+          <div class="pip-admin">Admin analyse<br>le dossier</div>
+          <div class="pip-email">Email lien test<br>Resend ✓</div>
+        </div>
+
+        <div class="pip-connector">→</div>
+
+        <div class="pip-step">
+          <div class="pip-node e2">
+            <div class="pip-node-head">ÉTAPE 2</div>
+            <div class="pip-node-body">
+              Test Hack-Select<br>
+              <div class="pip-node-sub">Lien UUID · 1 tentative · 48h</div>
+              <div class="pip-node-sub">Partie A — 3 QCM × 20s</div>
+              <div class="pip-node-sub">Partie B — 3 Pratiques × 20s</div>
+              <div class="pip-node-sub">Partie C — 3 Situations libres</div>
+              <div class="pip-node-sub" style="margin-top:6px;color:var(--amber);">→ test_sessions/ + answers/</div>
+            </div>
+          </div>
+          <div class="pip-admin">Admin corrige<br>scores Q par Q</div>
+          <div class="pip-email">Email convocation<br>meet · Resend ✓</div>
+        </div>
+
+        <div class="pip-connector">→</div>
+
+        <div class="pip-step">
+          <div class="pip-node e3">
+            <div class="pip-node-head">ÉTAPE 3</div>
+            <div class="pip-node-body">
+              Meet présentiel<br>
+              <div class="pip-node-sub">30 min · UIYA Yamoussoukro</div>
+              <div class="pip-node-sub">Rencontre fondateurs</div>
+              <div class="pip-node-sub" style="margin-top:6px;color:var(--blue);">→ meets/ Firestore</div>
+            </div>
+          </div>
+          <div class="pip-admin">Décision finale<br>Admis / Refusé</div>
+        </div>
+
+        <div class="pip-connector">→</div>
+
+        <div class="pip-result-col">
+          <div class="pip-result ok">
+            <div class="pip-result-label">Admis ✓</div>
+            <div class="pip-result-desc">members/ Firestore<br>Email + lien WA pôle<br>Resend ✓</div>
+          </div>
+          <div class="pip-result ko">
+            <div class="pip-result-label">Refusé ✗</div>
+            <div class="pip-result-desc">Statut mis à jour<br>Email notif<br>Resend ✓</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div><!-- /canvas -->
+
+<div class="page-footer">
+  <span>TechPulse — Université Internationale de Yamoussoukro (UIYA) · Session 2026</span>
+  <span>Méthode MERISE · Firebase / Firestore · Resend · Vercel</span>
+</div>
+
+</body>
+</html>

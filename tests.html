@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
 <title>Tests — TechPulse Admin</title>
 <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <div class="sidebar-logo"><span class="dot"></span>TechPulse</div>
+    <div class="sidebar-logo"><img src="images/1773340127513.png" alt="TechPulse Logo"></div>
     <div class="sidebar-sub">Administration</div>
   </div>
   <nav class="sidebar-nav">
@@ -74,10 +75,10 @@
   </header>
   <div class="content">
     <div class="grid-4">
-      <div class="stat-card"><div class="stat-label">Tests envoyés</div><div class="stat-value">14</div><div class="stat-meta">Cette session</div></div>
-      <div class="stat-card"><div class="stat-label">Complétés</div><div class="stat-value">10</div><div class="stat-meta">71%</div></div>
-      <div class="stat-card"><div class="stat-label">Score moyen</div><div class="stat-value">68%</div><div class="stat-meta">Sur 100 pts</div></div>
-      <div class="stat-card"><div class="stat-label">En attente</div><div class="stat-value">4</div><div class="stat-meta">Liens non utilisés</div></div>
+      <div class="stat-card"><div class="stat-label">Tests envoyés</div><div class="stat-value loading-state">—</div><div class="stat-meta loading-state">Chargement…</div></div>
+      <div class="stat-card"><div class="stat-label">Complétés</div><div class="stat-value loading-state">—</div><div class="stat-meta loading-state">Chargement…</div></div>
+      <div class="stat-card"><div class="stat-label">Score moyen</div><div class="stat-value loading-state">—</div><div class="stat-meta loading-state">Chargement…</div></div>
+      <div class="stat-card"><div class="stat-label">En attente</div><div class="stat-value loading-state">—</div><div class="stat-meta loading-state">Chargement…</div></div>
     </div>
 
     <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
@@ -96,144 +97,11 @@
 
     <!-- RESULT CARDS -->
     <div id="results-list">
-
-      <!-- CARD 1 — SCORE HI -->
-      <div class="test-result-card">
-        <div class="test-result-head" onclick="toggleResult(this)">
-          <div class="score-ring">
-            <svg width="42" height="42" viewBox="0 0 42 42">
-              <circle class="sr-track" cx="21" cy="21" r="17"/>
-              <circle class="sr-fill sr-hi" cx="21" cy="21" r="17" stroke-dasharray="107" stroke-dashoffset="22"/>
-            </svg>
-            <div class="sr-label" style="color:var(--success);">83</div>
-          </div>
-          <div class="test-result-info">
-            <div class="test-result-name">Traoré Moussa</div>
-            <div class="test-result-meta">Développement · M2 · 12 min 34s · 13 mars 2026</div>
-          </div>
-          <div class="sec-scores">
-            <div class="sec-s"><div class="sec-s-val">90%</div><div class="sec-s-lbl">Partie A</div></div>
-            <div class="sec-s"><div class="sec-s-val">80%</div><div class="sec-s-lbl">Partie B</div></div>
-            <div class="sec-s"><div class="sec-s-val">75%</div><div class="sec-s-lbl">Partie C</div></div>
-          </div>
-          <span class="tag tag-success">Recommandé</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="test-result-body">
-          <div class="ans-list">
-            <div class="ans-item">
-              <div class="ans-head">
-                <span class="ans-q">Q1 · Quelle méthode HTTP est idempotente ?</span>
-                <span class="ans-ok">✓ Correct</span>
-              </div>
-              <div class="ans-r">Réponse : <strong>PUT</strong> — PUT et DELETE sont idempotentes car leur répétition produit le même résultat.</div>
-            </div>
-            <div class="ans-item">
-              <div class="ans-head">
-                <span class="ans-q">Q2 · Qu'est-ce qu'une closure en JavaScript ?</span>
-                <span class="ans-ok">✓ Correct</span>
-              </div>
-              <div class="ans-r">Réponse : <strong>Une fonction qui retient les variables de son scope parent même après son exécution.</strong></div>
-            </div>
-            <div class="ans-item">
-              <div class="ans-head">
-                <span class="ans-q">Q3 · Exercice pratique : Complexité de l'algorithme</span>
-                <span class="ans-bad">✗ Partiel</span>
-              </div>
-              <div class="ans-r">Réponse donnée : "O(n)" — La réponse attendue était O(n²) pour l'algorithme présenté.</div>
-            </div>
-            <div class="ans-item">
-              <div class="ans-head">
-                <span class="ans-q">C1 · Mise en situation : Architecture d'une API de gestion de stock</span>
-                <span style="font-size:11px;color:var(--muted);">Réponse ouverte</span>
-              </div>
-              <div class="ans-r">Réponse : "Je concevrais une API REST avec Node.js/Express, base de données PostgreSQL avec des endpoints CRUD pour les produits, authentification JWT, et une couche de cache Redis pour les requêtes fréquentes. Documentation Swagger incluse."</div>
-            </div>
-          </div>
-          <div class="test-btns">
-            <button class="btn btn-outline btn-sm" onclick="showToast('Email résultat envoyé ✓')">Envoyer résultat par email</button>
-            <a href="meets.html" class="btn btn-primary btn-sm">Planifier un meet →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- CARD 2 — SCORE MD -->
-      <div class="test-result-card">
-        <div class="test-result-head" onclick="toggleResult(this)">
-          <div class="score-ring">
-            <svg width="42" height="42" viewBox="0 0 42 42">
-              <circle class="sr-track" cx="21" cy="21" r="17"/>
-              <circle class="sr-fill sr-md" cx="21" cy="21" r="17" stroke-dasharray="107" stroke-dashoffset="46"/>
-            </svg>
-            <div class="sr-label" style="color:var(--warning);">57</div>
-          </div>
-          <div class="test-result-info">
-            <div class="test-result-name">Ouédraogo Fatou</div>
-            <div class="test-result-meta">Électronique IoT · L2 · 14 min 02s · 12 mars 2026</div>
-          </div>
-          <div class="sec-scores">
-            <div class="sec-s"><div class="sec-s-val">60%</div><div class="sec-s-lbl">Partie A</div></div>
-            <div class="sec-s"><div class="sec-s-val">50%</div><div class="sec-s-lbl">Partie B</div></div>
-            <div class="sec-s"><div class="sec-s-val">60%</div><div class="sec-s-lbl">Partie C</div></div>
-          </div>
-          <span class="tag tag-warning">À étudier</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="test-result-body">
-          <div style="color:var(--muted);font-size:13px;padding:8px 0;">Score moyen. Bases présentes, mais certaines lacunes techniques. Un meet permettrait d'évaluer le potentiel.</div>
-          <div class="test-btns">
-            <button class="btn btn-outline btn-sm" onclick="showToast('Email envoyé ✓')">Envoyer résultat</button>
-            <button class="btn btn-danger btn-sm" onclick="showToast('Refus envoyé')">Refuser</button>
-            <a href="meets.html" class="btn btn-primary btn-sm">Meet quand même →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- CARD 3 — SCORE LO -->
-      <div class="test-result-card">
-        <div class="test-result-head" onclick="toggleResult(this)">
-          <div class="score-ring">
-            <svg width="42" height="42" viewBox="0 0 42 42">
-              <circle class="sr-track" cx="21" cy="21" r="17"/>
-              <circle class="sr-fill sr-lo" cx="21" cy="21" r="17" stroke-dasharray="107" stroke-dashoffset="78"/>
-            </svg>
-            <div class="sr-label" style="color:var(--danger);">27</div>
-          </div>
-          <div class="test-result-info">
-            <div class="test-result-name">Bamba Kader</div>
-            <div class="test-result-meta">Sécurité · L1 · 8 min 17s · 11 mars 2026</div>
-          </div>
-          <div class="sec-scores">
-            <div class="sec-s"><div class="sec-s-val">30%</div><div class="sec-s-lbl">Partie A</div></div>
-            <div class="sec-s"><div class="sec-s-val">20%</div><div class="sec-s-lbl">Partie B</div></div>
-            <div class="sec-s"><div class="sec-s-val">30%</div><div class="sec-s-lbl">Partie C</div></div>
-          </div>
-          <span class="tag tag-danger">Score insuffisant</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="test-result-body">
-          <div style="color:var(--muted);font-size:13px;padding:8px 0;">Score insuffisant. Bases techniques trop légères pour le pôle Sécurité à ce stade.</div>
-          <div class="test-btns">
-            <button class="btn btn-danger btn-sm" onclick="showToast('Refus envoyé')">Envoyer refus</button>
-          </div>
-        </div>
-      </div>
-
+      <div class="loading-state">Chargement…</div>
     </div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
-<script>
-function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.add('show');}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
-document.getElementById('nl-tests').classList.add('active');
-function toggleResult(head){
-  const body=head.nextElementSibling;
-  const ch=head.querySelector('.chevron');
-  body.classList.toggle('open');
-  if(ch) ch.style.transform=body.classList.contains('open')?'rotate(180deg)':'';
-}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
-</script>
+<script type="module" src="./js/admin/tests.js"></script>
 </body>
 </html>
