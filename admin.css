@@ -309,6 +309,7 @@ ul {
     box-shadow: 4px 0 32px rgba(0, 0, 0, .25);
     backdrop-filter: blur(10px);
     border-right: 1px solid rgba(255, 255, 255, .1);
+    width: 280px; /* Slightly narrower on tablets */
   }
 
   .sidebar.open {
@@ -328,6 +329,106 @@ ul {
 
   .sidebar-overlay.show {
     animation: fadeIn .3s ease-out;
+  }
+}
+
+/* Enhanced mobile responsiveness for sidebar */
+@media (max-width: 640px) {
+  .sidebar {
+    width: 260px;
+  }
+
+  .sidebar-brand {
+    padding: 16px 16px 12px;
+  }
+
+  .sidebar-logo img {
+    height: 45px;
+  }
+
+  .sidebar-sub {
+    font-size: 8px;
+  }
+
+  .sidebar-nav {
+    padding: 4px 0;
+  }
+
+  .sidebar-link {
+    padding: 6px 16px;
+    font-size: 12px;
+  }
+
+  .sidebar-link svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .sidebar-footer {
+    padding: 10px 12px;
+  }
+
+  .sidebar-user {
+    gap: 8px;
+  }
+
+  .sidebar-avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .sidebar-user-name {
+    font-size: 11px;
+  }
+
+  .sidebar-user-role {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 240px;
+  }
+
+  .sidebar-brand {
+    padding: 14px 14px 10px;
+  }
+
+  .sidebar-logo img {
+    height: 40px;
+  }
+
+  .sidebar-link {
+    padding: 5px 14px;
+    font-size: 11px;
+  }
+
+  .sidebar-link svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .sidebar-section-label {
+    padding: 8px 14px 2px;
+    font-size: 8px;
+  }
+
+  .sidebar-footer {
+    padding: 8px 10px;
+  }
+
+  .sidebar-avatar {
+    width: 26px;
+    height: 26px;
+  }
+
+  .sidebar-user-name {
+    font-size: 10px;
+  }
+
+  .sidebar-user-role {
+    font-size: 8px;
   }
 }
 
