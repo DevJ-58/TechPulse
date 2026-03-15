@@ -251,7 +251,7 @@ ul {
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 999; /* Ensure navbar always stays above panels */
+  z-index: 90; /* Allow sidebar to overlay when open */
   height: var(--topbar-h);
   background: var(--bg);
   border-bottom: 1px solid var(--border);
@@ -306,16 +306,16 @@ ul {
 @media (max-width: 900px) {
   .sidebar {
     position: fixed;
-    top: var(--topbar-h);
+    top: 0;
     left: 0;
     bottom: 0;
-    height: calc(100vh - var(--topbar-h));
+    height: 100vh;
     transform: translateX(-100%);
     box-shadow: 4px 0 32px rgba(0, 0, 0, .25);
     backdrop-filter: blur(10px);
     border-right: 1px solid rgba(255, 255, 255, .1);
     width: 280px; /* Slightly narrower on tablets */
-    z-index: 90; /* Below the topbar */
+    z-index: 999; /* Above the topbar */
   }
 
   .sidebar.open {
