@@ -3,6 +3,17 @@ import { showToast } from '../utils/toast.utils.js';
 import { qs, qsa, setLoading, clearForm } from '../utils/dom.utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Burger menu functionality
+  const burger = qs('#burger');
+  const mobileNav = qs('#nav-mobile');
+
+  if (burger && mobileNav) {
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+    });
+  }
+
   let currentStep = 0;
   const steps = qsa('.form-step');
   const nextBtns = qsa('.btn-next');
