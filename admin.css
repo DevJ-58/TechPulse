@@ -306,17 +306,46 @@ ul {
 @media (max-width: 900px) {
   .sidebar {
     transform: translateX(-100%);
-    box-shadow: 4px 0 24px rgba(0, 0, 0, .15);
+    box-shadow: 4px 0 32px rgba(0, 0, 0, .25);
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, .1);
   }
 
   .sidebar.open {
     transform: translateX(0);
+    animation: slideIn .4s cubic-bezier(.4, 0, .2, 1);
   }
 
   .main {
     margin-left: 0;
     overflow-x: hidden;
   }
+
+  .sidebar-overlay {
+    backdrop-filter: blur(4px);
+    animation: fadeIn .3s ease-out;
+  }
+
+  .sidebar-overlay.show {
+    animation: fadeIn .3s ease-out;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
   .topbar-burger {
     display: flex;
