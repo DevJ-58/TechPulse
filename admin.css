@@ -251,7 +251,7 @@ ul {
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 999; /* Ensure navbar always stays above panels */
   height: var(--topbar-h);
   background: var(--bg);
   border-bottom: 1px solid var(--border);
@@ -315,7 +315,7 @@ ul {
     backdrop-filter: blur(10px);
     border-right: 1px solid rgba(255, 255, 255, .1);
     width: 280px; /* Slightly narrower on tablets */
-    z-index: 120;
+    z-index: 90; /* Below the topbar */
   }
 
   .sidebar.open {
