@@ -30,7 +30,6 @@ async function request(method, endpoint, params = {}, body = null) {
   let url = API_CONFIG.BASE_URL + buildUrl(endpoint, params);
   const headers = {
     'Content-Type': 'application/json',
-    'ngrok-skip-browser-warning': 'true',
   };
   const token = sessionStorage.getItem('tp_admin_token');
   if (token) headers['Authorization'] = `Bearer ${token}`;

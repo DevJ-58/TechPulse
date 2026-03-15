@@ -1,8 +1,8 @@
-// ⚠️ SOURCE DE VÉRITÉ UNIQUE — ne jamais écrire l'URL ngrok ailleurs
-// Remplace BASE_URL quand ngrok change de lien
+// ⚠️ SOURCE DE VÉRITÉ UNIQUE — ne jamais écrire l'URL ailleurs
+// Remplace BASE_URL quand l'URL change
 
 const API_CONFIG = {
-  BASE_URL: "https://7bc5-102-206-123-229.ngrok-free.app",
+  BASE_URL: "https://pulseclub-backend.onrender.com",
 
   ENDPOINTS: {
 
