@@ -27,5 +27,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Charger les candidats
+  const tbody = qs('#cand-table-tbody');
+  if (tbody) {
+    tbody.innerHTML = '<tr><td colspan="4">Chargement…</td></tr>';
+    (async () => {
+      try {
+        const { data, error } = await getAllCandidates();
+        if (error) {
+          tbody.innerHTML = '<tr><td colspan="4">Erreur de chargement</td></tr>';
+          return;
+        }
+        if (data && Array.isArray(data)) {
+          tbody.innerHTML = '';
+          data.forEach(c => {
+            tbody.innerHTML += `<tr><td>${c.prenom || ''} ${c.nom || ''}</td><td>${c.pole || ''}</td><td>${c.statut || ''}</td><td>${c.email || ''}</td></tr>`;
+          });
+        } else {
+          tbody.innerHTML = '<tr><td colspan="4">Aucun candidat</td></tr>';
+        }
+      } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="4">Erreur de chargement</td></tr>';
+      }
+    })();
+  }
+
   // TODO: implémenter le rendu du tableau, filtres, panel détail, boutons, etc.
 });

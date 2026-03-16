@@ -1,5 +1,6 @@
 import { api } from './api.service.js';
 import API_CONFIG from '../config/api.config.js';
+import { setAdminName } from '../utils/auth.utils.js';
 
 /**
  * Authentifie un admin et stocke le token JWT et le nom dans sessionStorage
@@ -13,10 +14,12 @@ export async function login(email, mot_de_passe) {
   try {
     const { data, error, status } = await api.post(API_CONFIG.ENDPOINTS.ADMIN_CONNEXION, {}, { email, mot_de_passe });
     console.log('[login] retour api.post', { data, error, status });
-    if (data?.token_acces) {
-      sessionStorage.setItem('tp_admin_token', data.token_acces);
-      sessionStorage.setItem('tp_admin_name', data.nom || '');
-      console.log('[login] token stocké', data.token_acces);
+    if (data?.jetons?.token_acces || data?.token_acces || data?.token) {
+      sessionStorage.setItem('tp_admin_token', data.jetons?.token_acces || data.token_acces || data.token);
+      const admin = data?.admin || data?.user || {};
+      const fullName = [admin?.prenom, admin?.nom].filter(Boolean).join(' ').trim() || admin?.nom || admin?.prenom || admin?.name || data?.nom || '';
+      setAdminName(fullName);
+      console.log('[login] token stocké', data.jetons?.token_acces || data.token_acces || data.token);
     } else {
       console.warn('[login] Pas de token_acces dans data', data);
     }

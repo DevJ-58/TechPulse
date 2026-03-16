@@ -1,4 +1,7 @@
-import { requireAdmin } from '../../utils/auth.utils.js';
+console.log('[dashboard] dashboard.js loaded');
+
+import { requireAdmin, getAdminName, setAdminName, clearSession } from '../../utils/auth.utils.js';
+import { getMe } from '../../services/admins.service.js';
 import { getAllCandidates } from '../../services/candidates.service.js';
 import { getAllSessions } from '../../services/sessions.service.js';
 import { getAllMeets } from '../../services/meets.service.js';
@@ -7,6 +10,27 @@ import { qs } from '../../utils/dom.utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   requireAdmin();
+
+  // Affiche le nom de l'admin dans le sidebar
+  let adminName = getAdminName();
+  if (!adminName) {
+    // Récupère le profil si on a un token mais pas de nom stocké (reload après login)
+    try {
+      const { data } = await getMe();
+      const admin = data?.admin || {};
+      adminName = [admin?.prenom, admin?.nom].filter(Boolean).join(' ').trim() || admin?.nom || admin?.prenom || data?.nom || '';
+      if (adminName) setAdminName(adminName);
+    } catch (err) {
+      console.warn('[dashboard] impossible de récupérer le profil admin', err);
+    }
+  }
+
+  const sidebarName = qs('#sidebar-user-name');
+  const sidebarAvatar = qs('#sidebar-avatar');
+  if (adminName) {
+    if (sidebarName) sidebarName.textContent = adminName;
+    if (sidebarAvatar) sidebarAvatar.textContent = adminName.charAt(0).toUpperCase();
+  }
 
   // Burger menu functionality
   const burger = qs('#topbar-burger');
@@ -24,6 +48,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     overlay.addEventListener('click', () => {
       sidebar.classList.remove('open');
       overlay.classList.remove('show');
+    });
+  }
+
+  // Logout functionality
+  const logoutBtn = qs('#logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      clearSession();
+      window.location.href = 'login.html';
     });
   }
 

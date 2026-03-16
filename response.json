@@ -1,0 +1,21 @@
+{
+  "status": 200,
+  "ok": true,
+  "data": {
+    "admin": {
+      "id": "adm_t0sb4kie4pocke7x4e4ffkwi",
+      "nom": "Kouadio Fréjus",
+      "email": "frejus@clubpulse.tech",
+      "role": "fondateur",
+      "actif": true,
+      "date_creation": "2026-03-14T13:46:01.389996Z",
+      "derniere_co": "2026-03-15T22:44:12.880740Z"
+    },
+    "jetons": {
+      "token_acces": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1fdDBzYjRraWU0cG9ja2U3eDRlNGZma3dpIiwiZW1haWwiOiJmcmVqdXNAY2x1YnB1bHNlLnRlY2giLCJyb2xlIjoiZm9uZGF0ZXVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3MzYxODI1MiwiaWF0IjoxNzczNjE0NjUyfQ.3-9_Ix6ruSJWM5HLLTu4VrohiXsx8Q9HPP1lCjJZFDU",
+      "type_token": "bearer",
+      "expire_dans": 3599,
+      "token_rafraichissement": "j6hQNbA_NnTF1F_wn-fZbZFF-batYi6DEOGxeN0R6sTxsHM46fuzLL14hFv3dfR2"
+    }
+  }
+}

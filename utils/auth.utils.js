@@ -1,19 +1,30 @@
 /**
+ * Vérifie si le token est valide et non vide
+ * @param {string|null} token
+ * @returns {boolean}
+ */
+function isValidToken(token) {
+  if (!token) return false;
+  const t = String(token).trim().toLowerCase();
+  return t !== '' && t !== 'null' && t !== 'undefined';
+}
+
+/**
  * Vérifie si un admin est connecté (token présent et non expiré)
  * @returns {boolean}
  */
 export function isAdminLoggedIn() {
   const token = sessionStorage.getItem('tp_admin_token');
   // TODO: vérifier expiration JWT si besoin
-  return !!token;
+  return isValidToken(token);
 }
 
 /**
- * Redirige vers /admin/login.html si non connecté
+ * Redirige vers login.html si non connecté
  */
 export function requireAdmin() {
   if (!isAdminLoggedIn()) {
-    window.location.href = '/admin/login.html';
+    window.location.href = 'login.html';
   }
 }
 
@@ -31,6 +42,15 @@ export function getAdminToken() {
  */
 export function getAdminName() {
   return sessionStorage.getItem('tp_admin_name');
+}
+
+/**
+ * Stocke le nom de l'admin
+ * @param {string} name
+ */
+export function setAdminName(name) {
+  if (!name) return;
+  sessionStorage.setItem('tp_admin_name', name);
 }
 
 /**

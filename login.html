@@ -26,7 +26,7 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;pad
       <h2 class="login-title">Connexion</h2>
       <p class="login-sub">Espace réservé aux administrateurs du club.</p>
       <div class="login-error" id="login-error">Email ou mot de passe incorrect.</div>
-      <form id="login-form">
+      <form id="login-form" onsubmit="return false">
         <div class="form-group">
           <label class="form-label">Email admin</label>
           <input type="email" class="form-input" id="email" placeholder="admin@clubpulse.tech">
@@ -41,6 +41,7 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;pad
     </div>
   <div class="login-footer">TechPulse — Université Internationale de Yamoussoukro</div>
 </div>
-<script type="module" src="./js/admin/login.js"></script>
+<script>console.log('inline script works');</script>
+<script type="module" src="http://localhost:3000/js/admin/login.js"></script>
 </body>
 </html>
