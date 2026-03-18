@@ -6,8 +6,7 @@ import { api } from './api.service.js';
  * @returns {Promise<{data, error, status}>}
  */
 export async function getAllMeets(filters = {}) {
-  const params = new URLSearchParams(filters).toString();
-  return await api.get(`/api/v1/meets/${params ? '?' + params : ''}`);
+  return await api.get('/api/v1/meets/', filters);
 }
 
 /**

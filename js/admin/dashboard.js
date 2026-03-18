@@ -1,6 +1,5 @@
-console.log('[dashboard] dashboard.js loaded');
-
 import { requireAdmin, getAdminName, setAdminName, clearSession } from '../../utils/auth.utils.js';
+import { initProfilModal } from '../../utils/profil.utils.js';
 import { getMe } from '../../services/admins.service.js';
 import { getAllCandidates } from '../../services/candidates.service.js';
 import { getAllSessions } from '../../services/sessions.service.js';
@@ -10,6 +9,7 @@ import { qs } from '../../utils/dom.utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   requireAdmin();
+  initProfilModal();
 
   // Affiche le nom de l'admin dans le sidebar
   let adminName = getAdminName();
@@ -51,15 +51,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Logout functionality
-  const logoutBtn = qs('#logout-btn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      clearSession();
-      window.location.href = 'login.html';
-    });
-  }
-
   const statsEls = {
     candidatures: qs('#stat-candidatures'),
     tests: qs('#stat-tests'),
@@ -69,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const recentTable = qs('#recent-candidates-tbody');
   // Affiche loading
   Object.values(statsEls).forEach(el => { if (el) el.textContent = '…'; });
-  if (recentTable) recentTable.innerHTML = '<tr><td colspan="5">Chargement…</td></tr>';
+  if (recentTable) recentTable.innerHTML = '<tr><td colspan="6">Chargement…</td></tr>';
   try {
     const [cands, sess, meets, membres] = await Promise.all([
       getAllCandidates(),
@@ -77,19 +68,57 @@ document.addEventListener('DOMContentLoaded', async () => {
       getAllMeets(),
       getAllMembers()
     ]);
-    if (statsEls.candidatures) statsEls.candidatures.textContent = cands.data?.length ?? '0';
-    if (statsEls.tests) statsEls.tests.textContent = sess.data?.length ?? '0';
-    if (statsEls.meets) statsEls.meets.textContent = meets.data?.length ?? '0';
-    if (statsEls.membres) statsEls.membres.textContent = membres.data?.length ?? '0';
-    // 5 dernières candidatures
-    if (recentTable && Array.isArray(cands.data)) {
+
+    // Normalise la liste quelle que soit la structure retournée
+    const candidatesList = Array.isArray(cands.data) ? cands.data
+      : Array.isArray(cands.data?.candidates) ? cands.data.candidates
+      : Array.isArray(cands.data?.results) ? cands.data.results
+      : [];
+
+    const sessionsList = Array.isArray(sess.data) ? sess.data
+      : Array.isArray(sess.data?.sessions) ? sess.data.sessions
+      : Array.isArray(sess.data?.results) ? sess.data.results
+      : [];
+
+    const meetsList = Array.isArray(meets.data) ? meets.data
+      : Array.isArray(meets.data?.meets) ? meets.data.meets
+      : Array.isArray(meets.data?.results) ? meets.data.results
+      : [];
+
+    const membresList = Array.isArray(membres.data) ? membres.data
+      : Array.isArray(membres.data?.membres) ? membres.data.membres
+      : Array.isArray(membres.data?.results) ? membres.data.results
+      : [];
+
+    // Stats
+    if (statsEls.candidatures) statsEls.candidatures.textContent = candidatesList.length;
+    if (statsEls.tests)        statsEls.tests.textContent        = sessionsList.length;
+    if (statsEls.meets)        statsEls.meets.textContent        = meetsList.length;
+    if (statsEls.membres)      statsEls.membres.textContent      = membresList.length;
+
+    // Masquer les loading-state
+    document.querySelectorAll('.loading-state').forEach(el => el.style.display = 'none');
+
+    // Tableau des 5 dernières candidatures
+    if (recentTable && candidatesList.length > 0) {
       recentTable.innerHTML = '';
-      cands.data.slice(-5).reverse().forEach(c => {
-        recentTable.innerHTML += `<tr><td>${c.prenom}</td><td>${c.nom}</td><td>${c.pole}</td><td>${c.statut}</td><td>${c.email}</td></tr>`;
+      candidatesList.slice(-5).reverse().forEach(c => {
+        const date = c.created_at ? new Date(c.created_at).toLocaleDateString('fr-FR') : '—';
+        recentTable.innerHTML += `<tr>
+  <td>${c.prenom ?? ''} ${c.nom ?? ''}</td>
+  <td>${c.pole ?? '—'}</td>
+  <td>${c.niveau ?? '—'}</td>
+  <td>${date}</td>
+  <td><span class="tag">${c.statut ?? '—'}</span></td>
+  <td><a href="candidatures.html" class="btn btn-ghost btn-sm">Voir</a></td>
+</tr>`;
       });
+    } else if (recentTable) {
+      recentTable.innerHTML = '<tr><td colspan="6">Aucune candidature pour le moment.</td></tr>';
     }
   } catch (e) {
+    console.error('[dashboard] erreur chargement', e);
     Object.values(statsEls).forEach(el => { if (el) el.textContent = '—'; });
-    if (recentTable) recentTable.innerHTML = '<tr><td colspan="5">Erreur de chargement</td></tr>';
+    if (recentTable) recentTable.innerHTML = '<tr><td colspan="6">Erreur de chargement</td></tr>';
   }
 });

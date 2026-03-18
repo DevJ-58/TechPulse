@@ -52,12 +52,12 @@
     </a>
   </nav>
   <div class="sidebar-footer">
-    <div class="sidebar-user">
-      <div class="sidebar-avatar">A</div>
-      <div><div class="sidebar-user-name">Admin</div><div class="sidebar-user-role">Fondateur</div></div>
-      <a href="login.html" class="sidebar-logout" title="Déconnexion">
+    <div id="sidebar-user-trigger" style="cursor:pointer;" title="Mon profil">
+      <div id="sidebar-avatar" class="sidebar-avatar">A</div>
+      <div><div id="sidebar-user-name" class="sidebar-user-name">Admin</div><div class="sidebar-user-role">Fondateur</div></div>
+      <button id="logout-btn" type="button" class="sidebar-logout" style="background:none;border:none;padding:0;cursor:pointer;" title="Déconnexion">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      </a>
+      </button>
     </div>
   </div>
 </aside>
@@ -201,5 +201,46 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <script type="module" src="/js/admin/meets.js"></script>
+
+<!-- MODAL PROFIL ADMIN -->
+<div class="modal-overlay" id="profil-modal" style="display:none;">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <h3 class="modal-title">Mon profil</h3>
+      <span class="modal-close" onclick="closeModal('profil-modal')">✕</span>
+    </div>
+    <div class="modal-body" style="padding:20px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:20px;">
+        <div id="profil-avatar-wrap" style="position:relative;cursor:pointer;" onclick="qs('#profil-photo-input').click()">
+          <div id="profil-avatar-display" style="width:72px;height:72px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;overflow:hidden;">A</div>
+          <div style="position:absolute;bottom:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;">✏️</div>
+        </div>
+        <input type="file" id="profil-photo-input" accept="image/*" style="display:none;" onchange="handlePhotoChange(this)">
+        <span style="font-size:11px;color:var(--muted);">Clique sur l'avatar pour changer la photo</span>
+      </div>
+      <div class="filter-bar" style="margin-bottom:16px;">
+        <button type="button" class="filter-btn active" onclick="switchProfilTab(this,'infos')">Informations</button>
+        <button type="button" class="filter-btn" onclick="switchProfilTab(this,'password')">Mot de passe</button>
+      </div>
+      <div id="tab-infos">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group"><label class="form-label">Prénom</label><input type="text" class="form-input" id="profil-prenom"></div>
+          <div class="form-group"><label class="form-label">Nom</label><input type="text" class="form-input" id="profil-nom"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="profil-email"></div>
+        <button type="button" class="btn btn-primary w-full" id="save-profil-btn" onclick="saveProfil()">Sauvegarder les modifications</button>
+      </div>
+      <div id="tab-password" style="display:none;">
+        <div class="form-group"><label class="form-label">Mot de passe actuel</label><input type="password" class="form-input" id="profil-pwd-current" placeholder="Mot de passe actuel"></div>
+        <div class="form-group"><label class="form-label">Nouveau mot de passe</label><input type="password" class="form-input" id="profil-pwd-new" placeholder="Nouveau mot de passe (min. 8 car.)"></div>
+        <div class="form-group"><label class="form-label">Confirmer</label><input type="password" class="form-input" id="profil-pwd-confirm" placeholder="Confirmer le nouveau mot de passe"></div>
+        <button type="button" class="btn btn-primary w-full" onclick="savePassword()">Changer le mot de passe</button>
+      </div>
+      <hr style="border:none;border-top:1px solid var(--border);margin:16px 0;">
+      <button type="button" class="btn btn-outline w-full" style="color:var(--danger);border-color:var(--danger);" onclick="doLogout()">Se déconnecter</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

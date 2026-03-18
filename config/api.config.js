@@ -43,6 +43,10 @@ const API_CONFIG = {
     MEMBER_BY_ID:        "/api/v1/members/:membre_id",          // GET · PATCH
     MEMBER_WHATSAPP:     "/api/v1/members/:membre_id/whatsapp", // PATCH — marquer WA envoyé
 
+    // ─── EMAILS ──────────────────────────────────────────
+    EMAIL_TEST_LINK:     "/api/v1/email/send-test-link",  // POST (admin) — envoyer lien de test
+    EMAIL_REFUSAL:       "/api/v1/email/send-refusal",    // POST (admin) — envoyer mail de refus
+
     // ─── SETTINGS ────────────────────────────────────────
     SETTINGS_GLOBAL:     "/api/v1/settings/global",     // GET · PATCH
     SETTINGS_POLES:      "/api/v1/settings/poles",      // GET · PUT (créer/remplacer un pôle)

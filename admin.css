@@ -1839,6 +1839,11 @@ tr:hover td {
   margin-bottom: 16px;
 }
 
+/* Force les statistiques à occuper toute la largeur du container */
+.meet-stats > .grid-4 {
+  grid-column: 1 / -1;
+}
+
 .meet-stat-box {
   background: var(--surface);
   padding: 14px 13px;

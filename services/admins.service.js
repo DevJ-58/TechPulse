@@ -15,7 +15,9 @@ export async function login(email, mot_de_passe) {
     const { data, error, status } = await api.post(API_CONFIG.ENDPOINTS.ADMIN_CONNEXION, {}, { email, mot_de_passe });
     console.log('[login] retour api.post', { data, error, status });
     if (data?.jetons?.token_acces || data?.token_acces || data?.token) {
-      sessionStorage.setItem('tp_admin_token', data.jetons?.token_acces || data.token_acces || data.token);
+      const rawToken = data.jetons?.token_acces || data.token_acces || data.token;
+      const token = String(rawToken || '').trim();
+      sessionStorage.setItem('tp_admin_token', token);
       const admin = data?.admin || data?.user || {};
       const fullName = [admin?.prenom, admin?.nom].filter(Boolean).join(' ').trim() || admin?.nom || admin?.prenom || admin?.name || data?.nom || '';
       setAdminName(fullName);
@@ -37,7 +39,7 @@ export async function login(email, mot_de_passe) {
  * @returns {Promise<{data, error, status}>}
  */
 export async function logout() {
-  const { data, error, status } = await api.post(api.buildUrl('/admins/deconnexion'));
+  const { data, error, status } = await api.post(API_CONFIG.ENDPOINTS.ADMIN_DECONNEXION, {});
   sessionStorage.clear();
   return { data, error, status };
 }
@@ -47,5 +49,40 @@ export async function logout() {
  * @returns {Promise<{data, error, status}>}
  */
 export async function getMe() {
-  return await api.get(api.buildUrl('/admins/me'));
+  return await api.get(API_CONFIG.ENDPOINTS.ADMIN_ME);
+}
+
+/**
+ * Crée un nouveau compte admin
+ * @param {object} payload — { prenom, nom, email, mot_de_passe }
+ * @returns {Promise<{data, error, status}>}
+ */
+export async function register(payload) {
+  try {
+    const { data, error, status } = await api.post(
+      API_CONFIG.ENDPOINTS.ADMIN_INSCRIPTION, {}, payload
+    );
+    return { data, error, status };
+  } catch(e) {
+    console.error('[register] exception', e);
+    return { data: null, error: e.message, status: 0 };
+  }
+}
+
+/**
+ * Met à jour les infos du profil admin
+ * @param {object} payload — { prenom, nom, email }
+ * @returns {Promise<{data, error, status}>}
+ */
+export async function updateMe(payload) {
+  return await api.patch(API_CONFIG.ENDPOINTS.ADMIN_ME, {}, payload);
+}
+
+/**
+ * Modifie le mot de passe du profil admin
+ * @param {object} payload — { mot_de_passe_actuel, nouveau_mot_de_passe }
+ * @returns {Promise<{data, error, status}>}
+ */
+export async function updatePassword(payload) {
+  return await api.patch(API_CONFIG.ENDPOINTS.ADMIN_ME + '/password', {}, payload);
 }

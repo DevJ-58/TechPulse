@@ -1,4 +1,5 @@
 import { api } from './api.service.js';
+import API_CONFIG from '../config/api.config.js';
 
 /**
  * Récupère tous les candidats avec filtres optionnels
@@ -6,8 +7,7 @@ import { api } from './api.service.js';
  * @returns {Promise<{data, error, status}>}
  */
 export async function getAllCandidates(filters = {}) {
-  const params = new URLSearchParams(filters).toString();
-  return await api.get(`/api/v1/candidates/${params ? '?' + params : ''}`);
+  return await api.get(API_CONFIG.ENDPOINTS.CANDIDATES, filters);
 }
 
 /**
@@ -16,7 +16,8 @@ export async function getAllCandidates(filters = {}) {
  * @returns {Promise<{data, error, status}>}
  */
 export async function getCandidateById(candidat_id) {
-  return await api.get(api.buildUrl('/api/v1/candidates/:candidat_id', { candidat_id }));
+  const url = API_CONFIG.ENDPOINTS.CANDIDATE_BY_ID.replace(':candidat_id', candidat_id);
+  return await api.get(url);
 }
 
 /**
@@ -25,7 +26,7 @@ export async function getCandidateById(candidat_id) {
  * @returns {Promise<{data, error, status}>}
  */
 export async function createCandidate(data) {
-  return await api.post('/api/v1/candidates/', {}, data);
+  return await api.post(API_CONFIG.ENDPOINTS.CANDIDATES, {}, data);
 }
 
 /**
@@ -35,7 +36,8 @@ export async function createCandidate(data) {
  * @returns {Promise<{data, error, status}>}
  */
 export async function updateCandidateStatus(candidat_id, statut) {
-  return await api.patch(api.buildUrl('/api/v1/candidates/:candidat_id/statut', { candidat_id }), {}, { statut });
+  const url = API_CONFIG.ENDPOINTS.CANDIDATE_STATUT.replace(':candidat_id', candidat_id);
+  return await api.patch(url, {}, { statut });
 }
 
 /**
@@ -44,5 +46,8 @@ export async function updateCandidateStatus(candidat_id, statut) {
  * @returns {Promise<{data, error, status}>}
  */
 export async function deleteCandidate(candidat_id) {
-  return await api.delete(api.buildUrl('/api/v1/candidates/:candidat_id', { candidat_id }));
+  const url = API_CONFIG.ENDPOINTS.CANDIDATE_BY_ID
+    .replace(':candidat_id', candidat_id);
+  console.log('[deleteCandidate] DELETE →', url);
+  return await api.delete(url);
 }

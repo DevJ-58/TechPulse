@@ -48,8 +48,7 @@ export async function finalizeSession(session_id, scores) {
  * @returns {Promise<{data, error, status}>}
  */
 export async function getAllSessions(filters = {}) {
-  const params = new URLSearchParams(filters).toString();
-  return await api.get(`/api/v1/tests/sessions${params ? '?' + params : ''}`);
+  return await api.get('/api/v1/tests/sessions', filters);
 }
 
 /**

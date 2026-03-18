@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="images/h.png" type="image/png">
-<title>Connexion — TechPulse Admin</title>
+<title>Inscription — TechPulse Admin</title>
 <link rel="stylesheet" href="admin.css">
 <style>
 body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
@@ -23,28 +23,40 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;pad
 <div class="login-wrap">
   <div class="login-logo"><img src="images/1773340127513.png" alt="TechPulse Logo"> <span style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;">Admin</span></div>
     <div class="login-box">
-      <h2 class="login-title">Connexion</h2>
-      <p class="login-sub">Espace réservé aux administrateurs du club.</p>
-      <div class="login-error" id="login-error">Email ou mot de passe incorrect.</div>
-      <form id="login-form" onsubmit="return false">
+      <h2 class="login-title">Créer un compte admin</h2>
+      <p class="login-sub">Accès réservé à l'équipe fondatrice</p>
+      <div class="login-error" id="register-error"></div>
+      <form id="register-form" onsubmit="return false">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="form-group">
+            <label class="form-label">Prénom</label>
+            <input type="text" class="form-input" id="prenom" placeholder="Prénom *">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nom</label>
+            <input type="text" class="form-input" id="nom" placeholder="Nom *">
+          </div>
+        </div>
         <div class="form-group">
           <label class="form-label">Email admin</label>
           <input type="email" class="form-input" id="email" placeholder="admin@clubpulse.tech">
         </div>
         <div class="form-group">
           <label class="form-label">Mot de passe</label>
-          <input type="password" class="form-input" id="pwd" placeholder="••••••••">
+          <input type="password" class="form-input" id="password" placeholder="••••••••">
         </div>
-        <button class="btn btn-primary w-full" style="margin-top:8px;" type="submit">Se connecter →</button>
-        <div class="loading-state" style="display:none">Chargement…</div>
-        <div style="text-align:center;margin-top:16px;font-size:13px;">
-          <a href="register.html" style="color:var(--accent);text-decoration:none;">Pas encore de compte ? S'inscrire</a>
+        <div class="form-group">
+          <label class="form-label">Confirmer le mot de passe</label>
+          <input type="password" class="form-input" id="confirm-password" placeholder="••••••••">
         </div>
+        <button class="btn btn-primary w-full" id="register-btn" style="margin-top:8px;" type="submit">Créer le compte</button>
+        <div class="loading-state" style="display:none">Création…</div>
       </form>
     </div>
-  <div class="login-footer">TechPulse — Université Internationale de Yamoussoukro</div>
+  <div class="login-footer">
+    Déjà un compte ? <a href="login.html" style="color:var(--accent);text-decoration:none;">Se connecter</a>
+  </div>
 </div>
-<script>console.log('inline script works');</script>
-<script type="module" src="http://localhost:3000/js/admin/login.js"></script>
+<script type="module" src="/js/admin/register.js"></script>
 </body>
 </html>

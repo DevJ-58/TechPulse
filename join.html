@@ -51,13 +51,14 @@
   <!-- FORMULAIRE -->
   <div class="join-form-area">
     <!-- SUCCESS STATE -->
-    <div class="join-success" id="success">
+    <div class="join-success" id="success" style="display:none;">
       <div class="success-ico"><i data-lucide="check" style="width:26px;height:26px;"></i></div>
       <h3 class="success-title">Candidature envoyée !</h3>
       <p class="success-txt">Ton dossier est entre nos mains. Si tu passes l'étape 1, tu recevras un email avec ton lien de test personnel sous 48–72h. Reste attentif.</p>
     </div>
 
     <div id="form-content">
+      <form id="join-form">
       <div class="join-form-hd">
         <h3>Ton dossier de candidature</h3>
         <p>Étape <span id="step-label">1 sur 3</span></p>
@@ -73,25 +74,25 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
           <div class="form-group">
             <label class="form-label">Prénom *</label>
-            <input type="text" class="form-input" id="prenom" placeholder="Ton prénom">
+            <input type="text" class="form-input" name="prenom" id="prenom" placeholder="Ton prénom">
           </div>
           <div class="form-group">
             <label class="form-label">Nom *</label>
-            <input type="text" class="form-input" id="nom" placeholder="Ton nom">
+            <input type="text" class="form-input" name="nom" id="nom" placeholder="Ton nom">
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">Email *</label>
-          <input type="email" class="form-input" id="email" placeholder="prenom@etudiant.uiya.ci">
+          <input type="email" class="form-input" name="email" id="email" placeholder="prenom@etudiant.uiya.ci">
         </div>
         <div class="form-group">
           <label class="form-label">Téléphone</label>
-          <input type="tel" class="form-input" id="tel" placeholder="+225 07 00 00 00 00">
+          <input type="tel" class="form-input" name="tel" id="tel" placeholder="+225 07 00 00 00 00">
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
           <div class="form-group">
             <label class="form-label">Filière *</label>
-            <select class="form-input form-select" id="filiere">
+            <select class="form-input form-select" name="filiere" id="filiere">
               <option value="">Sélectionner</option>
               <option>Informatique</option>
               <option>Réseaux & Télécoms</option>
@@ -102,18 +103,18 @@
           </div>
           <div class="form-group">
             <label class="form-label">Niveau *</label>
-            <select class="form-input form-select" id="niveau">
+            <select class="form-input form-select" name="niveau" id="niveau">
               <option value="">Sélectionner</option>
               <option>L1</option><option>L2</option><option>L3</option>
               <option>M1</option><option>M2</option>
             </select>
           </div>
         </div>
-        <button class="btn btn-primary w-full" id="btn-next-1" style="margin-top:8px;">Continuer <span>→</span></button>
+        <button type="button" class="btn btn-primary w-full" id="btn-next-1" style="margin-top:8px;">Continuer <span>→</span></button>
       </div>
 
       <!-- ÉTAPE 2 : PÔLE -->
-      <div class="form-step" id="step-2">
+      <div class="form-step" id="step-2" style="display:none;">
         <div class="form-group">
           <label class="form-label">Choisis ton pôle *</label>
           <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
@@ -136,7 +137,7 @@
         </div>
         <div class="form-group">
           <label class="form-label">Ton niveau dans ce domaine</label>
-          <select class="form-input form-select" id="niveau-tech">
+          <select class="form-input form-select" name="niveau_tech" id="niveau-tech">
             <option value="">Sélectionner</option>
             <option>Débutant (j'explore)</option>
             <option>Intermédiaire (j'ai des bases)</option>
@@ -144,24 +145,24 @@
           </select>
         </div>
         <div style="display:flex;gap:10px;margin-top:8px;">
-          <button class="btn btn-outline" id="btn-prev-2" style="flex:1;">← Retour</button>
-          <button class="btn btn-primary" id="btn-next-2" style="flex:2;">Continuer →</button>
+          <button type="button" class="btn btn-outline" id="btn-prev-2" style="flex:1;">← Retour</button>
+          <button type="button" class="btn btn-primary" id="btn-next-2" style="flex:2;">Continuer →</button>
         </div>
       </div>
 
       <!-- ÉTAPE 3 : MOTIVATION -->
-      <div class="form-step" id="step-3">
+      <div class="form-step" id="step-3" style="display:none;">
         <div class="form-group">
           <label class="form-label">Pourquoi TechPulse ? *</label>
-          <textarea class="form-input form-textarea" id="motivation" placeholder="Qu'est-ce qui t'attire dans TechPulse ? Qu'est-ce que tu veux apprendre ou construire ici ? Sois direct." rows="5"></textarea>
+          <textarea class="form-input form-textarea" name="motivation" id="motivation" placeholder="Qu'est-ce qui t'attire dans TechPulse ? Qu'est-ce que tu veux apprendre ou construire ici ? Sois direct." rows="5"></textarea>
         </div>
         <div class="form-group">
           <label class="form-label">Un projet ou réalisation dont tu es fier</label>
-          <textarea class="form-input form-textarea" id="projet" placeholder="Un projet perso, académique, un CTF résolu, un circuit que tu as monté… Tout compte." rows="4"></textarea>
+          <textarea class="form-input form-textarea" name="projet" id="projet" placeholder="Un projet perso, académique, un CTF résolu, un circuit que tu as monté… Tout compte." rows="4"></textarea>
         </div>
         <div class="form-group">
           <label class="form-label">Comment tu nous as trouvés ?</label>
-          <select class="form-input form-select" id="source">
+          <select class="form-input form-select" name="source" id="source">
             <option value="">Sélectionner</option>
             <option>Bouche à oreille</option>
             <option>Réseaux sociaux</option>
@@ -171,10 +172,11 @@
           </select>
         </div>
         <div style="display:flex;gap:10px;margin-top:8px;">
-          <button class="btn btn-outline" id="btn-prev-3" style="flex:1;">← Retour</button>
+          <button type="button" class="btn btn-outline" id="btn-prev-3" style="flex:1;">← Retour</button>
           <button class="btn btn-accent" id="btn-submit" style="flex:2;">Envoyer ma candidature ✓</button>
         </div>
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -203,5 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+<script type="module" src="/js/join.js"></script>
 </body>
 </html>

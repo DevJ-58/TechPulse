@@ -29,10 +29,29 @@ async function request(method, endpoint, params = {}, body = null) {
   const timeoutMs = typeof API_CONFIG.TIMEOUT === 'number' ? API_CONFIG.TIMEOUT : 0;
   const timeoutId = timeoutMs > 0 ? setTimeout(() => controller.abort(), timeoutMs) : null;
   let url = API_CONFIG.BASE_URL + buildUrl(endpoint, params);
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-  const token = sessionStorage.getItem('tp_admin_token');
+  
+  // Pour les requêtes GET, ajouter les paramètres de query string
+  if (method === 'GET' && Object.keys(params).length > 0) {
+    const queryParams = new URLSearchParams();
+    for (const [key, value] of Object.entries(params)) {
+      // Ne pas inclure les paramètres de route qui ont déjà été remplacés
+      if (value !== undefined && value !== null && !endpoint.includes(`:${key}`)) {
+        queryParams.append(key, value);
+      }
+    }
+    const queryString = queryParams.toString();
+    if (queryString) {
+      url += (url.includes('?') ? '&' : '?') + queryString;
+    }
+  }
+  
+  const headers = {};
+  // Some endpoints require JSON body; only set Content-Type when sending a body
+  if (['POST', 'PUT', 'PATCH'].includes(method)) {
+    headers['Content-Type'] = 'application/json';
+  }
+  const rawToken = sessionStorage.getItem('tp_admin_token');
+  const token = rawToken ? String(rawToken).trim() : null;
   if (token) headers['Authorization'] = `Bearer ${token}`;
   console.log('[api.request] fetch', { method, url, headers, body });
   try {
@@ -40,6 +59,7 @@ async function request(method, endpoint, params = {}, body = null) {
       method,
       headers,
       signal: controller.signal,
+      credentials: 'include',
       body: body ? JSON.stringify(body) : undefined,
     });
     clearTimeout(timeoutId);
@@ -64,8 +84,10 @@ async function request(method, endpoint, params = {}, body = null) {
       error = data?.detail || 'Erreur inconnue';
       console.warn('[api.request] Erreur HTTP', { status, data, error });
     }
-    console.log('[api.request] retour', { data, error, status });
-    return { data, error, status };
+    // ⚠️ Extraire la clé 'data' si elle existe dans la réponse
+    const actualData = data?.data !== undefined ? data.data : data;
+    console.log('[api.request] retour', { data: actualData, error, status });
+    return { data: actualData, error, status };
   } catch (err) {
     if (err.name === 'AbortError') {
       showToast('Erreur réseau — vérifie ta connexion', 'error');

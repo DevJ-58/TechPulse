@@ -1,4 +1,5 @@
 import { api } from './api.service.js';
+import API_CONFIG from '../config/api.config.js';
 
 /**
  * Récupère tous les membres avec filtres
@@ -6,8 +7,7 @@ import { api } from './api.service.js';
  * @returns {Promise<{data, error, status}>}
  */
 export async function getAllMembers(filters = {}) {
-  const params = new URLSearchParams(filters).toString();
-  return await api.get(`/api/v1/members/${params ? '?' + params : ''}`);
+  return await api.get(API_CONFIG.ENDPOINTS.MEMBERS, filters);
 }
 
 /**
@@ -16,7 +16,7 @@ export async function getAllMembers(filters = {}) {
  * @returns {Promise<{data, error, status}>}
  */
 export async function getMemberById(membre_id) {
-  return await api.get(api.buildUrl('/api/v1/members/:membre_id', { membre_id }));
+  return await api.get(API_CONFIG.ENDPOINTS.MEMBER_BY_ID.replace(':membre_id', membre_id));
 }
 
 /**
@@ -25,7 +25,7 @@ export async function getMemberById(membre_id) {
  * @returns {Promise<{data, error, status}>}
  */
 export async function createMember(data) {
-  return await api.post('/api/v1/members/', {}, data);
+  return await api.post(API_CONFIG.ENDPOINTS.MEMBERS, {}, data);
 }
 
 /**
@@ -34,5 +34,5 @@ export async function createMember(data) {
  * @returns {Promise<{data, error, status}>}
  */
 export async function deactivateMember(membre_id) {
-  return await api.patch(api.buildUrl('/api/v1/members/:membre_id', { membre_id }), {}, { actif: false });
+  return await api.patch(API_CONFIG.ENDPOINTS.MEMBER_BY_ID.replace(':membre_id', membre_id), {}, { actif: false });
 }
