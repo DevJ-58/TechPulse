@@ -75,7 +75,11 @@ export async function register(payload) {
  * @returns {Promise<{data, error, status}>}
  */
 export async function updateMe(payload) {
-  return await api.patch(API_CONFIG.ENDPOINTS.ADMIN_ME, {}, payload);
+  console.log('[updateMe] endpoint →', API_CONFIG.ENDPOINTS.ADMIN_ME);
+  console.log('[updateMe] payload →', JSON.stringify(payload));
+  const result = await api.patch(API_CONFIG.ENDPOINTS.ADMIN_ME, {}, payload);
+  console.log('[updateMe] réponse →', JSON.stringify(result));
+  return result;
 }
 
 /**
@@ -84,5 +88,12 @@ export async function updateMe(payload) {
  * @returns {Promise<{data, error, status}>}
  */
 export async function updatePassword(payload) {
-  return await api.patch(API_CONFIG.ENDPOINTS.ADMIN_ME + '/password', {}, payload);
+  console.log('[updatePassword] endpoint →', 
+    API_CONFIG.ENDPOINTS.ADMIN_ME + '/password');
+  console.log('[updatePassword] payload →', JSON.stringify(payload));
+  const result = await api.patch(
+    API_CONFIG.ENDPOINTS.ADMIN_ME + '/password', {}, payload
+  );
+  console.log('[updatePassword] réponse →', JSON.stringify(result));
+  return result;
 }

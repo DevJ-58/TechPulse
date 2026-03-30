@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/h.png" type="image/png">
+<title>L'équipe — TechPulse</title>
+<link rel="stylesheet" href="public.css">
+<link rel="stylesheet" href="team.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="images/1773340127513.png" alt="TechPulse Logo">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="join.html">Rejoindre</a></li>
+    </ul>
+    <a href="join.html" class="nav-cta">Candidater →</a>
+    <button class="nav-burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="index.html">Accueil</a>
+  <a href="about.html">À propos</a>
+  <a href="join.html">Rejoindre</a>
+  <a href="join.html" class="m-cta">Candidater →</a>
+</div>
+
+<!-- HEADER PAGE -->
+<div class="team-header">
+  <div class="container">
+    <a href="index.html" class="team-back">← Retour à l'accueil</a>
+    <div class="eyebrow">Les fondateurs</div>
+    <h1 class="h1 team-title">Ceux qui ont<br>tout <em>construit</em>.</h1>
+    <p class="team-header-desc">Cinq étudiants de l'UIYA. Des compétences complémentaires, un projet commun : faire de TechPulse le club tech de référence en Côte d'Ivoire.</p>
+  </div>
+</div>
+
+<!-- MEMBRES -->
+<div class="team-list">
+
+  <!-- 1 — Kouadio Fréjus -->
+  <div class="team-member" id="frejus">
+    <div class="team-member-photo">
+      <div class="team-photo-wrap" style="">
+        <img src="images/team/frejus.jpg" alt="Kouadio Fréjus"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <!-- <div class="team-photo-fallback" style="display:none">KF</div> -->
+      </div>
+      <div class="team-photo-badge" style="--c:#1400FF">Frontend</div>
+    </div>
+    <div class="team-member-info">
+      <div class="team-member-num">01</div>
+      <h2 class="team-member-name">Kouadio Fréjus</h2>
+      <div class="team-member-role" style="color:#1400FF">Direction créative & Interfaces</div>
+      <p class="team-member-bio">
+        Fréjus est l'architecte visuel de TechPulse. Chaque interface que tu vois sur cette plateforme — du formulaire de candidature à l'espace admin — est passée par ses mains. Il croit que la technologie mérite d'être belle autant que fonctionnelle.
+      </p>
+      <p class="team-member-bio">
+        Son moteur : concevoir des expériences qui donnent envie d'agir. Son obsession : que chaque pixel soit justifié.
+      </p>
+      <div class="team-member-skills">
+        <span class="tm-skill" style="--c:#1400FF">HTML/CSS</span>
+        <span class="tm-skill" style="--c:#1400FF">JavaScript</span>
+        <span class="tm-skill" style="--c:#1400FF">Design UI/UX</span>
+        <span class="tm-skill" style="--c:#1400FF">Figma</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 — Djeke Koffi (inversé) -->
+  <div class="team-member team-member--reverse" id="djeke">
+    <div class="team-member-photo">
+      <div class="team-photo-wrap" style="--c:#CC2200">
+        <img src="images/team/djeke.jpg" alt="Djeke Koffi Kan Christ David"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="team-photo-fallback" style="display:none">DK</div>
+      </div>
+      <div class="team-photo-badge" style="--c:#CC2200">Data</div>
+    </div>
+    <div class="team-member-info">
+      <div class="team-member-num">02</div>
+      <h2 class="team-member-name">Djeke Koffi Kan Christ David</h2>
+      <div class="team-member-role" style="color:#CC2200">Base de données & Infrastructure</div>
+      <p class="team-member-bio">
+        Christ David est le garant de l'architecture data de TechPulse. Il pense en collections, modélise en documents et conçoit des structures qui tiennent quand la charge augmente. Sans lui, rien ne persiste.
+      </p>
+      <p class="team-member-bio">
+        Passionné par les systèmes fiables, il s'assure que chaque candidature, chaque réponse de test, chaque membre admis est stocké correctement et accessible immédiatement.
+      </p>
+      <div class="team-member-skills">
+        <span class="tm-skill" style="--c:#CC2200">Firebase</span>
+        <span class="tm-skill" style="--c:#CC2200">Firestore</span>
+        <span class="tm-skill" style="--c:#CC2200">NoSQL</span>
+        <span class="tm-skill" style="--c:#CC2200">Cloud</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 — Diomande Mickael -->
+  <div class="team-member" id="mickael">
+    <div class="team-member-photo">
+      <div class="team-photo-wrap" style="--c:#007A3D">
+        <img src="images/team/mickael.jpg" alt="Diomande Keuwe Mickael"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="team-photo-fallback" style="display:none">DM</div>
+      </div>
+      <div class="team-photo-badge" style="--c:#007A3D">Backend</div>
+    </div>
+    <div class="team-member-info">
+      <div class="team-member-num">03</div>
+      <h2 class="team-member-name">Diomande Keuwe Mickael</h2>
+      <div class="team-member-role" style="color:#007A3D">Backend & API</div>
+      <p class="team-member-bio">
+        Mickael construit la mécanique invisible. L'API REST qui fait tourner toute la plateforme — de l'inscription des candidats à la finalisation des sessions de test — c'est lui. Python, FastAPI, logique métier, sécurité des données.
+      </p>
+      <p class="team-member-bio">
+        Il pense en endpoints, en schemas, en cas limites. Son travail est ce que les utilisateurs ne voient jamais — et c'est exactement là que réside sa fierté.
+      </p>
+      <div class="team-member-skills">
+        <span class="tm-skill" style="--c:#007A3D">Python</span>
+        <span class="tm-skill" style="--c:#007A3D">FastAPI</span>
+        <span class="tm-skill" style="--c:#007A3D">REST API</span>
+        <span class="tm-skill" style="--c:#007A3D">JWT</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 — N'guessan Jemima (inversé) -->
+  <div class="team-member team-member--reverse" id="jemima">
+    <div class="team-member-photo">
+      <div class="team-photo-wrap" style="--c:#A05800">
+        <img src="images/team/jemima.jpg" alt="N'guessan Moayé Jemima"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="team-photo-fallback" style="display:none">NJ</div>
+      </div>
+      <div class="team-photo-badge" style="--c:#A05800">Design</div>
+    </div>
+    <div class="team-member-info">
+      <div class="team-member-num">04</div>
+      <h2 class="team-member-name">N'guessan Moayé Jemima</h2>
+      <div class="team-member-role" style="color:#A05800">Design & Communication</div>
+      <p class="team-member-bio">
+        Jemima donne une voix et un visage à TechPulse. Elle construit l'identité visuelle du club, pilote la communication externe et s'assure que le message que TechPulse envoie au monde est cohérent, fort et mémorable.
+      </p>
+      <p class="team-member-bio">
+        Elle croit qu'un club tech sans identité forte est un club qui disparaît dans le bruit. Son rôle : faire rayonner TechPulse bien au-delà du campus de l'UIYA.
+      </p>
+      <div class="team-member-skills">
+        <span class="tm-skill" style="--c:#A05800">Branding</span>
+        <span class="tm-skill" style="--c:#A05800">Figma</span>
+        <span class="tm-skill" style="--c:#A05800">Communication</span>
+        <span class="tm-skill" style="--c:#A05800">Réseaux sociaux</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 — Lasme Samuella -->
+  <div class="team-member" id="samuella">
+    <div class="team-member-photo">
+      <div class="team-photo-wrap" style="--c:#6B21A8">
+        <img src="images/team/samuella.jpg" alt="Lasme Yeble Samuella"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="team-photo-fallback" style="display:none">LY</div>
+      </div>
+      <div class="team-photo-badge" style="--c:#6B21A8">Ops</div>
+    </div>
+    <div class="team-member-info">
+      <div class="team-member-num">05</div>
+      <h2 class="team-member-name">Lasme Yeble Samuela</h2>
+      <div class="team-member-role" style="color:#6B21A8">Coordination & Projets</div>
+      <p class="team-member-bio">
+        Samuella est la colonne vertébrale de TechPulse. Elle coordonne les équipes, gère les projets transversaux, organise les événements et s'assure que ce que les autres ont planifié se réalise vraiment.
+      </p>
+      <p class="team-member-bio">
+        Sans elle, les bonnes idées restent des idées. Avec elle, elles deviennent des actions concrètes, dans les délais, avec les bonnes personnes.
+      </p>
+      <div class="team-member-skills">
+        <span class="tm-skill" style="--c:#6B21A8">Gestion de projet</span>
+        <span class="tm-skill" style="--c:#6B21A8">Coordination</span>
+        <span class="tm-skill" style="--c:#6B21A8">Événements</span>
+        <span class="tm-skill" style="--c:#6B21A8">Planning</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-band" style="margin-top:0">
+  <div class="cta-band-inner">
+    <div>
+      <h2 class="h2">Tu veux les rejoindre ?</h2>
+      <p>La prochaine session de sélection est ouverte.</p>
+    </div>
+    <div class="cta-band-actions">
+      <a href="join.html" class="btn btn-accent btn-lg">Candidater maintenant</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo"><span class="dot"></span>TechPulse</div>
+      <p class="footer-desc">Le club technique de l'UIYA. Développement, Sécurité, Électronique.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Navigation</div>
+      <a href="index.html">Accueil</a>
+      <a href="about.html">À propos</a>
+      <a href="join.html">Candidater</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Contact</div>
+      <a href="mailto:admin@clubpulse.tech">admin@clubpulse.tech</a>
+      <a href="#">UIYA, Yamoussoukro</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 TechPulse — UIYA</span>
+    <span>Fait avec sérieux.</span>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const burger = document.querySelector('#burger');
+  const mobileNav = document.querySelector('#nav-mobile');
+  if (burger && mobileNav) {
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+    });
+  }
+  const nav = document.querySelector('.nav');
+  if (nav) {
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    });
+  }
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+});
+</script>
+</body>
+</html>

@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoading(form.querySelector('button[type=submit]'), false);
         if (data?.jetons?.token_acces || data?.token_acces || data?.token) {
           console.log('[login] login success, redirecting to dashboard.html');
+          // La photo reste en localStorage entre sessions
+          // Rien à faire — localStorage persiste entre déconnexions
           window.location.href = 'dashboard.html';
         } else if (status === 401) {
           showToast('Identifiants incorrects', 'error');

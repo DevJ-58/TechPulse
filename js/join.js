@@ -157,21 +157,26 @@ document.addEventListener('DOMContentLoaded', () => {
         "Intermédiaire (j'ai des bases)": "intermediaire",
         "Avancé (je pratique régulièrement)": "avance",
       };
-      if (formData.niveau_tech) {
-        formData.niveau_tech = niveauTechMap[formData.niveau_tech] || formData.niveau_tech;
-      }
+      const niveauTechRaw = (formData.niveau_tech || '').trim();
+      formData.niveau_tech = niveauTechMap[niveauTechRaw] || null;
 
       // Normaliser source
       const sourceMap = {
-        "Bouche à oreille": "bouche_a_oreille",
-        "Réseaux sociaux": "reseaux_sociaux",
-        "Campus / affiches": "campus",
-        "Un membre du club": "membre",
-        "Autre": "autre",
+        'Bouche à oreille':  'bouche_a_oreille',
+        'Réseaux sociaux':   'reseaux_sociaux',
+        'Campus / affiches': 'affichage',
+        'Un membre du club': 'ami',
+        'Autre':             'autre',
       };
-      if (formData.source) {
-        formData.source = sourceMap[formData.source] || formData.source;
-      }
+      const sourceRaw = (formData.source || '').trim();
+      formData.source = sourceMap[sourceRaw] || null;
+
+      // Normaliser filiere
+      const filiereMap = {
+        // Add mappings if needed, e.g., "Informatique": "info", etc.
+      };
+      const filiereRaw = (formData.filiere || '').trim();
+      formData.filiere = filiereMap[filiereRaw] || filiereRaw || null;
 
       // Renommer projet → projet_cite
       if (formData.projet !== undefined) {
@@ -188,9 +193,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const submitBtn = qs('#btn-submit');
       if (submitBtn) submitBtn.disabled = true;
 
-      console.log('[join] payload envoyé →', formData);
+      console.log('[join] payload envoyé →', JSON.stringify(formData));
       const { data, error, status } = await createCandidate(formData);
       console.log('[join] réponse →', { data, error, status });
+
+      if (data?.detail) {
+        data.detail.forEach((e, i) => {
+          console.error(`[422 champ ${i}]`, e.loc?.join(' → '), '|', e.msg, '| input:', e.input);
+        });
+      }
 
       if (submitBtn) submitBtn.disabled = false;
 

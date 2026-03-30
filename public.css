@@ -1,14 +1,14 @@
 /* TITRES MODERNES — Police Noskale */
 
 @font-face {
-  font-family:Phantom Silence;
+  font-family:Avillia;
   src: local('Capital Grunge'), local('CapitalGrunge');
   font-weight: 400;
   font-style: normal;
 }
 
 :root {
-  --font-title: 'Phantom Silence', 'Syne', sans-serif;
+  --font-title: 'Avillia', 'Syne', sans-serif;
 }
 
 .nav-logo,
@@ -590,29 +590,6 @@ footer {
 
 /* ── ÉQUIPE ──────────────────────────────────────────────── */
 .equipe { border-bottom:1px solid var(--border); }
-.equipe-grid {
-  display:grid; grid-template-columns:repeat(3,1fr);
-  gap:16px; margin-top:40px;
-}
-.membre-card {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--radius-lg); padding:24px 20px;
-  transition:border-color .2s,transform .2s;
-}
-.membre-card:hover { border-color:var(--text);transform:translateY(-2px); }
-.membre-avatar {
-  width:52px; height:52px; background:var(--accent); color:#fff;
-  border-radius:var(--radius-lg);
-  font-family:var(--font-display); font-weight:800; font-size:18px;
-  display:flex; align-items:center; justify-content:center;
-  margin-bottom:14px;
-}
-.membre-name { font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:-.3px;margin-bottom:3px; }
-.membre-role { font-size:11px;color:var(--accent);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em; }
-.membre-desc { font-size:13px;color:var(--muted);line-height:1.6; }
-
-@media(max-width:900px) { .equipe-grid { grid-template-columns:1fr 1fr; } }
-@media(max-width:560px) { .equipe-grid { grid-template-columns:1fr;gap:10px; } }
 
 /* ── CTA BOTTOM ──────────────────────────────────────────── */
 .cta-band { background:var(--text);padding:72px 0; }
@@ -777,3 +754,288 @@ footer {
 .anim-1 { animation:fadeUp .5s ease both; }
 .anim-2 { animation:fadeUp .5s .1s ease both; }
 .anim-3 { animation:fadeUp .5s .2s ease both; }
+
+/* ═══════════════════════════════════════════════════════════
+   FOUNDERS GRID — section équipe redesignée
+   ═══════════════════════════════════════════════════════════ */
+
+.equipe-subtitle {
+  font-size: 15px;
+  color: var(--muted);
+  margin-top: 8px;
+  margin-bottom: 44px;
+  max-width: 480px;
+}
+
+.founders-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* La 4e et 5e carte sont centrées sur la 2e ligne */
+.founders-grid .founder-card:nth-child(4) {
+  grid-column: 1 / 2;
+  margin-left: auto;
+  width: 100%;
+}
+.founders-grid .founder-card:nth-child(5) {
+  grid-column: 2 / 3;
+  width: 100%;
+}
+
+.founder-card {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.founder-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--c, var(--accent));
+  opacity: 0;
+  transition: opacity .22s ease;
+}
+
+.founder-card:hover {
+  transform: translateY(-4px);
+  border-color: transparent;
+  box-shadow: 0 12px 32px rgba(0,0,0,.1);
+}
+.founder-card:hover::before {
+  opacity: 1;
+}
+
+/* TOP — avatar + tag */
+.founder-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+}
+
+.founder-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--c, var(--accent)) 12%, white);
+  color: var(--c, var(--accent));
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: -0.5px;
+  border: 1.5px solid color-mix(in srgb, var(--c, var(--accent)) 20%, transparent);
+  flex-shrink: 0;
+}
+
+.founder-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 3px 10px;
+}
+
+/* BODY */
+.founder-card-body {
+  padding: 16px 20px 12px;
+  flex: 1;
+}
+
+.founder-name {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.4px;
+  margin-bottom: 2px;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.founder-role {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--c, var(--accent));
+  margin-bottom: 10px;
+  opacity: .85;
+}
+
+.founder-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* FOOTER — skills */
+.founder-card-footer {
+  padding: 12px 20px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+.founder-skill {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--surface);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  transition: all .15s;
+}
+
+.founder-card:hover .founder-skill {
+  background: color-mix(in srgb, var(--c, var(--accent)) 8%, white);
+  color: var(--c, var(--accent));
+  border-color: color-mix(in srgb, var(--c, var(--accent)) 20%, transparent);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width: 900px) {
+  .founders-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .founders-grid .founder-card:nth-child(4),
+  .founders-grid .founder-card:nth-child(5) {
+    grid-column: auto;
+    margin-left: 0;
+    width: 100%;
+  }
+  .founders-grid .founder-card:nth-child(5) {
+    grid-column: auto;
+  }
+}
+
+@media(max-width: 560px) {
+  .founders-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .founders-grid .founder-card:nth-child(4),
+  .founders-grid .founder-card:nth-child(5) {
+    grid-column: auto;
+    margin: 0;
+    width: 100%;
+  }
+  .founder-card-top { padding: 16px 16px 0; }
+  .founder-card-body { padding: 14px 16px 10px; }
+  .founder-card-footer { padding: 10px 16px 14px; }
+}
+
+/* ── TEAM DISCOVER BUTTON ── */
+.equipe-subtitle {
+  font-size: 15px;
+  color: var(--muted);
+  margin-top: 8px;
+  margin-bottom: 32px;
+  max-width: 480px;
+}
+
+.team-discover-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 28px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all .22s ease;
+  max-width: 640px;
+}
+.team-discover-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(20,0,255,.08);
+}
+
+.team-discover-text {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.team-avatars {
+  display: flex;
+  align-items: center;
+}
+.ta {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--c) 15%, white);
+  color: var(--c);
+  border: 2px solid var(--bg);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -10px;
+  flex-shrink: 0;
+  letter-spacing: -0.3px;
+}
+.ta:first-child { margin-left: 0; }
+
+.team-discover-btn strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -.3px;
+  margin-bottom: 3px;
+}
+.team-discover-sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+.team-discover-btn:hover .team-discover-sub {
+  color: var(--accent);
+}
+
+.team-discover-arrow {
+  font-size: 22px;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform .2s, color .2s;
+}
+.team-discover-btn:hover .team-discover-arrow {
+  transform: translateX(5px);
+  color: var(--accent);
+}
+
+@media(max-width: 600px) {
+  .team-discover-btn {
+    padding: 16px 18px;
+    border-radius: 10px;
+  }
+  .ta { width: 32px; height: 32px; font-size: 10px; }
+  .team-discover-btn strong { font-size: 14px; }
+}

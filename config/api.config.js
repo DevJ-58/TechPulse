@@ -1,9 +1,9 @@
-// ⚠️ SOURCE DE VÉRITÉ UNIQUE — ne jamais écrire l'URL ailleurs
+﻿// ⚠️ SOURCE DE VÉRITÉ UNIQUE — ne jamais écrire l'URL ailleurs
 // Remplace BASE_URL quand l'URL change
 
 const API_CONFIG = {
-  BASE_URL: "https://pulseclub-backend.onrender.com",
-  TIMEOUT: 15000, // ms (set to 0 to disable)
+  BASE_URL: "https://techpulse-backend.vercel.app",
+  TIMEOUT: 60000, // ms (set to 0 to disable)
 
   ENDPOINTS: {
 
@@ -27,7 +27,7 @@ const API_CONFIG = {
     SESSIONS:            "/api/v1/tests/sessions",                       // GET  (admin)  — ?candidat_id= &pole=
     SESSION_BY_ID:       "/api/v1/tests/sessions/:session_id",           // GET  (admin)
     SESSION_ANSWERS:     "/api/v1/tests/sessions/:session_id/answers",   // POST (public) · GET (admin)
-    SESSION_FINALISER:   "/api/v1/tests/sessions/:session_id/finaliser", // POST (public) — soumettre le test
+    SESSION_FINALISER:   "/api/v1/tests/sessions/{session_id}/finaliser", // POST (public) — soumettre le test
 
     // ─── QUESTIONS ───────────────────────────────────────
     QUESTIONS:           "/api/v1/questions/",           // POST (admin) · GET (admin, ?pole= &partie= &actif=)
@@ -55,3 +55,4 @@ const API_CONFIG = {
 };
 
 export default API_CONFIG;
+

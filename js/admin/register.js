@@ -1,6 +1,39 @@
-import { register } from '../../services/admins.service.js';
-import { qs } from '../../utils/dom.utils.js';
-import { showToast } from '../../utils/toast.utils.js';
+// Inline qs
+const qs = (sel) => document.querySelector(sel);
+
+// Inline showToast  
+const showToast = (msg, type = 'info') => {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.className = 'toast show' + (type === 'error' ? ' toast-error' : '');
+  setTimeout(() => t.classList.remove('show'), 3500);
+};
+
+// Inline register — appel direct fetch sans passer par api.service.js
+const register = async (payload) => {
+  try {
+    const res = await fetch(
+      'https://124f-102-206-123-155.ngrok-free.app/api/v1/admins/inscription',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }
+    );
+    const data = await res.json();
+    if (!res.ok) {
+      return { 
+        data: null, 
+        error: data?.detail || 'Erreur lors de la création', 
+        status: res.status 
+      };
+    }
+    return { data, error: null, status: res.status };
+  } catch(e) {
+    return { data: null, error: e.message, status: 0 };
+  }
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   const form        = qs('#register-form');
@@ -52,9 +85,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Créer le compte'; }
 
       if (error) {
-        showToast(error || 'Erreur lors de la création', 'error');
+        // Afficher dans le div d'erreur ET en toast
+        const errorEl = qs('#register-error');
+        if (errorEl) {
+          errorEl.textContent = error;
+          errorEl.classList.add('show');
+        }
+        showToast(error, 'error');
         return;
       }
+
+      // Cacher l'erreur si succès
+      const errorEl = qs('#register-error');
+      if (errorEl) errorEl.classList.remove('show');
 
       showToast('Compte créé avec succès ! Redirection…');
       setTimeout(() => { window.location.href = 'login.html'; }, 1500);

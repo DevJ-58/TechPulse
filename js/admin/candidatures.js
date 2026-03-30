@@ -2,7 +2,7 @@ import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
 import { getAllCandidates, getCandidateById, updateCandidateStatus, deleteCandidate } from '../../services/candidates.service.js';
 import { createToken } from '../../services/tokens.service.js';
-import { sendTestLink, sendRefusal } from '../../services/email.service.js';
+import { mailLienTest, mailRefus } from '../utils/mail.utils.js';
 import { qs, qsa, show, hide } from '../../utils/dom.utils.js';
 import { showToast } from '../../utils/toast.utils.js';
 
@@ -15,26 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (adminName) {
     const nameEl = qs('.sidebar-user-name');
     if (nameEl) nameEl.textContent = adminName;
-  }
-
-
-  // Burger menu functionality
-  const burger = qs('#topbar-burger');
-  const sidebar = qs('#sidebar');
-  const overlay = qs('.sidebar-overlay');
-
-  if (burger && sidebar) {
-    burger.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-      overlay?.classList.toggle('show');
-    });
-  }
-
-  if (overlay) {
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('show');
-    });
   }
 
   function formatDate(val) {
@@ -377,16 +357,17 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // 2. Envoyer mail de refus
-      const messagePerso = qs('#refus-message')?.value?.trim() || '';
-      const { error: mailError } = await sendRefusal(_currentRefusId, messagePerso);
-      console.log('[confirmRefus] mail refus →', { mailError });
-
-      if (mailError) {
-        showToast('Statut mis à jour mais erreur email : ' + mailError, 'warning');
-      } else {
-        showToast('Candidature refusée — email envoyé ✓');
+      // 2. Récupérer les informations du candidat et envoyer mail de refus
+      const { data: candidat } = await getCandidateById(_currentRefusId);
+      if (candidat) {
+        mailRefus({
+          prenom: candidat.prenom || '',
+          nom: candidat.nom || '',
+          email: candidat.email || '',
+          pole: candidat.pole || ''
+        });
       }
+      showToast('Candidature refusée — email ouvert ✓');
 
       closeModal('refus-modal');
       closePanel();
@@ -496,24 +477,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (confirmBtn) confirmBtn.disabled = false;
         return;
       }
-
-      // 3. Envoyer le mail avec le lien
+// Récupérer les infos du candidat et envoyer le mail avec le lien
       const tokenUuid = tokenData?.token_uuid || tokenData?.uuid || tokenData?.id || tokenData?.token;
       console.log('[confirmSendTest] token_uuid extrait →', tokenUuid);
 
-      const mailResult = await sendTestLink(_currentCandId, tokenUuid);
-      console.log('[EMAIL COMPLET]', JSON.stringify(mailResult));
-      console.log('[EMAIL token_uuid envoyé]', tokenUuid);
-      console.log('[EMAIL candidat_id]', _currentCandId);
-      const mailError = mailResult.error;
-      console.log('[EMAIL DEBUG] candidat_id:', _currentCandId, 'token_uuid:', tokenUuid, 'mailError:', mailError);
-
-      if (mailError) {
-        showToast('Token créé mais erreur email : ' + mailError, 'warning');
-      } else {
-        showToast('Lien de test envoyé par email ✓');
+      const { data: candidat } = await getCandidateById(_currentCandId);
+      if (candidat) {
+        const lien = `https://techpulseclub.vercel.app/access.html?token=${tokenUuid}`;
+        mailLienTest({
+          prenom: candidat.prenom || '',
+          nom: candidat.nom || '',
+          email: candidat.email || '',
+          lien,
+          pole: candidat.pole || ''
+        });
       }
-
+      showToast('Lien de test envoyé par email ✓'); showToast('Lien de test envoyé par email ✓');
+      
       closeModal('test-modal');
       closePanel();
       setTimeout(() => location.reload(), 1200);

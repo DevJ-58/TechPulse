@@ -26,8 +26,12 @@ function buildUrl(endpoint, params = {}) {
  */
 async function request(method, endpoint, params = {}, body = null) {
   const controller = new AbortController();
-  const timeoutMs = typeof API_CONFIG.TIMEOUT === 'number' ? API_CONFIG.TIMEOUT : 0;
-  const timeoutId = timeoutMs > 0 ? setTimeout(() => controller.abort(), timeoutMs) : null;
+  const timeoutMs = typeof API_CONFIG.TIMEOUT === 'number' && API_CONFIG.TIMEOUT > 0 
+    ? API_CONFIG.TIMEOUT : 30000;
+  const timeoutId = setTimeout(() => {
+    console.warn('[api.request] Abort déclenché après', timeoutMs, 'ms');
+    controller.abort();
+  }, timeoutMs);
   let url = API_CONFIG.BASE_URL + buildUrl(endpoint, params);
   
   // Pour les requêtes GET, ajouter les paramètres de query string
@@ -46,6 +50,9 @@ async function request(method, endpoint, params = {}, body = null) {
   }
   
   const headers = {};
+  // if (API_CONFIG.BASE_URL) {
+  //   headers['ngrok-skip-browser-warning'] = 'true';
+  // }
   // Some endpoints require JSON body; only set Content-Type when sending a body
   if (['POST', 'PUT', 'PATCH'].includes(method)) {
     headers['Content-Type'] = 'application/json';
@@ -59,7 +66,7 @@ async function request(method, endpoint, params = {}, body = null) {
       method,
       headers,
       signal: controller.signal,
-      credentials: 'include',
+      credentials: 'omit', // pour envoyer les cookies si jamais on en utilise à l'avenir
       body: body ? JSON.stringify(body) : undefined,
     });
     clearTimeout(timeoutId);

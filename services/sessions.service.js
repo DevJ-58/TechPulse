@@ -28,18 +28,24 @@ export async function getSessionById(id) {
  * @param {number} tempsMs
  * @returns {Promise<{data, error, status}>}
  */
-export async function submitAnswer(sessionId, questionId, valeur, estCorrecte, autoPass, tempsMs) {
-  return await api.post(api.buildUrl('/api/v1/tests/sessions/:session_id/answers', { session_id: sessionId }), {}, { questionId, valeur, estCorrecte, autoPass, tempsMs });
+export async function submitAnswer(sessionId, payload) {
+  return await api.post(
+    api.buildUrl('/api/v1/tests/sessions/:session_id/answers', { session_id: sessionId }),
+    {},
+    payload
+  );
 }
 
 /**
  * Finalise la session
  * @param {string} session_id
- * @param {object} scores
  * @returns {Promise<{data, error, status}>}
  */
-export async function finalizeSession(session_id, scores) {
-  return await api.post(api.buildUrl('/api/v1/tests/sessions/:session_id/finaliser', { session_id }), {}, scores);
+export async function finaliserSession(session_id) {
+  return await api.post(
+    api.buildUrl('/api/v1/tests/sessions/:session_id/finaliser', 
+    { session_id }), {}, {}
+  );
 }
 
 /**
@@ -48,7 +54,15 @@ export async function finalizeSession(session_id, scores) {
  * @returns {Promise<{data, error, status}>}
  */
 export async function getAllSessions(filters = {}) {
-  return await api.get('/api/v1/tests/sessions', filters);
+  const { data, error, status } = await api.get(
+    '/api/v1/tests/sessions', filters
+  );
+  console.log('[getAllSessions] data brut →', JSON.stringify(data)?.slice(0, 200));
+  // Le backend retourne un tableau direct — normaliser ici
+  const sessions = Array.isArray(data) ? data
+    : Array.isArray(data?.data) ? data.data
+    : [];
+  return { data: sessions, error, status };
 }
 
 /**

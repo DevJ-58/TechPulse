@@ -1,0 +1,264 @@
+recuperer les token ou le lien pour un candidat spécifique
+
+(async () => {
+  const adminToken = sessionStorage.getItem('tp_admin_token');
+  const adminId = JSON.parse(atob(adminToken.split('.')[1])).sub;
+  
+  const res = await fetch(
+    'https://124f-102-206-123-155.ngrok-free.app/api/v1/tests/tokens',
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${adminToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        candidat_id: 'cand_inm4xhnmys96hp6w0sfra1g',
+        envoye_par_admin_id: adminId
+      })
+    }
+  );
+  const data = await res.json();
+  const uuid = data.data?.uuid || data.uuid;
+  console.log('LIEN → https://techpulseclub.vercel.app/access.html?token=' + uuid);
+})();
+
+
+recuperer les id des candidats:
+
+(async () => {
+  const token = sessionStorage.getItem('tp_admin_token');
+  const res = await fetch(
+    'https://124f-102-206-123-155.ngrok-free.app/api/v1/candidates/?statut=en_attente',
+    { headers: { 
+      'Authorization': `Bearer ${token}`,
+      'ngrok-skip-browser-warning': 'true'
+    }}
+  );
+  const raw = await res.json();
+  const list = raw.data || raw;
+  (Array.isArray(list) ? list : []).forEach(c => {
+    console.log(`${c.id} | ${c.prenom} ${c.nom} | ${c.pole} | ${c.statut}`);
+  });
+})();
+
+verifier ce que retourne l'API:
+
+(async () => {
+  const token = sessionStorage.getItem('tp_admin_token');
+  const res = await fetch(
+    'https://124f-102-206-123-155.ngrok-free.app/api/v1/meets/',
+    { headers: { 'Authorization': `Bearer ${token}` } }
+  );
+  console.log('status →', res.status);
+  const raw = await res.json();
+  console.log('réponse →', JSON.stringify(raw).slice(0, 500));
+})();
+
+verifier le format attendu par le backend: 
+
+(async () => {
+  const token = sessionStorage.getItem('tp_admin_token');
+  const res = await fetch(
+    'https://124f-102-206-123-155.ngrok-free.app/api/v1/meets/',
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        candidat_id: 'cand_t6ra6e2s7hbdc6murbnluqa',
+        date_heure: '2026-03-25T10:00:00Z',
+        lieu: 'Salle B204 · UIYA',
+        duree: 30
+      })
+    }
+  );
+  console.log('status →', res.status);
+  const data = await res.json();
+  console.log('réponse →', JSON.stringify(data));
+})();
+
+
+
+dernière requête:
+
+
+
+Remplace la fonction confirmSendTest — au lieu d'appeler sendTestLink, ouvre un mailto: :
+javascriptwindow.confirmSendTest = async () => {
+  if (!_currentCandId) { showToast('Aucun candidat sélectionné', 'error'); return; }
+
+  const confirmBtn = qs('#test-modal .btn-primary');
+  if (confirmBtn) confirmBtn.disabled = true;
+
+  try {
+    // 1. Récupérer adminId
+    let adminId = null;
+    try {
+      const rawToken = sessionStorage.getItem('tp_admin_token');
+      if (rawToken) {
+        const payload = JSON.parse(atob(rawToken.split('.')[1]));
+        adminId = payload.sub || payload.id || payload.admin_id || payload.uid;
+      }
+    } catch(e) {}
+
+    if (!adminId) {
+      showToast('Session admin introuvable — reconnecte-toi', 'error');
+      if (confirmBtn) confirmBtn.disabled = false;
+      return;
+    }
+
+    // 2. Créer le token
+    const { data: tokenData, error: tokenError } = await createToken({
+      candidat_id: _currentCandId,
+      envoye_par_admin_id: adminId
+    });
+
+    if (tokenError) {
+      showToast('Erreur création token : ' + tokenError, 'error');
+      if (confirmBtn) confirmBtn.disabled = false;
+      return;
+    }
+
+    // 3. Changer le statut
+    await updateCandidateStatus(_currentCandId, 'test_envoye');
+
+    // 4. Récupérer les infos du candidat pour l'email
+    const { data: cand } = await getCandidateById(_currentCandId);
+    const tokenUuid = tokenData?.token_uuid || tokenData?.uuid || tokenData?.id || tokenData?.token;
+    const lienTest = `${window.location.origin}/access.html?token=${tokenUuid}`;
+    const prenom = cand?.prenom || '';
+    const email  = cand?.email  || '';
+
+    // 5. Ouvrir mailto avec message pré-rempli
+    const sujet = encodeURIComponent('TechPulse — Lien de test technique');
+    const corps = encodeURIComponent(
+`Bonjour ${prenom},
+
+Suite à ta candidature chez TechPulse, nous t'invitons à passer le test technique.
+
+🔗 Lien du test : ${lienTest}
+
+⚠️ Ce lien est à usage unique. Ne le partage pas et assure-toi d'avoir 15-20 minutes devant toi avant de commencer.
+
+Bonne chance !
+— L'équipe TechPulse`
+    );
+
+    window.open(`mailto:${email}?subject=${sujet}&body=${corps}`, '_blank');
+
+    showToast('Boîte mail ouverte — envoie le message ✓');
+    closeModal('test-modal');
+    closePanel();
+    setTimeout(() => location.reload(), 1200);
+
+  } catch(e) {
+    console.error('[confirmSendTest] exception', e);
+    showToast('Erreur inattendue : ' + e.message, 'error');
+    if (confirmBtn) confirmBtn.disabled = false;
+  }
+};
+Remplace aussi confirmRefus — au lieu d'appeler sendRefusal, ouvre un mailto: :
+javascriptwindow.confirmRefus = async () => {
+  if (!_currentRefusId) { showToast('Aucun candidat sélectionné', 'error'); return; }
+
+  const confirmBtn = qs('#refus-confirm-btn');
+  if (confirmBtn) { confirmBtn.disabled = true; confirmBtn.textContent = 'Envoi…'; }
+
+  try {
+    // 1. Changer le statut
+    await updateCandidateStatus(_currentRefusId, 'refuse');
+
+    // 2. Récupérer infos candidat
+    const { data: cand } = await getCandidateById(_currentRefusId);
+    const prenom = cand?.prenom || '';
+    const email  = cand?.email  || '';
+    const messagePerso = qs('#refus-message')?.value?.trim() || '';
+
+    // 3. Ouvrir mailto
+    const sujet = encodeURIComponent('TechPulse — Résultat de ta candidature');
+    const corps = encodeURIComponent(
+`Bonjour ${prenom},
+
+Merci pour ta candidature chez TechPulse et l'intérêt que tu portes à notre club.
+
+Après examen attentif de ton dossier, nous ne sommes malheureusement pas en mesure de te retenir pour cette session.${messagePerso ? '\n\n' + messagePerso : ''}
+
+Nous t'encourageons à continuer à te former et à retenter ta chance lors de la prochaine session.
+
+Cordialement,
+— L'équipe TechPulse`
+    );
+
+    window.open(`mailto:${email}?subject=${sujet}&body=${corps}`, '_blank');
+
+    showToast('Boîte mail ouverte — envoie le message ✓');
+    closeModal('refus-modal');
+    closePanel();
+    setTimeout(() => location.reload(), 1200);
+
+  } catch(e) {
+    console.error('[confirmRefus] exception', e);
+    showToast('Erreur inattendue : ' + e.message, 'error');
+    if (confirmBtn) { confirmBtn.disabled = false; confirmBtn.textContent = 'Confirmer le refus & envoyer email'; }
+  }
+};
+
+Prompt Copilot 2 — js/admin/meets.js
+Dans prendreDecision, remplace les deux appels fetch vers send-refusal et send-admission par des mailto: :
+Pour admis, après la création du membre, remplace le fetch send-admission par :
+javascript// Mail de bienvenue via mailto
+const sujet = encodeURIComponent('Bienvenue chez TechPulse ! 🎉');
+const corps = encodeURIComponent(
+`Bonjour ${cand.prenom},
+
+Félicitations ! Tu es officiellement membre du pôle ${(cand.pole || '').toUpperCase()} de TechPulse.
+
+${waLink ? `👥 Rejoins le groupe WhatsApp de ton pôle : ${waLink}` : ''}
+
+Bienvenue dans l'équipe !
+— L'équipe TechPulse`
+);
+window.open(`mailto:${cand.email}?subject=${sujet}&body=${corps}`, '_blank');
+Pour refusé, remplace le fetch send-refusal par :
+javascript// Mail de refus via mailto
+const sujetR = encodeURIComponent('TechPulse — Résultat de ton entretien');
+const corpsR = encodeURIComponent(
+`Bonjour ${cand.prenom},
+
+Merci d'avoir participé au meet de sélection TechPulse.
+
+Après évaluation, nous ne pouvons malheureusement pas te retenir pour cette session. Continue à te former et retente ta chance.
+
+Cordialement,
+— L'équipe TechPulse`
+);
+window.open(`mailto:${cand.email}?subject=${sujetR}&body=${corpsR}`, '_blank');
+
+Prompt Copilot 3 — js/admin/tests.js
+Dans refuserCandidat, remplace le fetch send-refusal par :
+javascript// Récupérer infos candidat pour mailto
+const resC = await fetch(`${BASE}/api/v1/candidates/${candidatId}`, {
+  headers: { 'Authorization': `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' }
+});
+const rawC = await resC.json();
+const cand = rawC.data ?? rawC;
+
+const sujet = encodeURIComponent('TechPulse — Résultat de ton test');
+const corps = encodeURIComponent(
+`Bonjour ${cand.prenom || ''},
+
+Merci d'avoir passé le test technique TechPulse.
+
+Après correction, ton score ne nous permet pas de te retenir pour la suite du processus cette session.
+
+Nous t'encourageons à continuer à te former et à retenter ta chance.
+
+Cordialement,
+— L'équipe TechPulse`
+);
+window.open(`mailto:${cand.email}?subject=${sujet}&body=${corps}`, '_blank');
+showToast('Boîte mail ouverte — envoie le message ✓', 'success');
+Ne modifie aucun autre fichier.

@@ -10,7 +10,7 @@
 <body>
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <div class="sidebar-logo"><img src="images/1773340127513.png" alt="TechPulse Logo"></div>
+    <div class="sidebar-logo"><img src="images/h.png" alt="TechPulse Logo"></div>
     <div class="sidebar-sub">Administration</div>
   </div>
   <nav class="sidebar-nav">
@@ -61,7 +61,7 @@
     </div>
   </div>
 </aside>
-<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="sidebar-overlay" id="overlay"></div>
 
 <div class="main">
   <header class="topbar">
@@ -71,6 +71,9 @@
     </div>
     <div class="topbar-actions">
       <span style="font-size:12px;color:var(--muted);">10 complétés · 4 en attente</span>
+      <button class="btn btn-outline btn-sm" onclick="location.reload()">
+        ↺ Rafraîchir
+      </button>
     </div>
   </header>
   <div class="content">
@@ -103,31 +106,154 @@
 </div>
 <div class="toast" id="toast"></div>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Burger menu functionality for admin
-  const burger = document.querySelector('#topbar-burger');
-  const sidebar = document.querySelector('#sidebar');
-  const overlay = document.querySelector('.sidebar-overlay');
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  if (sidebar) sidebar.classList.remove('open');
+  if (overlay) overlay.classList.remove('show');
+}
 
-  if (burger && sidebar) {
-    burger.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-      if (overlay) overlay.classList.toggle('show');
+function openSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  if (sidebar) sidebar.classList.add('open');
+  if (overlay) overlay.classList.add('show');
+}
+
+function showAdminToast(msg, type) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' toast-' + type : '');
+  setTimeout(function() { t.classList.remove('show'); }, 3500);
+}
+
+window.closeModal = function(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.remove('open');
+    el.style.display = 'none';
+  }
+};
+
+window.openModal = function(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.style.display = 'flex';
+    setTimeout(function() { el.classList.add('open'); }, 10);
+  }
+};
+
+window.switchProfilTab = function(btn, tab) {
+  document.querySelectorAll('#profil-modal .filter-btn').forEach(function(b) {
+    b.classList.remove('active');
+  });
+  btn.classList.add('active');
+  ['infos', 'password'].forEach(function(t) {
+    const el = document.getElementById('tab-' + t);
+    if (el) el.style.display = t === tab ? 'block' : 'none';
+  });
+};
+
+window.handlePhotoChange = function(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const display = document.getElementById('profil-avatar-display');
+    if (display) {
+      display.innerHTML = '<img src="' + e.target.result
+        + '" style="width:100%;height:100%;object-fit:cover;">';
+    }
+  };
+  reader.readAsDataURL(input.files[0]);
+};
+
+window.saveProfil = function() {
+  if (window._saveProfil) window._saveProfil();
+  else showAdminToast('Profil sauvegardé ✓', 'success');
+};
+
+window.savePassword = function() {
+  const np = document.getElementById('profil-pwd-new');
+  const cp = document.getElementById('profil-pwd-confirm');
+  if (np && cp && np.value !== cp.value) {
+    showAdminToast('Les mots de passe ne correspondent pas', 'error');
+    return;
+  }
+  if (window._savePassword) window._savePassword();
+  else showAdminToast('Mot de passe modifié ✓', 'success');
+};
+
+window.doLogout = function() {
+  sessionStorage.clear();
+  window.location.href = 'login.html';
+};
+
+// Fonctions spécifiques à tests.html
+window.toggleResult = function(head) {
+  const body = head.nextElementSibling;
+  const ch = head.querySelector('.chevron');
+  if (!body) return;
+  body.classList.toggle('open');
+  if (ch) ch.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+  const burger  = document.getElementById('topbar-burger');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+
+  if (burger) {
+    burger.addEventListener('click', function() {
+      if (sidebar.classList.contains('open')) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
     });
   }
 
   if (overlay) {
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('show');
+    overlay.addEventListener('click', closeSidebar);
+  }
+
+  // Fermer sidebar si on clique un lien sidebar sur mobile
+  document.querySelectorAll('.sidebar-link').forEach(function(link) {
+    link.addEventListener('click', function() {
+      if (window.innerWidth <= 900) closeSidebar();
+    });
+  });
+
+  // Ouvrir le modal profil en cliquant l'avatar sidebar
+  const trigger = document.getElementById('sidebar-user-trigger');
+  if (trigger) {
+    trigger.addEventListener('click', function(e) {
+      if (e.target.closest('#logout-btn')) return;
+      window.openModal('profil-modal');
     });
   }
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      window.doLogout();
+    });
+  }
+
+  // Fermer modals au clic extérieur
+  document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        overlay.classList.remove('open');
+        overlay.style.display = 'none';
+      }
+    });
+  });
 });
-</script>
-<script type="module" src="/js/admin/tests.js"></script>
+</script> <script type="module" src="/js/admin/tests.js"></script></script>
 
 <!-- MODAL PROFIL ADMIN -->
-<div class="modal-overlay" id="profil-modal" style="display:none;">
+<div class="modal-overlay" id="profil-modal">
   <div class="modal" style="max-width:420px;">
     <div class="modal-header">
       <h3 class="modal-title">Mon profil</h3>
@@ -135,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
     <div class="modal-body" style="padding:20px;">
       <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:20px;">
-        <div id="profil-avatar-wrap" style="position:relative;cursor:pointer;" onclick="qs('#profil-photo-input').click()">
+        <div id="profil-avatar-wrap" style="position:relative;cursor:pointer;" onclick="document.getElementById('profil-photo-input').click()">
           <div id="profil-avatar-display" style="width:72px;height:72px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;overflow:hidden;">A</div>
           <div style="position:absolute;bottom:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;">✏️</div>
         </div>
@@ -158,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="form-group"><label class="form-label">Mot de passe actuel</label><input type="password" class="form-input" id="profil-pwd-current" placeholder="Mot de passe actuel"></div>
         <div class="form-group"><label class="form-label">Nouveau mot de passe</label><input type="password" class="form-input" id="profil-pwd-new" placeholder="Nouveau mot de passe (min. 8 car.)"></div>
         <div class="form-group"><label class="form-label">Confirmer</label><input type="password" class="form-input" id="profil-pwd-confirm" placeholder="Confirmer le nouveau mot de passe"></div>
-        <button type="button" class="btn btn-primary w-full" onclick="savePassword()">Changer le mot de passe</button>
+        <button type="button" class="btn btn-primary w-full" id="save-password-btn" onclick="savePassword()">Changer le mot de passe</button>
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:16px 0;">
       <button type="button" class="btn btn-outline w-full" style="color:var(--danger);border-color:var(--danger);" onclick="doLogout()">Se déconnecter</button>

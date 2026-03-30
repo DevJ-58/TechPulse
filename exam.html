@@ -52,105 +52,7 @@
         <h2 class="sec-title">Questions à choix multiple</h2>
         <p class="sec-desc">Chaque question reste visible 20 secondes. Si tu ne réponds pas, elle est considérée comme passée.</p>
       </div>
-
-      <!-- Q A1 -->
-      <div class="question-wrap" id="qwrap-A1">
-        <div class="question-display">
-          <div class="q-topbar">
-            <span class="q-id">A · Question 1/3</span>
-            <div class="q-countdown" id="cd-A1">
-              <div class="q-cring">
-                <svg width="26" height="26" viewBox="0 0 26 26">
-                  <circle class="qcr-track" cx="13" cy="13" r="10"/>
-                  <circle class="qcr-fill" id="qcr-A1" cx="13" cy="13" r="10" stroke-dasharray="62.8" stroke-dashoffset="0"/>
-                </svg>
-                <div class="q-cring-val" id="cdv-A1">20</div>
-              </div>
-              <span id="cdt-A1">20s</span>
-            </div>
-          </div>
-          <div class="q-body">
-            <div class="q-text">Quelle méthode HTTP est idempotente ?</div>
-            <div class="qcm-list">
-              <input type="radio" name="qA1" id="A1a" class="qcm-opt" value="A" onchange="onAnswer('A1')">
-              <label for="A1a" class="qcm-lbl"><span class="opt-ltr">A</span> GET</label>
-              <input type="radio" name="qA1" id="A1b" class="qcm-opt" value="B" onchange="onAnswer('A1')">
-              <label for="A1b" class="qcm-lbl"><span class="opt-ltr">B</span> POST</label>
-              <input type="radio" name="qA1" id="A1c" class="qcm-opt" value="C" onchange="onAnswer('A1')">
-              <label for="A1c" class="qcm-lbl"><span class="opt-ltr">C</span> PUT</label>
-              <input type="radio" name="qA1" id="A1d" class="qcm-opt" value="D" onchange="onAnswer('A1')">
-              <label for="A1d" class="qcm-lbl"><span class="opt-ltr">D</span> PATCH</label>
-            </div>
-          </div>
-        </div>
-        <div class="q-advancing" id="adv-A1">// Passage automatique…</div>
-      </div>
-
-      <!-- Q A2 -->
-      <div class="question-wrap" id="qwrap-A2" style="display:none;">
-        <div class="question-display">
-          <div class="q-topbar">
-            <span class="q-id">A · Question 2/3</span>
-            <div class="q-countdown" id="cd-A2">
-              <div class="q-cring">
-                <svg width="26" height="26" viewBox="0 0 26 26">
-                  <circle class="qcr-track" cx="13" cy="13" r="10"/>
-                  <circle class="qcr-fill" id="qcr-A2" cx="13" cy="13" r="10" stroke-dasharray="62.8" stroke-dashoffset="0"/>
-                </svg>
-                <div class="q-cring-val" id="cdv-A2">20</div>
-              </div>
-              <span id="cdt-A2">20s</span>
-            </div>
-          </div>
-          <div class="q-body">
-            <div class="q-text">Qu'est-ce qu'une closure en JavaScript ?</div>
-            <div class="qcm-list">
-              <input type="radio" name="qA2" id="A2a" class="qcm-opt" value="A" onchange="onAnswer('A2')">
-              <label for="A2a" class="qcm-lbl"><span class="opt-ltr">A</span> Une fonction déclarée dans un autre fichier</label>
-              <input type="radio" name="qA2" id="A2b" class="qcm-opt" value="B" onchange="onAnswer('A2')">
-              <label for="A2b" class="qcm-lbl"><span class="opt-ltr">B</span> Une fonction qui retient le scope de son parent</label>
-              <input type="radio" name="qA2" id="A2c" class="qcm-opt" value="C" onchange="onAnswer('A2')">
-              <label for="A2c" class="qcm-lbl"><span class="opt-ltr">C</span> Une méthode de classe abstraite</label>
-              <input type="radio" name="qA2" id="A2d" class="qcm-opt" value="D" onchange="onAnswer('A2')">
-              <label for="A2d" class="qcm-lbl"><span class="opt-ltr">D</span> Un pattern orienté objet</label>
-            </div>
-          </div>
-        </div>
-        <div class="q-advancing" id="adv-A2">// Passage automatique…</div>
-      </div>
-
-      <!-- Q A3 -->
-      <div class="question-wrap" id="qwrap-A3" style="display:none;">
-        <div class="question-display">
-          <div class="q-topbar">
-            <span class="q-id">A · Question 3/3</span>
-            <div class="q-countdown" id="cd-A3">
-              <div class="q-cring">
-                <svg width="26" height="26" viewBox="0 0 26 26">
-                  <circle class="qcr-track" cx="13" cy="13" r="10"/>
-                  <circle class="qcr-fill" id="qcr-A3" cx="13" cy="13" r="10" stroke-dasharray="62.8" stroke-dashoffset="0"/>
-                </svg>
-                <div class="q-cring-val" id="cdv-A3">20</div>
-              </div>
-              <span id="cdt-A3">20s</span>
-            </div>
-          </div>
-          <div class="q-body">
-            <div class="q-text">Complexité de la recherche dichotomique dans un tableau trié ?</div>
-            <div class="qcm-list">
-              <input type="radio" name="qA3" id="A3a" class="qcm-opt" value="A" onchange="onAnswer('A3')">
-              <label for="A3a" class="qcm-lbl"><span class="opt-ltr">A</span> O(n)</label>
-              <input type="radio" name="qA3" id="A3b" class="qcm-opt" value="B" onchange="onAnswer('A3')">
-              <label for="A3b" class="qcm-lbl"><span class="opt-ltr">B</span> O(n²)</label>
-              <input type="radio" name="qA3" id="A3c" class="qcm-opt" value="C" onchange="onAnswer('A3')">
-              <label for="A3c" class="qcm-lbl"><span class="opt-ltr">C</span> O(log n)</label>
-              <input type="radio" name="qA3" id="A3d" class="qcm-opt" value="D" onchange="onAnswer('A3')">
-              <label for="A3d" class="qcm-lbl"><span class="opt-ltr">D</span> O(1)</label>
-            </div>
-          </div>
-        </div>
-        <div class="q-advancing" id="adv-A3">// Passage automatique…</div>
-      </div>
+      <div id="questions-loader-A" style="text-align:center;padding:40px;color:var(--t-muted);font-size:14px;">Chargement des questions…</div>
     </div>
 
     <!-- ═══ PARTIE B — PRATIQUE (une par une, 20s) ═══ -->
@@ -160,64 +62,7 @@
         <h2 class="sec-title">Exercices pratiques</h2>
         <p class="sec-desc">Même règle : 20 secondes par question, passage automatique.</p>
       </div>
-
-      <div class="question-wrap" id="qwrap-B1">
-        <div class="question-display">
-          <div class="q-topbar">
-            <span class="q-id">B · Question 1/3</span>
-            <div class="q-countdown" id="cd-B1">
-              <div class="q-cring"><svg width="26" height="26" viewBox="0 0 26 26"><circle class="qcr-track" cx="13" cy="13" r="10"/><circle class="qcr-fill" id="qcr-B1" cx="13" cy="13" r="10" stroke-dasharray="62.8" stroke-dashoffset="0"/></svg><div class="q-cring-val" id="cdv-B1">20</div></div>
-              <span id="cdt-B1">20s</span>
-            </div>
-          </div>
-          <div class="q-body">
-            <div class="q-text">Que retourne : <code style="background:var(--t-border);padding:2px 7px;border-radius:2px;font-size:13px;">const f = x => x * x; f(5)</code></div>
-            <div class="qcm-list">
-              <input type="radio" name="qB1" id="B1a" class="qcm-opt" value="A" onchange="onAnswer('B1')">
-              <label for="B1a" class="qcm-lbl"><span class="opt-ltr">A</span> 10</label>
-              <input type="radio" name="qB1" id="B1b" class="qcm-opt" value="B" onchange="onAnswer('B1')">
-              <label for="B1b" class="qcm-lbl"><span class="opt-ltr">B</span> 25</label>
-              <input type="radio" name="qB1" id="B1c" class="qcm-opt" value="C" onchange="onAnswer('B1')">
-              <label for="B1c" class="qcm-lbl"><span class="opt-ltr">C</span> undefined</label>
-              <input type="radio" name="qB1" id="B1d" class="qcm-opt" value="D" onchange="onAnswer('B1')">
-              <label for="B1d" class="qcm-lbl"><span class="opt-ltr">D</span> NaN</label>
-            </div>
-          </div>
-        </div>
-        <div class="q-advancing" id="adv-B1">// Passage automatique…</div>
-      </div>
-
-      <div class="question-wrap" id="qwrap-B2" style="display:none;">
-        <div class="question-display">
-          <div class="q-topbar"><span class="q-id">B · Question 2/3</span><div class="q-countdown" id="cd-B2"><div class="q-cring"><svg width="26" height="26" viewBox="0 0 26 26"><circle class="qcr-track" cx="13" cy="13" r="10"/><circle class="qcr-fill" id="qcr-B2" cx="13" cy="13" r="10" stroke-dasharray="62.8" stroke-dashoffset="0"/></svg><div class="q-cring-val" id="cdv-B2">20</div></div><span id="cdt-B2">20s</span></div></div>
-          <div class="q-body">
-            <div class="q-text">Résultat de : <code style="background:var(--t-border);padding:2px 7px;border-radius:2px;font-size:13px;">['a','b','c'].indexOf('b')</code></div>
-            <div class="qcm-list">
-              <input type="radio" name="qB2" id="B2a" class="qcm-opt" value="A" onchange="onAnswer('B2')"><label for="B2a" class="qcm-lbl"><span class="opt-ltr">A</span> 0</label>
-              <input type="radio" name="qB2" id="B2b" class="qcm-opt" value="B" onchange="onAnswer('B2')"><label for="B2b" class="qcm-lbl"><span class="opt-ltr">B</span> 1</label>
-              <input type="radio" name="qB2" id="B2c" class="qcm-opt" value="C" onchange="onAnswer('B2')"><label for="B2c" class="qcm-lbl"><span class="opt-ltr">C</span> -1</label>
-              <input type="radio" name="qB2" id="B2d" class="qcm-opt" value="D" onchange="onAnswer('B2')"><label for="B2d" class="qcm-lbl"><span class="opt-ltr">D</span> 2</label>
-            </div>
-          </div>
-        </div>
-        <div class="q-advancing" id="adv-B2">// Passage automatique…</div>
-      </div>
-
-      <div class="question-wrap" id="qwrap-B3" style="display:none;">
-        <div class="question-display">
-          <div class="q-topbar"><span class="q-id">B · Question 3/3</span><div class="q-countdown" id="cd-B3"><div class="q-cring"><svg width="26" height="26" viewBox="0 0 26 26"><circle class="qcr-track" cx="13" cy="13" r="10"/><circle class="qcr-fill" id="qcr-B3" cx="13" cy="13" r="10" stroke-dasharray="62.8" stroke-dashoffset="0"/></svg><div class="q-cring-val" id="cdv-B3">20</div></div><span id="cdt-B3">20s</span></div></div>
-          <div class="q-body">
-            <div class="q-text">Quel SQL retourne les users avec + de 3 commandes ?</div>
-            <div class="qcm-list">
-              <input type="radio" name="qB3" id="B3a" class="qcm-opt" value="A" onchange="onAnswer('B3')"><label for="B3a" class="qcm-lbl"><span class="opt-ltr">A</span> SELECT * FROM users WHERE count > 3</label>
-              <input type="radio" name="qB3" id="B3b" class="qcm-opt" value="B" onchange="onAnswer('B3')"><label for="B3b" class="qcm-lbl"><span class="opt-ltr">B</span> SELECT user_id, COUNT(*) FROM orders GROUP BY user_id HAVING COUNT(*) > 3</label>
-              <input type="radio" name="qB3" id="B3c" class="qcm-opt" value="C" onchange="onAnswer('B3')"><label for="B3c" class="qcm-lbl"><span class="opt-ltr">C</span> SELECT * FROM orders LIMIT 3</label>
-              <input type="radio" name="qB3" id="B3d" class="qcm-opt" value="D" onchange="onAnswer('B3')"><label for="B3d" class="qcm-lbl"><span class="opt-ltr">D</span> SELECT user_id FROM orders WHERE count > 3</label>
-            </div>
-          </div>
-        </div>
-        <div class="q-advancing" id="adv-B3">// Passage automatique…</div>
-      </div>
+      <div id="questions-loader-B" style="text-align:center;padding:40px;color:var(--t-muted);font-size:14px;">Chargement des questions…</div>
     </div>
 
     <!-- ═══ PARTIE C — SITUATIONS (temps libre dans global) ═══ -->
@@ -229,41 +74,9 @@
       </div>
 
       <div class="sit-hint">
-        <strong>Note :</strong> Ces questions évaluent ta façon de raisonner, pas uniquement ta réponse finale. Sois structuré et précis. Utilise le temps qu'il te reste.
+        <strong>Note :</strong> Ces questions évaluent ta façon de raisonner, pas uniquement ta réponse finale. Sois structuré et précis.
       </div>
-
-      <!-- C1 -->
-      <div class="sit-q-card" id="qwrap-C1">
-        <div class="sit-q-head">C · Situation 1/3</div>
-        <div class="sit-q-body">
-          <div class="sit-q-text">Architecture d'une API de gestion de livraison</div>
-          <div class="sit-q-sub">Une startup ivoirienne te demande de concevoir l'architecture d'une API REST pour gérer un système de livraison : clients, commandes, livreurs, statuts en temps réel.</div>
-          <textarea class="exam-textarea" id="ans-C1" placeholder="Décris les endpoints principaux, le modèle de données et comment tu gérerais les mises à jour temps réel…" rows="6" oninput="updateChar('C1')"></textarea>
-          <div class="char-counter"><span id="char-C1">0</span> caractères</div>
-        </div>
-      </div>
-
-      <!-- C2 -->
-      <div class="sit-q-card" id="qwrap-C2">
-        <div class="sit-q-head">C · Situation 2/3</div>
-        <div class="sit-q-body">
-          <div class="sit-q-text">Optimisation d'un algorithme lent</div>
-          <div class="sit-q-sub">Un collègue te montre du code Node.js avec une double boucle imbriquée parcourant 10 000 éléments pour faire des recherches. C'est fonctionnel mais très lent.</div>
-          <textarea class="exam-textarea" id="ans-C2" placeholder="Comment optimiserais-tu ce code ? Propose une approche alternative et explique ton raisonnement…" rows="5" oninput="updateChar('C2')"></textarea>
-          <div class="char-counter"><span id="char-C2">0</span> caractères</div>
-        </div>
-      </div>
-
-      <!-- C3 -->
-      <div class="sit-q-card" id="qwrap-C3">
-        <div class="sit-q-head">C · Situation 3/3</div>
-        <div class="sit-q-body">
-          <div class="sit-q-text">SQL vs NoSQL pour un réseau social</div>
-          <div class="sit-q-sub">Tu dois choisir entre SQL et NoSQL pour une application de réseau social avec 100 000 utilisateurs actifs et des relations complexes entre entités.</div>
-          <textarea class="exam-textarea" id="ans-C3" placeholder="Quel choix fais-tu et pourquoi ? Quels critères t'ont guidé ?" rows="5" oninput="updateChar('C3')"></textarea>
-          <div class="char-counter"><span id="char-C3">0</span> caractères</div>
-        </div>
-      </div>
+      <div id="questions-loader-C" style="text-align:center;padding:40px;color:var(--t-muted);font-size:14px;">Chargement des questions…</div>
     </div>
 
   </div><!-- /exam-body -->
@@ -272,10 +85,13 @@
   <div class="exam-nav">
     <div class="exam-nav-info" id="nav-info">Partie <strong id="nav-part">A</strong> · Q<strong id="nav-q">1</strong>/3</div>
     <div class="q-dots" id="q-dots"></div>
-    <div style="display:flex;gap:8px;">
-      <button class="exam-btn-prev" id="btn-prev" onclick="prevStep()" style="display:none;">← Préc.</button>
-      <button class="exam-btn-next" id="btn-next" onclick="nextStep()">Suivant →</button>
-      <button class="exam-btn-submit" id="btn-submit" onclick="submitExam()" style="display:none;">Soumettre ✓</button>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="exam-btn-prev" id="btn-prev" style="display:none;"
+        onclick="prevStep()">← Préc.</button>
+      <button class="exam-btn-next" id="btn-next" style="display:none;"
+        onclick="nextStep()">Suivant →</button>
+      <button class="exam-btn-submit" id="btn-submit" style="display:none;"
+        onclick="submitExam()">Soumettre ✓</button>
     </div>
   </div>
 
@@ -290,7 +106,7 @@
     <div class="abandon-title">Attention !</div>
     <div class="abandon-desc">Tu as quitté la page. Le test se verrouille dans :</div>
     <div class="abandon-count" id="abandon-count">10</div>
-    <button class="abandon-return" onclick="returnToTest()">Je reviens — annuler</button>
+    <button class="abandon-return">Je reviens — annuler</button>
   </div>
 </div>
 
@@ -309,6 +125,6 @@
   </div>
 </div>
 
-<script type="module" src="./js/test/exam.js"></script>
+<script src="./js/test/exam.js" defer></script>
 </body>
 </html>

@@ -2,7 +2,7 @@ import fs from 'fs';
 
 async function run() {
   try {
-    const res = await fetch('https://pulseclub-backend.onrender.com/api/v1/admins/connexion', {
+    const res = await fetch('https://124f-102-206-123-155.ngrok-free.app/api/v1/admins/connexion', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ email: 'frejus@clubpulse.tech', mot_de_passe: 'MonMotDePasse@2026' })

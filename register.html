@@ -26,7 +26,7 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;pad
       <h2 class="login-title">Créer un compte admin</h2>
       <p class="login-sub">Accès réservé à l'équipe fondatrice</p>
       <div class="login-error" id="register-error"></div>
-      <form id="register-form" onsubmit="return false">
+      <form id="register-form">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
           <div class="form-group">
             <label class="form-label">Prénom</label>
@@ -49,7 +49,10 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;pad
           <label class="form-label">Confirmer le mot de passe</label>
           <input type="password" class="form-input" id="confirm-password" placeholder="••••••••">
         </div>
-        <button class="btn btn-primary w-full" id="register-btn" style="margin-top:8px;" type="submit">Créer le compte</button>
+        <button type="submit" class="btn btn-primary w-full" 
+          id="register-btn" style="margin-top:8px;">
+          Créer le compte
+        </button>
         <div class="loading-state" style="display:none">Création…</div>
       </form>
     </div>
@@ -57,6 +60,22 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;pad
     Déjà un compte ? <a href="login.html" style="color:var(--accent);text-decoration:none;">Se connecter</a>
   </div>
 </div>
-<script type="module" src="/js/admin/register.js"></script>
+<script src="/js/admin/register.js" defer></script>
+  <div class="toast" id="toast"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('[debug] DOM prêt');
+      console.log('[debug] form ?', !!document.querySelector('#register-form'));
+      console.log('[debug] btn ?', !!document.querySelector('#register-btn'));
+      
+      document.querySelector('#register-btn')?.addEventListener('click', () => {
+        console.log('[debug] bouton cliqué ✓');
+      });
+
+      document.querySelector('#register-form')?.addEventListener('submit', (e) => {
+        console.log('[debug] form submit déclenché ✓');
+      });
+    });
+  </script>
 </body>
 </html>

@@ -7,6 +7,9 @@ import API_CONFIG from '../config/api.config.js';
  * @returns {Promise<{data, error, status}>}
  */
 export async function getAllMembers(filters = {}) {
+  if (!filters || Object.keys(filters).length === 0) {
+    filters = { statut: 'actif' };
+  }
   return await api.get(API_CONFIG.ENDPOINTS.MEMBERS, filters);
 }
 

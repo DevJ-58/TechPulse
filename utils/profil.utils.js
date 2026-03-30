@@ -7,9 +7,15 @@ const PHOTO_KEY = 'tp_admin_photo';
 
 export function initProfilModal() {
 
-  // Charger photo depuis localStorage
+  // Charger photo et nom depuis localStorage au démarrage
   const savedPhoto = localStorage.getItem(PHOTO_KEY);
-  updateAvatarDisplay(savedPhoto);
+  console.log('[profil] photo trouvée ?', !!savedPhoto);
+  const adminName  = getAdminName() || 'Admin';
+  updateAvatarDisplay(savedPhoto, adminName);
+
+  // Mettre à jour le nom dans la sidebar
+  const nameEl = qs('#sidebar-user-name');
+  if (nameEl && adminName) nameEl.textContent = adminName;
 
   // Clic sur sidebar-user-trigger ouvre la modale
   const trigger = qs('#sidebar-user-trigger');
@@ -38,60 +44,105 @@ export function initProfilModal() {
     document.querySelectorAll('#profil-modal .filter-btn')
       .forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    qs('#tab-infos').style.display     = tab === 'infos'     ? '' : 'none';
-    qs('#tab-password').style.display  = tab === 'password'  ? '' : 'none';
+    qs('#tab-infos').style.display    = tab === 'infos'    ? '' : 'none';
+    qs('#tab-password').style.display = tab === 'password' ? '' : 'none';
   };
 
+  // Gestion upload photo
   window.handlePhotoChange = (input) => {
     const file = input.files[0];
     if (!file) return;
+
+    // Vérifier taille (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      showToast('Photo trop lourde (max 2MB)', 'error');
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target.result;
       localStorage.setItem(PHOTO_KEY, dataUrl);
-      updateAvatarDisplay(dataUrl);
+      const adminName = getAdminName() || 'Admin';
+      updateAvatarDisplay(dataUrl, adminName);
       showToast('Photo mise à jour ✓');
+      // Mettre à jour aussi dans la modale
+      const profilAvatar = qs('#profil-avatar-display');
+      if (profilAvatar) {
+        profilAvatar.innerHTML = 
+          `<img src="${dataUrl}" style="width:100%;height:100%;
+           object-fit:cover;border-radius:50%;" alt="avatar">`;
+      }
     };
     reader.readAsDataURL(file);
   };
 
+  // Sauvegarde profil
   window.saveProfil = async () => {
     const prenom = qs('#profil-prenom')?.value.trim();
     const nom    = qs('#profil-nom')?.value.trim();
     const email  = qs('#profil-email')?.value.trim();
 
-    if (!prenom || !nom || !email) {
-      showToast('Remplis tous les champs', 'error'); return;
+    console.log('[saveProfil] valeurs →', { prenom, nom, email });
+
+    if (!prenom || prenom.length < 2) {
+      showToast('Prénom invalide', 'error'); return;
+    }
+    if (!nom || nom.length < 2) {
+      showToast('Nom invalide', 'error'); return;
     }
 
     const btn = qs('#save-profil-btn');
     if (btn) { btn.disabled = true; btn.textContent = 'Sauvegarde…'; }
 
-    const { error } = await updateMe({ prenom, nom, email });
+    try {
+      const result = await updateMe({ prenom, nom, email });
+      console.log('[saveProfil] résultat updateMe →', JSON.stringify(result));
+      const { error } = result;
 
-    if (btn) { btn.disabled = false; btn.textContent = 'Sauvegarder les modifications'; }
+      if (btn) { 
+        btn.disabled = false; 
+        btn.textContent = 'Sauvegarder les modifications'; 
+      }
 
-    if (error) { showToast('Erreur : ' + error, 'error'); return; }
+      if (error) { 
+        showToast('Erreur : ' + error, 'error'); 
+        return; 
+      }
 
-    const fullName = `${prenom} ${nom}`.trim();
-    setAdminName(fullName);
-    const nameEl = qs('#sidebar-user-name');
-    if (nameEl) nameEl.textContent = fullName;
-    const avatarEl = qs('#sidebar-avatar');
-    if (avatarEl && !localStorage.getItem(PHOTO_KEY)) {
-      avatarEl.textContent = fullName.charAt(0).toUpperCase();
+      // Mettre à jour en local
+      const fullName = `${prenom} ${nom}`.trim();
+      setAdminName(fullName);
+
+      // Mettre à jour la sidebar
+      const nameEl = qs('#sidebar-user-name');
+      if (nameEl) nameEl.textContent = fullName;
+
+      // Mettre à jour l'avatar si pas de photo
+      const savedPhoto = localStorage.getItem(PHOTO_KEY);
+      updateAvatarDisplay(savedPhoto, fullName);
+
+      showToast('Profil mis à jour ✓');
+      window.closeModal('profil-modal');
+
+    } catch(e) {
+      if (btn) { 
+        btn.disabled = false; 
+        btn.textContent = 'Sauvegarder les modifications'; 
+      }
+      showToast('Erreur inattendue : ' + e.message, 'error');
     }
-
-    showToast('Profil mis à jour ✓');
-    window.closeModal('profil-modal');
   };
 
+  // Changement mot de passe
   window.savePassword = async () => {
     const current = qs('#profil-pwd-current')?.value;
     const newPwd  = qs('#profil-pwd-new')?.value;
     const confirm = qs('#profil-pwd-confirm')?.value;
 
-    if (!current) { showToast('Entre ton mot de passe actuel', 'error'); return; }
+    if (!current) { 
+      showToast('Entre ton mot de passe actuel', 'error'); return; 
+    }
     if (!newPwd || newPwd.length < 8) {
       showToast('Nouveau mot de passe trop court (min. 8 car.)', 'error'); return;
     }
@@ -99,16 +150,28 @@ export function initProfilModal() {
       showToast('Les mots de passe ne correspondent pas', 'error'); return;
     }
 
-    const { error } = await updatePassword({ 
-      mot_de_passe_actuel: current, 
-      nouveau_mot_de_passe: newPwd 
-    });
+    const btn = qs('#save-password-btn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Modification…'; }
 
-    if (error) { showToast('Erreur : ' + error, 'error'); return; }
-    showToast('Mot de passe modifié ✓');
-    qs('#profil-pwd-current').value = '';
-    qs('#profil-pwd-new').value = '';
-    qs('#profil-pwd-confirm').value = '';
+    try {
+      const { error } = await updatePassword({
+        mot_de_passe_actuel:  current,
+        nouveau_mot_de_passe: newPwd,
+      });
+
+      if (btn) { btn.disabled = false; btn.textContent = 'Changer le mot de passe'; }
+
+      if (error) { showToast('Erreur : ' + error, 'error'); return; }
+
+      showToast('Mot de passe modifié ✓');
+      qs('#profil-pwd-current').value = '';
+      qs('#profil-pwd-new').value     = '';
+      qs('#profil-pwd-confirm').value = '';
+
+    } catch(e) {
+      if (btn) { btn.disabled = false; btn.textContent = 'Changer le mot de passe'; }
+      showToast('Erreur inattendue : ' + e.message, 'error');
+    }
   };
 
   window.doLogout = () => {
@@ -122,36 +185,63 @@ async function openProfilModal() {
   if (!modal) return;
   modal.style.display = 'flex';
 
-  // Pré-remplir avec les données en session
-  const adminName = getAdminName() || '';
-  const parts = adminName.split(' ');
-  if (qs('#profil-prenom')) qs('#profil-prenom').value = parts[0] || '';
-  if (qs('#profil-nom'))    qs('#profil-nom').value    = parts.slice(1).join(' ') || '';
+  // Reset tabs
+  window.switchProfilTab(
+    document.querySelector('#profil-modal .filter-btn'), 
+    'infos'
+  );
 
-  // Charger depuis l'API pour avoir l'email
+  // Pré-remplir depuis localStorage d'abord
+  const adminName = getAdminName() || '';
+  const parts     = adminName.trim().split(' ');
+  const prenom    = parts[0] || '';
+  const nom       = parts.slice(1).join(' ') || '';
+
+  if (qs('#profil-prenom')) qs('#profil-prenom').value = prenom;
+  if (qs('#profil-nom'))    qs('#profil-nom').value    = nom;
+
+  // Mettre à jour l'avatar dans la modale
+  const savedPhoto = localStorage.getItem(PHOTO_KEY);
+  const profilAvatar = qs('#profil-avatar-display');
+  if (profilAvatar) {
+    if (savedPhoto) {
+      profilAvatar.innerHTML = 
+        `<img src="${savedPhoto}" 
+         style="width:100%;height:100%;object-fit:cover;border-radius:50%;" 
+         alt="avatar">`;
+    } else {
+      profilAvatar.textContent = adminName.charAt(0).toUpperCase() || 'A';
+    }
+  }
+
+  // Charger depuis l'API pour avoir l'email à jour
   try {
     const { data } = await getMe();
     const admin = data?.admin ?? data ?? {};
-    if (qs('#profil-prenom')) qs('#profil-prenom').value = admin.prenom || parts[0] || '';
-    if (qs('#profil-nom'))    qs('#profil-nom').value    = admin.nom    || parts.slice(1).join(' ') || '';
-    if (qs('#profil-email'))  qs('#profil-email').value  = admin.email  || '';
+    if (qs('#profil-prenom') && admin.prenom) 
+      qs('#profil-prenom').value = admin.prenom;
+    if (qs('#profil-nom') && admin.nom)       
+      qs('#profil-nom').value    = admin.nom;
+    if (qs('#profil-email') && admin.email)   
+      qs('#profil-email').value  = admin.email;
   } catch(e) {
-    console.warn('[profil] impossible de charger le profil', e);
+    console.warn('[profil] impossible de charger depuis API', e);
   }
 }
 
-function updateAvatarDisplay(photoUrl) {
-  const sidebarAvatar  = qs('#sidebar-avatar');
-  const profilAvatar   = qs('#profil-avatar-display');
-  const adminName      = getAdminName() || 'A';
-  const initial        = adminName.charAt(0).toUpperCase();
+function updateAvatarDisplay(photoUrl, adminName) {
+  const name    = adminName || getAdminName() || 'Admin';
+  const initial = name.charAt(0).toUpperCase();
+
+  const sidebarAvatar = qs('#sidebar-avatar');
+  const profilAvatar  = qs('#profil-avatar-display');
 
   if (photoUrl) {
-    const imgStyle = `width:100%;height:100%;object-fit:cover;border-radius:50%;`;
-    if (sidebarAvatar) sidebarAvatar.innerHTML = 
-      `<img src="${photoUrl}" style="${imgStyle}" alt="avatar">`;
-    if (profilAvatar)  profilAvatar.innerHTML  = 
-      `<img src="${photoUrl}" style="${imgStyle}" alt="avatar">`;
+    const imgHtml = `<img src="${photoUrl}" 
+      style="width:100%;height:100%;object-fit:cover;border-radius:50%;" 
+      alt="avatar">`;
+    if (sidebarAvatar) sidebarAvatar.innerHTML = imgHtml;
+    if (profilAvatar)  profilAvatar.innerHTML  = imgHtml;
   } else {
     if (sidebarAvatar) sidebarAvatar.textContent = initial;
     if (profilAvatar)  profilAvatar.textContent  = initial;

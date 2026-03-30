@@ -57,5 +57,8 @@ export function setAdminName(name) {
  * Efface la session
  */
 export function clearSession() {
+  // Garder la photo en localStorage — elle est liée à l'appareil
+  // pas à la session
   sessionStorage.clear();
+  // NE PAS toucher localStorage ici
 }
