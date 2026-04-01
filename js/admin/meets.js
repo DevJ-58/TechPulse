@@ -3,7 +3,9 @@
 import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
 import { getAllMeets, createMeet, recordDecision } from '../../services/meets.service.js';
-import { mailLienTest, mailRefus } from '../utils/mail.utils.js';
+import { createMember } from '../../services/members.service.js';
+import { mailMeet, mailRefus, mailBienvenue } 
+  from '../utils/mail.utils.js';
 import { qs } from '../../utils/dom.utils.js';
 import { showToast } from '../../utils/toast.utils.js';
 
@@ -449,8 +451,62 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      // Mettre à jour le statut du candidat → refuse
+      await fetch(
+        `https://techpulse-backend.vercel.app/api/v1/candidates/${meetData.candidat_id}/statut`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ statut: 'refuse' })
+        }
+      ).catch(e => console.warn('[meets] statut refuse', e));
+
       // Envoyer l'email approprié
       if (decision === 'admis') {
+        // Créer le membre automatiquement
+        // Créer le membre via le service (gestion auth incluse)
+        const adminId = (() => {
+          try {
+            const t = sessionStorage.getItem('tp_admin_token');
+            return JSON.parse(atob(t.split('.')[1])).sub;
+          } catch(e) { return null; }
+        })();
+
+        const { data: membreData, error: membreError } = await createMember({
+          candidat_id: meetData.candidat_id,
+          prenom: candidatInfo.prenom,
+          nom: candidatInfo.nom,
+          email: candidatInfo.email,
+          pole: candidatInfo.pole,
+          actif: true,
+          admis_par_admin_id: adminId
+        });
+
+        if (membreError) {
+          console.error('[meets] création membre échouée', membreError);
+          showToast('Attention : membre non créé — ' + JSON.stringify(membreError), 'error');
+        } else {
+          console.log('[meets] membre créé', membreData);
+        }
+
+        console.log('[debug] createMember → data:', membreData, '| error:', membreError);
+
+        // Mettre à jour le statut du candidat → admis
+        await fetch(
+          `https://techpulse-backend.vercel.app/api/v1/candidates/${meetData.candidat_id}/statut`,
+          {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ statut: 'admis' })
+          }
+        ).catch(e => console.warn('[meets] statut admis', e));
+
         if (candidatInfo.email) {
           mailBienvenue({
             prenom: candidatInfo.prenom,
@@ -459,7 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pole: candidatInfo.pole
           });
         }
-        showToast('Candidat admis ✓ — email ouvert', 'success');
+        showToast('Candidat admis ✓ — ajouté aux membres — email ouvert', 'success');
       } else if (decision === 'refuse') {
         if (candidatInfo.email) {
           mailRefus({

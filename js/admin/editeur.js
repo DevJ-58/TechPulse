@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = sessionStorage.getItem('tp_admin_token');
         // PATCH la question existante
         const patchRes = await fetch(
-          `https://techpulse-backend.vercel.app/api/v1/questions/${existingQId}`,
+          `http://localhost:3000/api/v1/questions/${existingQId}`,
           {
             method: 'PATCH',
             headers: {
@@ -321,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Supprimer les choix existants via DELETE
         if (!error && partie !== 'C') {
           const existingQRes = await fetch(
-            `https://techpulse-backend.vercel.app/api/v1/questions/${qId}`,
+            `http://localhost:3000/api/v1/questions/${qId}`,
             { headers: { 'Authorization': `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' } }
           );
           if (existingQRes.ok) {
@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('[editeur] choix existants à supprimer →', existingChoices.length);
             for (const c of existingChoices) {
               await fetch(
-                `https://techpulse-backend.vercel.app/api/v1/questions/${qId}/choices/${c.id}`,
+                `http://localhost:3000/api/v1/questions/${qId}/choices/${c.id}`,
                 {
                   method: 'DELETE',
                   headers: { 'Authorization': `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' }
@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (!texte) continue;
           const choiceLettre = LETTRES[choiceOrdre - 1] || 'A';
           const choiceRes = await fetch(
-            `https://techpulse-backend.vercel.app/api/v1/questions/${qId}/choices`,
+            `http://localhost:3000/api/v1/questions/${qId}/choices`,
             {
               method: 'POST',
               headers: {
@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
           const token = sessionStorage.getItem('tp_admin_token');
           const freshRes = await fetch(
-            `https://techpulse-backend.vercel.app/api/v1/questions/${qId}`,
+            `http://localhost:3000/api/v1/questions/${qId}`,
             { headers: { 'Authorization': `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' } }
           );
           if (freshRes.ok) {

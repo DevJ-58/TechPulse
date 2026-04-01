@@ -21,6 +21,7 @@ const API_CONFIG = {
 
     // ─── TESTS — TOKENS ──────────────────────────────────
     TEST_TOKENS:         "/api/v1/tests/tokens",         // POST (admin) — créer un token de test
+    TEST_TOKEN_DELETE:   "/api/v1/tests/tokens/:token_id", // DELETE (admin)
 
     // ─── TESTS — SESSIONS ────────────────────────────────
     SESSION_DEMARRER:    "/api/v1/tests/sessions/demarrer",              // POST (public) — démarrer via token_uuid

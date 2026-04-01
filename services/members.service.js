@@ -8,7 +8,7 @@ import API_CONFIG from '../config/api.config.js';
  */
 export async function getAllMembers(filters = {}) {
   if (!filters || Object.keys(filters).length === 0) {
-    filters = { statut: 'actif' };
+    filters = { actif: true };
   }
   return await api.get(API_CONFIG.ENDPOINTS.MEMBERS, filters);
 }

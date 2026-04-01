@@ -6,7 +6,7 @@ const MAIL_FROM = 'test588559@gmail.com';
 export function ouvrirMail({ to, subject, body }) {
   const params = new URLSearchParams();
   const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.open(mailto, '_blank');
+  window.location.href = mailto;
 }
 
 /**

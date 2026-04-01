@@ -4,6 +4,7 @@ import { getAllSessions } from '../../services/sessions.service.js';
 import { mailLienTest, mailRefus } from '../utils/mail.utils.js';
 import { qs } from '../../utils/dom.utils.js';
 import { showToast } from '../../utils/toast.utils.js';
+import API_CONFIG from '../../config/api.config.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   requireAdmin();
@@ -29,15 +30,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   (async () => {
     const token = sessionStorage.getItem('tp_admin_token');
-    const BASE  = 'https://techpulse-backend.vercel.app';
+    const BASE  = API_CONFIG.BASE_URL;
     for (const pole of ['dev', 'secu', 'iot']) {
       try {
         // FIX #3 : on retire le filtre actif=true pour récupérer TOUTES les questions
         const r = await fetch(
-          `${BASE}/api/v1/questions/?pole=${pole}`,
+          `${BASE}/api/v1/questions?pole=${pole}`,
           { headers: { 'Authorization': `Bearer ${token}` } }
         );
-        if (!r.ok) continue;
+        if (!r.ok) {
+          console.warn('[tests] questions non trouvées pour', pole, r.status, r.statusText);
+          continue;
+        }
+        const contentType = r.headers.get('content-type') || '';
+        if (!contentType.includes('application/json')) {
+          console.warn('[tests] réponse non-JSON pour', pole, contentType);
+          continue;
+        }
         const d    = await r.json();
         const list = Array.isArray(d) ? d
           : Array.isArray(d.data) ? d.data : [];
@@ -251,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('session-panel')?.remove();
     document.getElementById('session-overlay')?.remove();
 
-    const BASE = 'https://techpulse-backend.vercel.app';
+    const BASE = API_CONFIG.BASE_URL;
 
     const overlay = document.createElement('div');
     overlay.id = 'session-overlay';
@@ -280,6 +289,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const resS = await fetch(`${BASE}/api/v1/tests/sessions/${sessionId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
+      if (!resS.ok) {
+        throw new Error(`Session introuvable (HTTP ${resS.status})`);
+      }
+      const contentTypeS = resS.headers.get('content-type') || '';
+      if (!contentTypeS.includes('application/json')) {
+        throw new Error(`Réponse non-JSON pour la session : ${contentTypeS}`);
+      }
       const rawS = await resS.json();
       const s = rawS.data ?? rawS;
 
@@ -312,16 +328,21 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
           // FIX #3 : pas de filtre actif=true pour tout récupérer
           const resQ = await fetch(
-            `${BASE}/api/v1/questions/?pole=${candidatPole}`,
+            `${BASE}/api/v1/questions?pole=${candidatPole}`,
             { headers: { 'Authorization': `Bearer ${token}` } }
           );
           if (resQ.ok) {
+            const contentTypeQ = resQ.headers.get('content-type') || '';
+            if (!contentTypeQ.includes('application/json')) {
+              console.warn('[voirSession] réponse non-JSON pour questions', candidatPole, contentTypeQ);
+            } else {
             const rawQ = await resQ.json();
             const qList = Array.isArray(rawQ) ? rawQ
               : Array.isArray(rawQ.data) ? rawQ.data : [];
             qList.forEach(q => { questionsMap[q.id] = q; });
             _questionsCache[poleKey] = questionsMap;
             console.log('[voirSession] questions chargées pour', poleKey, ':', qList.length);
+            }
           }
         } catch(e) {
           console.warn('[voirSession] erreur fetch questions', e);
@@ -524,9 +545,9 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
 
       <!-- BOUTONS -->
-      ${s.soumis ? `
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;
-        margin-bottom:20px;">
+        margin-bottom:12px;">
+        ${s.soumis ? `
         <button class="btn btn-danger"
           onclick="_refuserSession('${s.candidat_id}','${s.id}','${candidatNom.replace(/'/g, "\\'")}','${candidatEmail}','${candidatPole}')">
           ✗ Envoyer refus
@@ -536,8 +557,27 @@ document.addEventListener('DOMContentLoaded', () => {
             '${s.score_A || 0}','${s.score_B || 0}')">
           ✓ Valider → Meet
         </button>
+        ` : `<div></div><div></div>`}
       </div>
-      ` : ''}
+
+      <!-- Bouton suppression — toujours visible -->
+      <div style="margin-bottom:20px;">
+        <button class="btn btn-ghost"
+          style="width:100%;border:1px dashed var(--danger);
+            color:var(--danger);font-size:12px;
+            display:flex;align-items:center;justify-content:center;gap:6px;"
+          onclick="_supprimerSession('${s.token_id}','${s.id}')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+            <path d="M9 6V4h6v2"/>
+          </svg>
+          Supprimer ce test
+        </button>
+      </div>
 
       <!-- RÉPONSES -->
       <div style="font-size:10px;color:var(--muted);
@@ -769,7 +809,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window._validerSession = async (candidatId, sessionId, scoreAB) => {
     if (!candidatId) return;
     const token = sessionStorage.getItem('tp_admin_token');
-    const BASE  = 'https://techpulse-backend.vercel.app';
+    const BASE  = API_CONFIG.BASE_URL;
 
     const scoreCInput = document.getElementById('score-c-input');
     const scoreC = scoreCInput ? parseInt(scoreCInput.value) || null : null;
@@ -818,7 +858,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window._refuserSession = async (candidatId, sessionId, candidatNom, candidatEmail, candidatPole) => {
     if (!confirm('Envoyer le mail de refus à ce candidat ?')) return;
     const token = sessionStorage.getItem('tp_admin_token');
-    const BASE  = 'https://techpulse-backend.vercel.app';
+    const BASE  = API_CONFIG.BASE_URL;
     try {
       // 1. Changer le statut
       await fetch(`${BASE}/api/v1/candidates/${candidatId}/statut`, {
@@ -849,6 +889,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  window._supprimerSession = async (tokenId, sessionId) => {
+    if (!tokenId) {
+      showToast('Token introuvable, suppression impossible.', 'error');
+      return;
+    }
+    if (!confirm('Supprimer définitivement ce test ? Cette action est irréversible.')) return;
+
+    const token = sessionStorage.getItem('tp_admin_token');
+    const BASE  = API_CONFIG.BASE_URL;
+
+    try {
+      const res = await fetch(`${BASE}/api/v1/tests/tokens/${tokenId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `Erreur HTTP ${res.status}`);
+      }
+
+      showToast('Test supprimé avec succès.', 'success');
+      closePanel('session-panel', 'session-overlay');
+
+      // Retirer la session du tableau local sans recharger la page
+      _all = _all.filter(s => s.id !== sessionId);
+      rendreStats(_all);
+      filtrer();
+
+    } catch(e) {
+      console.error('[_supprimerSession]', e);
+      showToast('Erreur lors de la suppression : ' + e.message, 'error');
+    }
+  };
+
   (async () => {
     if (resultsList)
       resultsList.innerHTML =
@@ -863,7 +938,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!s.candidat_id) return s;
         try {
           const res = await fetch(
-            'https://techpulse-backend.vercel.app/api/v1/candidates/' + s.candidat_id,
+            API_CONFIG.BASE_URL + '/api/v1/candidates/' + s.candidat_id,
             { headers: {
               'Authorization': `Bearer ${token}`,
               'ngrok-skip-browser-warning': 'true'
