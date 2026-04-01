@@ -1,4 +1,4 @@
-﻿const BASE_URL = 'https://techpulse.vercel.app';
+﻿const BASE_URL = 'https://techpulseclub.vercel.app';
 
 async function apiCall(method, endpoint, body = null) {
   // Pour les endpoints de test, utiliser le token de session
