@@ -544,14 +544,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let whatsappLien = '';
         try {
           const resSettings = await fetch(
-            'https://techpulse-backend.vercel.app/api/v1/settings/',
+            'https://techpulse-backend.vercel.app/api/v1/settings/global/',
             { headers: { 'Authorization': `Bearer ${token}` } }
           );
           const rawSettings = await resSettings.json();
-          const s = rawSettings?.settings ?? rawSettings?.global ?? rawSettings ?? {};
-          const poleKey = candidatInfo.pole === 'dev'  ? 'whatsapp_dev'
-                        : candidatInfo.pole === 'secu' ? 'whatsapp_secu'
-                        : candidatInfo.pole === 'iot'  ? 'whatsapp_iot'
+          const s = rawSettings ?? {};
+          const poleKey = candidatInfo.pole === 'dev'  ? 'wa_dev'
+                        : candidatInfo.pole === 'secu' ? 'wa_secu'
+                        : candidatInfo.pole === 'iot'  ? 'wa_iot'
                         : null;
           if (poleKey) whatsappLien = s[poleKey] || '';
         } catch(e) {

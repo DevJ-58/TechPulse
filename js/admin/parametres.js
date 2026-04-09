@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!val) { showToast('URL invalide', 'error'); return; }
 
     try {
-      const key  = `whatsapp_${pole}`;
+      const key  = `wa_${pole}`;
       const { error } = await updateSettings({ [key]: val });
       if (error) { showToast('Erreur sauvegarde', 'error'); return; }
       if (display) display.textContent = val;
@@ -294,17 +294,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      if (s.whatsapp_dev) {
+      if (s.wa_dev) {
         const el = qs('#wa-dev-display');
-        if (el) el.textContent = s.whatsapp_dev;
+        if (el) el.textContent = s.wa_dev;
       }
-      if (s.whatsapp_secu) {
+      if (s.wa_secu) {
         const el = qs('#wa-secu-display');
-        if (el) el.textContent = s.whatsapp_secu;
+        if (el) el.textContent = s.wa_secu;
       }
-      if (s.whatsapp_iot) {
+      if (s.wa_iot) {
         const el = qs('#wa-iot-display');
-        if (el) el.textContent = s.whatsapp_iot;
+        if (el) el.textContent = s.wa_iot;
       }
 
       await chargerPoles();
