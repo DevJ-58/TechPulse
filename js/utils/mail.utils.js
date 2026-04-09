@@ -108,7 +108,7 @@ ${MAIL_FROM}`
 /**
  * Mail bienvenue membre
  */
-export function mailBienvenue({ prenom, nom, email, pole }) {
+export function mailBienvenue({ prenom, nom, email, pole, whatsapp }) {
   const poleLabel = pole === 'dev' ? 'Développement'
     : pole === 'secu' ? 'Sécurité'
     : pole === 'iot' ? 'Électronique IoT' : pole;
@@ -122,7 +122,10 @@ C'est officiel — tu es maintenant membre de TechPulse, pôle ${poleLabel} !
 
 Tu rejoins une équipe de passionnés déterminés à construire, sécuriser et innover. Bienvenue dans l'aventure.
 
-Les prochaines étapes te seront communiquées très prochainement via notre groupe WhatsApp et nos canaux de communication internes.
+${whatsapp
+  ? `Rejoins dès maintenant notre groupe WhatsApp pôle ${poleLabel} :\n${whatsapp}\n`
+  : 'Les prochaines étapes te seront communiquées très prochainement via notre groupe WhatsApp et nos canaux de communication internes.\n'
+}
 
 Encore félicitations pour ce parcours remarquable.
 

@@ -13,6 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
   requireAdmin();
   initProfilModal();
 
+  // Ajouter le CSS pour l'animation de chargement
+  if (!document.getElementById('spin-style')) {
+    const s = document.createElement('style');
+    s.id = 'spin-style';
+    s.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+    document.head.appendChild(s);
+  }
+
   // Pr�-remplir le formulaire si on vient de tests.html
   const urlParams = new URLSearchParams(window.location.search);
   const preCandidatId = urlParams.get('candidat_id');
@@ -418,7 +426,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // -- Décision ---------------------------------------------
   window.prendreDecision = async (meetId, decision) => {
     if (!meetId) return;
+    
+    // Sélectionner le bouton "Admettre" correspondant au meetId cliqué
+    let admitBtn = null;
+    if (decision === 'admis') {
+      admitBtn = document.querySelector(
+        `.meet-card [onclick="prendreDecision('${meetId}','admis')"]`
+      );
+    }
+    
     try {
+      // Désactiver et afficher le preloader sur le bouton "Admettre"
+      if (admitBtn) {
+        admitBtn.disabled = true;
+        admitBtn.innerHTML = `
+          <span style="display:inline-flex;align-items:center;gap:6px;">
+            <span style="
+              width:12px;height:12px;border-radius:50%;
+              border:2px solid rgba(255,255,255,0.4);
+              border-top-color:#fff;
+              display:inline-block;
+              animation:spin .7s linear infinite;
+            "></span>
+            En cours…
+          </span>`;
+      }
+      
       // Récupérer les infos du meet pour avoir le candidat_id
       const token = sessionStorage.getItem('tp_admin_token');
       const meetData = _allMeets.find(m => m.id === meetId);
@@ -507,12 +540,31 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         ).catch(e => console.warn('[meets] statut admis', e));
 
+        // Récupérer le lien WhatsApp du pôle depuis l'API settings
+        let whatsappLien = '';
+        try {
+          const resSettings = await fetch(
+            'https://techpulse-backend.vercel.app/api/v1/settings/',
+            { headers: { 'Authorization': `Bearer ${token}` } }
+          );
+          const rawSettings = await resSettings.json();
+          const s = rawSettings?.settings ?? rawSettings?.global ?? rawSettings ?? {};
+          const poleKey = candidatInfo.pole === 'dev'  ? 'whatsapp_dev'
+                        : candidatInfo.pole === 'secu' ? 'whatsapp_secu'
+                        : candidatInfo.pole === 'iot'  ? 'whatsapp_iot'
+                        : null;
+          if (poleKey) whatsappLien = s[poleKey] || '';
+        } catch(e) {
+          console.warn('[meets] whatsapp settings', e);
+        }
+        
         if (candidatInfo.email) {
           mailBienvenue({
             prenom: candidatInfo.prenom,
             nom: candidatInfo.nom,
             email: candidatInfo.email,
-            pole: candidatInfo.pole
+            pole: candidatInfo.pole,
+            whatsapp: whatsappLien
           });
         }
         showToast('Candidat admis ? à ajouté aux membres à email ouvert', 'success');
@@ -532,6 +584,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch(e) {
       console.error('[meets] décision', e);
       showToast('Erreur inattendue', 'error');
+    } finally {
+      // Restaurer le bouton "Admettre"
+      if (admitBtn) {
+        admitBtn.disabled = false;
+        admitBtn.innerHTML = '✓ Admettre';
+      }
     }
   };
 });
