@@ -14,7 +14,7 @@ const showToast = (msg, type = 'info') => {
 const register = async (payload) => {
   try {
     const res = await fetch(
-      'https://124f-102-206-123-155.ngrok-free.app/api/v1/admins/inscription',
+      'https://techpulse-backend.vercel.app/api/v1/admins/inscription',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
