@@ -215,6 +215,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   let currentQIndex = 0;
   let answers       = {};
   let qTimer        = null;
+  let autoAdvanceTimer = null;  // ← nouveau
   let globalTimer   = null;
   let globalSeconds = 15 * 60;
   let abandoned     = false;
@@ -390,14 +391,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   // -- Timer par question (A et B) ---------------------------
   function startQuestionTimer(qId, seconds = 20) {
     clearQTimer();
+    if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
     let remaining = seconds;
+    let autoAdvanceFired = false;
     const fillEl = document.getElementById(`qcr-${qId}`);
     const valEl  = document.getElementById(`cdv-${qId}`);
     const txtEl  = document.getElementById(`cdt-${qId}`);
     const cdEl   = document.getElementById(`cd-${qId}`);
     const circumference = 62.8;
+    // Capturer la partie et l'index au moment où le timer démarre
+    const timerPart = currentPart;
+    const timerIdx  = currentQIndex;
 
     qTimer = setInterval(() => {
+      // Si on a changé de question depuis, annuler silencieusement
+      if (currentPart !== timerPart || currentQIndex !== timerIdx) {
+        clearQTimer();
+        return;
+      }
       remaining--;
       if (valEl) valEl.textContent = remaining;
       if (txtEl) txtEl.textContent = `${remaining}s`;
@@ -409,11 +420,20 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (remaining <= 10 && cdEl) cdEl.classList.add('warn');
       if (remaining <= 0) {
         clearQTimer();
+        if (autoAdvanceFired) return;
+        autoAdvanceFired = true;
+        if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
         const advEl = document.getElementById(`adv-${qId}`);
         if (advEl) advEl.classList.add('show');
-        setTimeout(() => nextStep(), 800);
+        autoAdvanceTimer = setTimeout(() => {
+          autoAdvanceTimer = null;
+          // Vérifier encore une fois qu'on est toujours sur cette question
+          if (currentPart === timerPart && currentQIndex === timerIdx) nextStep();
+        }, 800);
       }
     }, 1000);
+
+    qTimer._markFired = () => { autoAdvanceFired = true; };
   }
 
   function clearQTimer() {
@@ -428,6 +448,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function showQuestion(part, idx) {
+    // ── Annuler immédiatement tout avancement automatique en cours ──
+    if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
+    clearQTimer();
     currentPart   = part;
     currentQIndex = idx;
 
@@ -504,7 +527,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const partsWithQ  = PARTS.filter(p => questions[p] && questions[p].length > 0);
     const lastPartWithQ = partsWithQ[partsWithQ.length - 1] || 'C';
     const lastQIdx = (questions[lastPartWithQ]?.length || 1) - 1;
-    const isVeryLast  = part === lastPartWithQ && idx === lastQIdx;
+    const isVeryLast = (part === PARTS[PARTS.length - 1]) && (idx === questions[part].length - 1);
 
     console.log('[exam] updateNav →', { part, idx, total, isVeryLast, lastPartWithQ, lastQIdx });
 
@@ -570,24 +593,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     clearQTimer();
-    const qList = getCurrentQuestions();
-    const newIdx = currentQIndex + 1;
-    if (newIdx < qList.length) {
-      showQuestion(currentPart, newIdx);
-    } else {
-      // Chercher la prochaine partie qui a des questions
-      let nextPartIdx = PARTS.indexOf(currentPart) + 1;
-      while (nextPartIdx < PARTS.length) {
-        const nextPart = PARTS[nextPartIdx];
-        if (questions[nextPart] && questions[nextPart].length > 0) {
-          showQuestion(nextPart, 0);
-          return;
-        }
-        nextPartIdx++;
-      }
-      // Aucune partie suivante avec des questions ? soumettre
-      window.submitExam();
+    if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
+
+    const partActuelle = currentPart;
+    const idxActuel    = currentQIndex;
+    const qList        = questions[partActuelle] || [];
+    const nextIdx      = idxActuel + 1;
+
+    // Cas 1 : il reste des questions dans cette partie
+    if (nextIdx < qList.length) {
+      showQuestion(partActuelle, nextIdx);
+      return;
     }
+
+    // Cas 2 : chercher la prochaine partie avec des questions
+    const partIdx = PARTS.indexOf(partActuelle);
+    for (let i = partIdx + 1; i < PARTS.length; i++) {
+      const nextPart = PARTS[i];
+      if (questions[nextPart] && questions[nextPart].length > 0) {
+        showQuestion(nextPart, 0);
+        return;
+      }
+    }
+
+    // Cas 3 : plus rien → soumettre
+    window.submitExam();
   };
 
   window.prevStep = () => {
@@ -606,6 +636,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   window.onAnswer = (qId) => {
+    // Guard : ignorer si on est déjà en train de traiter cette question
+    if (window._processingAnswer === qId) return;
+    window._processingAnswer = qId;
+    setTimeout(() => { window._processingAnswer = null; }, 100);
+
     const selected = document.querySelector(`input[name="q${qId}"]:checked`);
     if (!selected) return;
     answers[qId] = selected.value.toLowerCase();
@@ -613,10 +648,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Parties A et B : avancer automatiquement après un court délai
     const part = qId.charAt(0);
     if (part !== 'C') {
+      if (qTimer?._markFired) qTimer._markFired();
       clearQTimer();
+      // Annuler tout setTimeout d'avance automatique en cours
+      if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
       const advEl = document.getElementById(`adv-${qId}`);
       if (advEl) advEl.classList.add('show');
-      setTimeout(() => window.nextStep(), 600);
+      autoAdvanceTimer = setTimeout(() => {
+        autoAdvanceTimer = null;
+        const currentQId = `${currentPart}${currentQIndex + 1}`;
+        if (currentQId === qId) window.nextStep();
+      }, 600);
     }
 
     console.log('[exam] réponse ?', qId, selected.value);

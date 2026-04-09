@@ -20,7 +20,7 @@ recuperer les token ou le lien pour un candidat spécifique
   );
   const data = await res.json();
   const uuid = data.data?.uuid || data.uuid;
-  console.log('LIEN → https://techpulseclub.vercel.app/access.html?token=' + uuid);
+  console.log('LIEN → access.html?token=' + uuid);
 })();
 
 

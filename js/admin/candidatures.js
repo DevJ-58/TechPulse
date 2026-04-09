@@ -484,7 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const { data: candidat } = await getCandidateById(_currentCandId);
       if (candidat) {
-        const lien = `https://techpulseclub.vercel.app/access.html?token=${tokenUuid}`;
+        const lien = `access.html?token=${tokenUuid}`;
         mailLienTest({
           prenom: candidat.prenom || '',
           nom: candidat.nom || '',
