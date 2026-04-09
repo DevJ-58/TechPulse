@@ -1,4 +1,4 @@
-ï»¿import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
+import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
 import { getAllSessions } from '../../services/sessions.service.js';
 import { qs } from '../../utils/dom.utils.js';
@@ -26,9 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return sc >= 70 ? 'var(--success)' : sc >= 50 ? 'var(--warning)' : 'var(--danger)';
   }
   function fmtDate(v) {
-    if (!v) return 'â€”';
+    if (!v) return '—';
     const d = new Date(v);
-    return isNaN(d) ? 'â€”' : d.toLocaleDateString('fr-FR');
+    return isNaN(d) ? '—' : d.toLocaleDateString('fr-FR');
   }
 
   function rendreStats(sessions) {
@@ -39,24 +39,24 @@ document.addEventListener('DOMContentLoaded', () => {
       ? Math.round(scores.reduce((a,b) => a+b, 0) / scores.length) : null;
 
     const vals = [sessions.length, done.length,
-      avg !== null ? avg + '%' : 'â€”', waiting.length];
+      avg !== null ? avg + '%' : '—', waiting.length];
 
     document.querySelectorAll('.stat-card').forEach((card, i) => {
       const v = card.querySelector('.stat-value');
       const m = card.querySelector('.stat-meta');
-      if (v) { v.textContent = vals[i] ?? 'â€”'; v.classList.remove('loading-state'); }
+      if (v) { v.textContent = vals[i] ?? '—'; v.classList.remove('loading-state'); }
       if (m) { m.textContent = ''; m.classList.remove('loading-state'); }
     });
 
     if (topbarInfo)
-      topbarInfo.textContent = `${done.length} complÃ©tÃ©s Â· ${waiting.length} en attente`;
+      topbarInfo.textContent = `${done.length} complétés · ${waiting.length} en attente`;
   }
 
   function rendreTableau(sessions) {
     if (!resultsList) return;
     if (!sessions.length) {
       resultsList.innerHTML =
-        '<div style="text-align:center;padding:40px;color:var(--muted);">Aucun test trouvÃ©</div>';
+        '<div style="text-align:center;padding:40px;color:var(--muted);">Aucun test trouvé</div>';
       return;
     }
     resultsList.innerHTML = `
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="table-scroll">
           <table>
             <thead><tr>
-              <th>Candidat</th><th>PÃ´le</th><th>Date</th>
+              <th>Candidat</th><th>Pôle</th><th>Date</th>
               <th>Statut</th><th>Score</th><th></th>
             </tr></thead>
             <tbody id="sessions-tbody"></tbody>
@@ -76,14 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const sc   = getScore(s);
       const done = isComplete(s);
       tbody.innerHTML += `<tr>
-        <td>${s.candidat_id || 'â€”'}</td>
-        <td><span class="tag tag-default">${s.pole || 'â€”'}</span></td>
+        <td>${s.candidat_id || '—'}</td>
+        <td><span class="tag tag-default">${s.pole || '—'}</span></td>
         <td>${fmtDate(s.date_debut)}</td>
         <td>${done
-          ? '<span class="tag tag-success">ComplÃ©tÃ©</span>'
+          ? '<span class="tag tag-success">Complété</span>'
           : '<span class="tag tag-warning">En attente</span>'}</td>
         <td><strong style="color:${scoreColor(sc)}">
-          ${sc !== null ? sc + '%' : 'â€”'}
+          ${sc !== null ? sc + '%' : '—'}
         </strong></td>
         <td>
           <button class="btn btn-ghost btn-icon btn-sm"
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.voirSession = async (sessionId) => {
     if (!sessionId || sessionId === 'undefined') return;
 
-    // CrÃ©er un panel de dÃ©tails
+    // Créer un panel de détails
     const existing = document.getElementById('session-panel');
     if (existing) existing.remove();
 
@@ -154,13 +154,13 @@ document.addEventListener('DOMContentLoaded', () => {
       <div style="display:flex;justify-content:space-between;
         align-items:center;margin-bottom:20px;">
         <div style="font-family:var(--font-display);font-weight:700;
-          font-size:16px;">DÃ©tails session</div>
+          font-size:16px;">Détails session</div>
         <button onclick="document.getElementById('session-panel').remove()"
           style="background:none;border:none;cursor:pointer;font-size:18px;
-          color:var(--muted);">âœ•</button>
+          color:var(--muted);">?</button>
       </div>
       <div id="session-panel-body" style="color:var(--muted);font-size:13px;">
-        Chargementâ€¦
+        Chargement…
       </div>`;
 
     document.body.appendChild(panel);
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
       );
       const raw = await res.json();
       const s = raw.data ?? raw;
-      console.log('[voirSession] â†’', s);
+      console.log('[voirSession] ?', s);
 
       const body = document.getElementById('session-panel-body');
       if (!body) return;
@@ -186,21 +186,21 @@ document.addEventListener('DOMContentLoaded', () => {
               text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">
               Candidat
             </div>
-            <div style="font-size:13px;font-weight:600;">${s.candidat_id || 'â€”'}</div>
+            <div style="font-size:13px;font-weight:600;">${s.candidat_id || '—'}</div>
           </div>
           <div>
             <div style="font-size:10px;color:var(--muted);
               text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">
-              PÃ´le
+              Pôle
             </div>
-            <span class="tag tag-default">${s.pole || 'â€”'}</span>
+            <span class="tag tag-default">${s.pole || '—'}</span>
           </div>
           <div>
             <div style="font-size:10px;color:var(--muted);
               text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">
-              Date dÃ©but
+              Date début
             </div>
-            <div>${s.date_debut ? new Date(s.date_debut).toLocaleString('fr-FR') : 'â€”'}</div>
+            <div>${s.date_debut ? new Date(s.date_debut).toLocaleString('fr-FR') : '—'}</div>
           </div>
           <div>
             <div style="font-size:10px;color:var(--muted);
@@ -212,30 +212,30 @@ document.addEventListener('DOMContentLoaded', () => {
           <div>
             <div style="font-size:10px;color:var(--muted);
               text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">
-              DurÃ©e
+              Durée
             </div>
-            <div>${s.duree_sec ? Math.round(s.duree_sec/60) + ' min' : 'â€”'}</div>
+            <div>${s.duree_sec ? Math.round(s.duree_sec/60) + ' min' : '—'}</div>
           </div>
           <hr style="border:none;border-top:1px solid var(--border);">
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
             <div style="text-align:center;padding:12px;background:var(--bg);
               border:1px solid var(--border);border-radius:var(--radius);">
               <div style="font-size:18px;font-weight:700;color:var(--accent);">
-                ${s.score_A ?? 'â€”'}
+                ${s.score_A ?? '—'}
               </div>
               <div style="font-size:10px;color:var(--muted);margin-top:2px;">Partie A</div>
             </div>
             <div style="text-align:center;padding:12px;background:var(--bg);
               border:1px solid var(--border);border-radius:var(--radius);">
               <div style="font-size:18px;font-weight:700;color:var(--accent);">
-                ${s.score_B ?? 'â€”'}
+                ${s.score_B ?? '—'}
               </div>
               <div style="font-size:10px;color:var(--muted);margin-top:2px;">Partie B</div>
             </div>
             <div style="text-align:center;padding:12px;background:var(--bg);
               border:1px solid var(--border);border-radius:var(--radius);">
               <div style="font-size:18px;font-weight:700;color:var(--accent);">
-                ${s.score_C ?? 'â€”'}
+                ${s.score_C ?? '—'}
               </div>
               <div style="font-size:10px;color:var(--muted);margin-top:2px;">Partie C</div>
             </div>
@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
             border:1px solid var(--border);border-radius:var(--radius);">
             <div style="font-size:28px;font-weight:800;
               color:${sc === null ? 'var(--muted)' : sc >= 70 ? 'var(--success)' : sc >= 50 ? 'var(--warning)' : 'var(--danger)'};">
-              ${sc !== null ? sc + '%' : 'Non notÃ©'}
+              ${sc !== null ? sc + '%' : 'Non noté'}
             </div>
             <div style="font-size:11px;color:var(--muted);margin-top:2px;">Score total</div>
           </div>
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ${s.soumis 
               ? '<span class="tag tag-success">Soumis</span>'
               : s.abandonne 
-                ? '<span class="tag tag-danger">AbandonnÃ©</span>'
+                ? '<span class="tag tag-danger">Abandonné</span>'
                 : '<span class="tag tag-warning">En cours</span>'
             }
           </div>
@@ -272,10 +272,10 @@ document.addEventListener('DOMContentLoaded', () => {
   (async () => {
     if (resultsList)
       resultsList.innerHTML =
-        '<div style="padding:20px;color:var(--muted);">Chargementâ€¦</div>';
+        '<div style="padding:20px;color:var(--muted);">Chargement…</div>';
     try {
       const { data, error } = await getAllSessions();
-      console.log('[tests] data â†’', data, 'error â†’', error);
+      console.log('[tests] data ?', data, 'error ?', error);
       _all = Array.isArray(data) ? data : [];
       rendreStats(_all);
       filtrer();
@@ -287,4 +287,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })();
 });
+
 

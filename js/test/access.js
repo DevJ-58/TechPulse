@@ -156,3 +156,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     showInvalid('Erreur réseau. Vérifie ta connexion et réessaie.');
   }
 });
+

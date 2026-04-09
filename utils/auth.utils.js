@@ -62,3 +62,4 @@ export function clearSession() {
   sessionStorage.clear();
   // NE PAS toucher localStorage ici
 }
+

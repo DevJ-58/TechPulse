@@ -20,3 +20,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // À compléter selon besoins spécifiques
 });
+

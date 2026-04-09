@@ -109,10 +109,10 @@
       <div class="table-scroll">
         <table id="cand-table">
           <thead><tr>
-            <th>Candidat</th><th>Pôle</th><th>Niveau</th><th>Date</th><th>Statut</th><th>Actions</th>
+            <th>N°</th><th>Candidat</th><th>Pôle</th><th>Niveau</th><th>Date ↓</th><th>Statut</th><th>Actions</th>
           </tr></thead>
           <tbody id="cand-table-tbody">
-            <tr><td colspan="6"><span class="loading-state">Chargement…</span></td></tr>
+            <tr><td colspan="7"><span class="loading-state">Chargement…</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -169,7 +169,7 @@
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('refus-modal')">Annuler</button>
       <button class="btn btn-danger btn-sm" id="refus-confirm-btn" onclick="confirmRefus()">
-        Confirmer le refus & envoyer email
+        Confirmer & envoyer
       </button>
     </div>
   </div>
@@ -384,3 +384,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
+
+

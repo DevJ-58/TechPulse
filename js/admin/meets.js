@@ -1,4 +1,4 @@
-﻿
+
 
 import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   requireAdmin();
   initProfilModal();
 
-  // Pré-remplir le formulaire si on vient de tests.html
+  // Pr�-remplir le formulaire si on vient de tests.html
   const urlParams = new URLSearchParams(window.location.search);
   const preCandidatId = urlParams.get('candidat_id');
   const notifFromTests = sessionStorage.getItem('tp_meet_notif');
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const meetNotif = notifFromTests ? JSON.parse(notifFromTests) : null;
     const candidatId = preCandidatId || meetNotif?.candidat_id;
 
-    // Pré-sélectionner le candidat dans le select
+    // Pr�-s�lectionner le candidat dans le select
     const select = document.getElementById('meet-candidate-select');
     if (select && candidatId) {
       const trySelect = (attempts = 0) => {
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             schedule.scrollIntoView({ behavior: 'smooth' });
           }
           showAdminToast(
-            'Candidat pré-sélectionné — remplis la date et le lieu.',
+            'Candidat pré-sélectionné · remplis la date et le lieu.',
             'success'
           );
           sessionStorage.removeItem('tp_meet_notif');
@@ -47,15 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Notification depuis tests.html — nouveau candidat retenu
+  // Notification depuis tests.html · nouveau candidat retenu
   const notif = sessionStorage.getItem('tp_meet_notif');
   if (notif) {
     try {
       const n = JSON.parse(notif);
       if (Date.now() - n.ts < 60000) { // valide 1 minute
         // Afficher badge notification
-        showToast(`Nouveau candidat retenu à convoquer (score : ${n.score}%)`, 'success');
-        // Pré-sélectionner dans le select après chargement
+        showToast(`Nouveau candidat retenu · convoquer (score : ${n.score}%)`, 'success');
+        // Pr�-s�lectionner dans le select apr�s chargement
         window._preselect_candidat = n.candidat_id;
       }
       sessionStorage.removeItem('tp_meet_notif');
@@ -72,9 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let   _filtreActif   = 'tous';
 
   function fmtDate(v) {
-    if (!v) return '—';
+    if (!v) return '–';
     const d = new Date(v);
-    return isNaN(d) ? '—' : d.toLocaleDateString('fr-FR');
+    return isNaN(d) ? '–' : d.toLocaleDateString('fr-FR');
   }
   function fmtTime(v) {
     if (!v) return '';
@@ -83,10 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
       { hour: '2-digit', minute: '2-digit' });
   }
 
-  // ── Statut métier ────────────────────────────────────────
+  // -- Statut m�tier ----------------------------------------
   // À venir  = pas de décision ET date future
-  // En attente = pas de décision ET date passée
-  // Réalisé  = décision prise (admis ou refusé)
+  // En attente = pas de d�cision ET date pass�e
+  // R�alis�  = d�cision prise (admis ou refus�)
   function getStatutMeet(m) {
     const now    = new Date();
     const date   = new Date(m.date);
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return 'attente';
   }
 
-  // ── Stats ────────────────────────────────────────────────
+  // -- Stats ------------------------------------------------
   function rendreStats(meets) {
     const aVenir   = meets.filter(m => getStatutMeet(m) === 'a_venir');
     const realises = meets.filter(m => getStatutMeet(m) === 'realise');
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>`;
   }
 
-  // ── Rendu liste ──────────────────────────────────────────
+  // -- Rendu liste ------------------------------------------
   function rendreMeets(meets) {
     if (meetsLoading) meetsLoading.style.display = 'none';
     if (!meetsList) return;
@@ -175,10 +175,10 @@ document.addEventListener('DOMContentLoaded', () => {
               justify-content:space-between;margin-bottom:12px;">
               <div>
                 <div style="font-weight:700;font-size:14px;">
-                  ${m.candidat_nom || m.candidat_id || '—'}
+                  ${m.candidat_nom || m.candidat_id || '–'}
                 </div>
                 <div style="font-size:12px;color:var(--muted);margin-top:2px;">
-                  ${m.pole || '—'}
+                  ${m.pole || '–'}
                   ${m.score_test != null
                     ? ' · Score test : ' + m.score_test + '%' : ''}
                 </div>
@@ -187,8 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div style="display:flex;gap:16px;font-size:13px;
               color:var(--text);margin-bottom:12px;flex-wrap:wrap;">
-              <div>📅 ${fmtDate(m.date)} à ${fmtTime(m.date)}</div>
-              <div>📍 ${m.lieu || '—'}</div>
+              <div>📅 ${fmtDate(m.date)} · ${fmtTime(m.date)}</div>
+              <div>📍 ${m.lieu || '–'}</div>
               <div>⏱️ ${m.duree_min || 30} min</div>
             </div>
             ${!m.decision ? `
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 
-  // ── Filtrer ──────────────────────────────────────────────
+  // -- Filtrer ----------------------------------------------
   function appliquerFiltre(filtre) {
     _filtreActif = filtre;
     let liste = [..._allMeets];
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     rendreMeets(liste);
   }
 
-  // ── Charger les meets ────────────────────────────────────
+  // -- Charger les meets ------------------------------------
   (async () => {
     try {
       const { data } = await getAllMeets();
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
       rendreStats(_allMeets);
       rendreMeets(_allMeets);
 
-      // Attacher les filtres APRÈS le rendu
+      // Attacher les filtres APR�S le rendu
       const filterBar = document.querySelector('.meets-layout .filter-bar');
       if (filterBar) {
         const btns = filterBar.querySelectorAll('.filter-btn');
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })();
 
-  // ── Aperçu email dynamique ───────────────────────────────
+  // -- Aper�u email dynamique -------------------------------
   function updateApercu() {
     const select = qs('#meet-candidate-select');
     const date   = qs('#meet-date-input')?.value;
@@ -261,12 +261,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const nomOpt = select?.options[select.selectedIndex]?.text || '';
     const nom    = nomOpt.split(' · ')[0] || '[Prénom]';
 
-    let dateStr = '18 mars 2026 · 10h00';
+    let dateStr = '18 mars 2026 à 10h00';
     if (date && time) {
       const d = new Date(`${date}T${time}`);
       dateStr = d.toLocaleDateString('fr-FR', {
         day: 'numeric', month: 'long', year: 'numeric'
-      }) + ' · ' + time;
+      }) + ' à ' + time;
     }
 
     const apercu = document.querySelector(
@@ -285,13 +285,13 @@ document.addEventListener('DOMContentLoaded', () => {
       <p style="margin-top:6px;">Félicitations, tu passes à l'étape 3
         de la sélection TechPulse. Nous t'invitons à un meet présentiel :</p>
       <p style="margin-top:8px;">
-        📅 <strong>${dateStr}</strong><br>
-        📍 ${lieu || 'Lieu à définir'}
+        Date : <strong>${dateStr}</strong><br>
+        Lieu : ${lieu || 'Lieu à définir'}
       </p>
       <p style="margin-top:8px;">
         Durée estimée : ${duree} minutes. Viens tel que tu es.
       </p>
-      <p style="margin-top:8px;">— L'équipe TechPulse</p>`;
+      <p style="margin-top:8px;">L'équipe TechPulse</p>`;
   }
 
   qs('#meet-candidate-select')?.addEventListener('change', updateApercu);
@@ -300,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
   qs('#meet-location-input')?.addEventListener('input', updateApercu);
   qs('#meet-duration-select')?.addEventListener('change', updateApercu);
 
-  // ── Planifier ────────────────────────────────────────────
+  // -- Planifier --------------------------------------------
   const scheduleBtn = qs('#schedule-meet-btn');
   if (scheduleBtn) {
     scheduleBtn.addEventListener('click', async () => {
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })();
 
       scheduleBtn.disabled = true;
-      scheduleBtn.textContent = 'Planification…';
+      scheduleBtn.textContent = 'Planification';
 
       try {
         // Récupérer les infos du candidat depuis le select
@@ -337,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
           prenom = nameParts[0] || '';
           nom = nameParts.slice(1).join(' ') || '';
           pole = (parts[1] || '').trim();
-          // Récupérer l'email depuis l'option si disponible (sinon utiliser candidatId seulement)
+          // R�cup�rer l'email depuis l'option si disponible (sinon utiliser candidatId seulement)
           email = selectedOption.dataset?.email || '';
         }
 
@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── Candidats dans le select ─────────────────────────────
+  // -- Candidats dans le select -----------------------------
   (async () => {
     try {
       const token = sessionStorage.getItem('tp_admin_token');
@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })();
 
-  // ── Décision ─────────────────────────────────────────────
+  // -- Décision ---------------------------------------------
   window.prendreDecision = async (meetId, decision) => {
     if (!meetId) return;
     try {
@@ -427,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Récupérer les infos du candidat
+      // R�cup�rer les infos du candidat
       const resC = await fetch(
         `https://techpulse-backend.vercel.app/api/v1/candidates/${meetData.candidat_id}`,
         { headers: { 'Authorization': `Bearer ${token}` } }
@@ -464,10 +464,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       ).catch(e => console.warn('[meets] statut refuse', e));
 
-      // Envoyer l'email approprié
+      // Envoyer l'email appropri�
       if (decision === 'admis') {
-        // Créer le membre automatiquement
-        // Créer le membre via le service (gestion auth incluse)
+        // Cr�er le membre automatiquement
+        // Cr�er le membre via le service (gestion auth incluse)
         const adminId = (() => {
           try {
             const t = sessionStorage.getItem('tp_admin_token');
@@ -487,14 +487,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (membreError) {
           console.error('[meets] création membre échouée', membreError);
-          showToast('Attention : membre non créé — ' + JSON.stringify(membreError), 'error');
+          showToast('Attention : membre non créé · ' + JSON.stringify(membreError), 'error');
         } else {
           console.log('[meets] membre créé', membreData);
         }
 
-        console.log('[debug] createMember → data:', membreData, '| error:', membreError);
+        console.log('[debug] createMember ? data:', membreData, '| error:', membreError);
 
-        // Mettre à jour le statut du candidat → admis
+        // Mettre � jour le statut du candidat ? admis
         await fetch(
           `https://techpulse-backend.vercel.app/api/v1/candidates/${meetData.candidat_id}/statut`,
           {
@@ -515,7 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pole: candidatInfo.pole
           });
         }
-        showToast('Candidat admis ✓ — ajouté aux membres — email ouvert', 'success');
+        showToast('Candidat admis ? à ajouté aux membres à email ouvert', 'success');
       } else if (decision === 'refuse') {
         if (candidatInfo.email) {
           mailRefus({
@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pole: candidatInfo.pole
           });
         }
-        showToast('Candidat refusé — email ouvert', 'error');
+        showToast('Candidat refusé ? à email ouvert', 'error');
       }
 
       setTimeout(() => location.reload(), 1200);
@@ -535,3 +535,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 });
+

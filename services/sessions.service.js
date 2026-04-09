@@ -74,3 +74,4 @@ export async function getSessionWithAnswers(sessionId) {
   return await api.get(api.buildUrl('/api/v1/tests/sessions/:session_id', { session_id: sessionId }));
 }
 
+

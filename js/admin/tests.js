@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let _all = [];
   let _pole = 'tous';
-  let _sort = 'score';
+  let _sort = 'recents';
   let _minScore = 'tous';
 
   // Nombre de questions actives par pôle ET par partie
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="table-scroll">
           <table>
             <thead><tr>
-              <th>Candidat</th><th>Pôle</th><th>Date</th>
+              <th>N°</th><th>Candidat</th><th>Pôle</th><th>Date ↓</th>
               <th>Statut</th><th>Score</th><th>Actions</th>
             </tr></thead>
             <tbody id="sessions-tbody"></tbody>
@@ -184,10 +184,11 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>`;
     const tbody = document.getElementById('sessions-tbody');
-    sessions.forEach(s => {
+    sessions.forEach((s, index) => {
       const sc   = getScore(s);
       const done = isComplete(s);
       tbody.innerHTML += `<tr>
+        <td>${index + 1}</td>
         <td>${s.candidat_nom || s.nom || s.candidat_id || '—'}</td>
         <td><span class="tag tag-default">${s.pole || '—'}</span></td>
         <td>${fmtDate(s.date_debut)}</td>
@@ -195,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ? '<span class="tag tag-success">Complété</span>'
           : '<span class="tag tag-warning">En attente</span>'}</td>
         <td><strong style="color:${scoreColor(sc)}">
-          ${sc !== null ? sc+'%' : s.soumis ? 'Non noté' : '—'}
+          ${sc !== null ? sc+'%' : s.soumis ? 'Non noté' : 'À évaluer'}
         </strong></td>
         <td>
           <button class="btn btn-ghost btn-icon btn-sm"
@@ -285,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
     openPanel('session-panel', 'session-overlay');
 
     try {
-      // ── 1. Charger la session ─────────────────────────────
+      // -- 1. Charger la session -----------------------------
       const resS = await fetch(`${BASE}/api/v1/tests/sessions/${sessionId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -299,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const rawS = await resS.json();
       const s = rawS.data ?? rawS;
 
-      // ── 2. Charger le candidat ────────────────────────────
+      // -- 2. Charger le candidat ----------------------------
       let candidatNom   = s.candidat_id || '—';
       let candidatEmail = '';
       let candidatPole  = s.pole || '—';
@@ -319,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch(e) {}
       }
 
-      // ── 3. Charger les questions du pôle ──────────────────
+      // -- 3. Charger les questions du pôle ------------------
       // Utiliser le cache si disponible, sinon refetch SANS filtre actif
       const poleKey = (candidatPole || 'dev').toLowerCase();
       let questionsMap = _questionsCache[poleKey] || {};
@@ -349,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      // ── 4. Charger les réponses ───────────────────────────
+      // -- 4. Charger les réponses ---------------------------
       let answers = [];
       try {
         const resA = await fetch(
@@ -366,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       console.log('[voirSession] answers reçues:', answers.length, answers);
 
-      // ── 5. FIX #2 : Construire la liste COMPLÈTE des questions ──
+      // -- 5. FIX #2 : Construire la liste COMPLÈTE des questions --
       // Toutes les questions du pôle, enrichies avec la réponse du candidat si elle existe
       const allQuestions = Object.values(questionsMap);
 
@@ -383,7 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return (a.ordre ?? a.index ?? 0) - (b.ordre ?? b.index ?? 0);
       });
 
-      // ── 6. Calcul des scores par partie ──────────────────
+      // -- 6. Calcul des scores par partie ------------------
       const aAnswers = answers.filter(a => (a.partie||'').toUpperCase() === 'A');
       const bAnswers = answers.filter(a => (a.partie||'').toUpperCase() === 'B');
       const cAnswers = answers.filter(a => (a.partie||'').toUpperCase() === 'C');
@@ -398,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const scColor = ratio >= 70 ? 'var(--success)'
         : ratio >= 50 ? 'var(--warning)' : 'var(--danger)';
 
-      // ── 7. Construire le HTML du panel ────────────────────
+      // -- 7. Construire le HTML du panel --------------------
       const body = document.getElementById('session-panel-body');
       if (!body) return;
 
@@ -500,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div style="background:var(--warning-bg);border:1px solid rgba(160,88,0,.2);
         border-radius:var(--radius);padding:10px 13px;font-size:12px;
         color:var(--warning);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
-        <span style="font-size:15px;">✏️</span>
+        <span style="font-size:15px;">⚠️</span>
         <span><strong>Partie C : note manuelle.</strong>
           Saisis un score dans la case ci-dessus, puis valide.</span>
       </div>
@@ -550,7 +551,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ${s.soumis ? `
         <button class="btn btn-danger"
           onclick="_refuserSession('${s.candidat_id}','${s.id}','${candidatNom.replace(/'/g, "\\'")}','${candidatEmail}','${candidatPole}')">
-          ✗ Envoyer refus
+          ? Envoyer refus
         </button>
         <button class="btn btn-success"
           onclick="_validerSession('${s.candidat_id}','${s.id}',
@@ -560,7 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ` : `<div></div><div></div>`}
       </div>
 
-      <!-- Bouton suppression — toujours visible -->
+      <!-- Bouton suppression � toujours visible -->
       <div style="margin-bottom:20px;">
         <button class="btn btn-ghost"
           style="width:100%;border:1px dashed var(--danger);
@@ -588,11 +589,11 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
       <div id="session-answers-list"></div>`;
 
-      // ── 8. Afficher TOUTES les questions (répondues ou non) ──
+      // -- 8. Afficher TOUTES les questions (r�pondues ou non) --
       const answersList = document.getElementById('session-answers-list');
       if (!answersList) return;
 
-      // Compteurs par partie pour numéroter Q correctement (A-1, A-2, B-1…)
+      // Compteurs par partie pour num�roter Q correctement (A-1, A-2, B-1�)
       const partieCounters = { A: 0, B: 0, C: 0 };
 
       if (!allQuestions.length) {
@@ -609,12 +610,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
           const enonce = q.enonce || q.question || '(Question sans énoncé)';
 
-          // ── FIX #1 : Résolution robuste du texte de la réponse ──
+          // -- FIX #1 : Résolution robuste du texte de la réponse --
           let reponseTxt = null;
           let reponseRaw = null;
 
           if (a) {
-            // Récupérer la valeur brute — tester tous les champs possibles
+            // Récupérer la valeur brute à tester tous les champs possibles
             reponseRaw = a.valeur_saisie ?? a.reponse ?? a.reponse_id
               ?? a.choice_id ?? a.choix_id ?? a.valeur ?? null;
 
@@ -638,7 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (found) {
                   const lettre = found.lettre || found.letter || '';
                   const texte  = found.texte  || found.text  || found.label || reponseRaw;
-                  reponseTxt = lettre ? `${lettre} — ${texte}` : String(texte);
+                  reponseTxt = lettre ? `${lettre} � ${texte}` : String(texte);
                 }
                 // Si toujours pas trouvé, logger pour debug
                 else {
@@ -661,9 +662,9 @@ document.addEventListener('DOMContentLoaded', () => {
             : 'var(--muted)';
 
           const icon = nonRepondu ? '○'
-            : isC ? '✏️'
+            : isC ? '⚠️'
             : correct === true  ? '✓'
-            : correct === false ? '✗' : '·';
+            : correct === false ? '✗' : '?';
 
           const statut = nonRepondu ? 'Non répondu'
             : isC ? 'À évaluer'
@@ -681,7 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .map(c => {
               const lettre = c.lettre || c.letter || '';
               const texte  = c.texte  || c.text  || c.label || '';
-              return lettre ? `${lettre} — ${escHtml(texte)}` : escHtml(texte);
+              return lettre ? `${lettre} � ${escHtml(texte)}` : escHtml(texte);
             });
 
           return `
@@ -753,14 +754,14 @@ document.addEventListener('DOMContentLoaded', () => {
               <div style="margin-top:8px;padding:8px;
                 background:var(--warning-bg);border-radius:var(--radius);
                 font-size:11px;color:var(--warning);">
-                ✏️ Cette réponse est évaluée manuellement — saisis le score
+                ⚠️ Cette réponse est évaluée manuellement · saisis le score
                 Partie C dans la case en haut du panel.
               </div>` : ''}
             </div>
           </div>`;
         }).join('');
 
-        // Toggle dépliage des réponses
+        // Toggle d�pliage des r�ponses
         answersList.addEventListener('click', e => {
           const header = e.target.closest('[data-toggle]');
           if (!header) return;
@@ -773,7 +774,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // ── 9. Mise à jour score total en temps réel avec Partie C ──
+      // -- 9. Mise à jour score total en temps réel avec Partie C --
       const scoreCInput = document.getElementById('score-c-input');
       if (scoreCInput) {
         const pole      = poleKey;
@@ -843,7 +844,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ts: Date.now()
       }));
 
-      showToast('Candidat validé ✓ — redirige vers Meets…', 'success');
+      showToast('Candidat validé · redirige vers Meets…', 'success');
       closePanel('session-panel', 'session-overlay');
       setTimeout(() => {
         window.location.href = `meets.html?candidat_id=${candidatId}`;
@@ -856,7 +857,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   window._refuserSession = async (candidatId, sessionId, candidatNom, candidatEmail, candidatPole) => {
-    if (!confirm('Envoyer le mail de refus à ce candidat ?')) return;
+    if (!confirm('Envoyer le mail de refus � ce candidat ?')) return;
     const token = sessionStorage.getItem('tp_admin_token');
     const BASE  = API_CONFIG.BASE_URL;
     try {
@@ -880,7 +881,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pole: candidatPole || ''
       });
 
-      showToast('Refus enregistré ✓ — email ouvert', 'success');
+      showToast('Refus enregistré · email ouvert', 'success');
       closePanel('session-panel', 'session-overlay');
       setTimeout(() => location.reload(), 1000);
     } catch(e) {
@@ -927,7 +928,7 @@ document.addEventListener('DOMContentLoaded', () => {
   (async () => {
     if (resultsList)
       resultsList.innerHTML =
-        '<div style="padding:20px;color:var(--muted);">Chargement…</div>';
+        '<div style="padding:20px;color:var(--muted);">Chargement..</div>';
     try {
       const { data, error } = await getAllSessions();
       console.log('[tests] sessions →', data);

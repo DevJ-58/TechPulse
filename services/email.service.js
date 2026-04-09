@@ -64,3 +64,4 @@ export async function sendAdmission(candidat_id, email) {
 export async function sendTestResult(session_id, email) {
   return await api.post('/api/v1/email/send-test-result', {}, { session_id, email });
 }
+

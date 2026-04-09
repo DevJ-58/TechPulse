@@ -5,7 +5,7 @@ recuperer les token ou le lien pour un candidat spécifique
   const adminId = JSON.parse(atob(adminToken.split('.')[1])).sub;
   
   const res = await fetch(
-    'https://124f-102-206-123-155.ngrok-free.app/api/v1/tests/tokens',
+    'https://techpulse-backend.vercel.app/api/v1/tests/tokens',
     {
       method: 'POST',
       headers: {
@@ -29,7 +29,7 @@ recuperer les id des candidats:
 (async () => {
   const token = sessionStorage.getItem('tp_admin_token');
   const res = await fetch(
-    'https://124f-102-206-123-155.ngrok-free.app/api/v1/candidates/?statut=en_attente',
+    'https://techpulse-backend.vercel.app/api/v1/candidates/?statut=en_attente',
     { headers: { 
       'Authorization': `Bearer ${token}`,
       'ngrok-skip-browser-warning': 'true'

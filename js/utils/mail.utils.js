@@ -90,9 +90,9 @@ export function mailMeet({ prenom, nom, email, date, lieu, duree }) {
 
 Félicitations ! Tu as été sélectionné(e) pour passer l'étape finale du processus de sélection TechPulse : le meet présentiel.
 
-📅 Date : ${dateFormatee}
-📍 Lieu : ${lieu || 'UIYA Yamoussoukro'}
-⏱ Durée : ${duree || 30} minutes
+Date : ${dateFormatee}
+Lieu : ${lieu || 'UIYA Yamoussoukro'}
+Durée : ${duree || 30} minutes
 
 Cet entretien est une discussion avec l'équipe fondatrice. Sois toi-même, prépare-toi à parler de tes projets et de ta motivation.
 
@@ -131,3 +131,4 @@ UIYA Yamoussoukro
 ${MAIL_FROM}`
   });
 }
+

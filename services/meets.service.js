@@ -46,3 +46,4 @@ export async function updateMeet(meet_id, data) {
 export async function recordDecision(meet_id, decision) {
   return await api.patch(api.buildUrl('/api/v1/meets/:meet_id', { meet_id }), {}, { decision });
 }
+

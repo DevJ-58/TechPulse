@@ -240,3 +240,4 @@ function labelDest(dest) {
   };
   return map[dest] || dest || 'Tous';
 }
+

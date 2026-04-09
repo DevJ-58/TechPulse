@@ -51,3 +51,4 @@ export async function deleteCandidate(candidat_id) {
   console.log('[deleteCandidate] DELETE →', url);
   return await api.delete(url);
 }
+

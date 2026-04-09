@@ -42,6 +42,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Affiche loading
   Object.values(statsEls).forEach(el => { if (el) el.textContent = '…'; });
   if (recentTable) recentTable.innerHTML = '<tr><td colspan="6">Chargement…</td></tr>';
+
+  // Nettoyer les loading-state dès que le chargement commence
+  document.querySelectorAll('.loading-state').forEach(el => {
+    el.classList.remove('loading-state');
+  });
+
   try {
     const [cands, sess, meets, membres] = await Promise.all([
       getAllCandidates(),
@@ -77,8 +83,86 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (statsEls.meets)        statsEls.meets.textContent        = meetsList.length;
     if (statsEls.membres)      statsEls.membres.textContent      = membresList.length;
 
-    // Masquer les loading-state
-    document.querySelectorAll('.loading-state').forEach(el => el.style.display = 'none');
+    // ── Pipeline ──────────────────────────────────────────
+    const totalCands = candidatesList.length || 1;
+    const pipeSteps  = document.querySelectorAll('.pipeline-step');
+
+    if (pipeSteps[0]) {
+      const c = pipeSteps[0].querySelector('.pipeline-step-count');
+      const f = pipeSteps[0].querySelector('.pipeline-step-fill');
+      const m = pipeSteps[0].querySelector('.pipeline-step-meta');
+      if (c) c.textContent = candidatesList.length;
+      if (f) f.style.width = '100%';
+      if (m) m.textContent = 'Total des candidatures reçues';
+    }
+
+    const testsCount = candidatesList.filter(c =>
+      ['test_envoye','test_valide','test_complete','meet_planifie','membre']
+        .includes((c.statut||'').toLowerCase())
+    ).length;
+    if (pipeSteps[1]) {
+      const c = pipeSteps[1].querySelector('.pipeline-step-count');
+      const f = pipeSteps[1].querySelector('.pipeline-step-fill');
+      const m = pipeSteps[1].querySelector('.pipeline-step-meta');
+      if (c) c.textContent = testsCount;
+      if (f) f.style.width = Math.round((testsCount / totalCands) * 100) + '%';
+      if (m) m.textContent = Math.round((testsCount / totalCands) * 100) + '% des candidats';
+    }
+
+    if (pipeSteps[2]) {
+      const c = pipeSteps[2].querySelector('.pipeline-step-count');
+      const f = pipeSteps[2].querySelector('.pipeline-step-fill');
+      const m = pipeSteps[2].querySelector('.pipeline-step-meta');
+      if (c) c.textContent = meetsList.length;
+      if (f) f.style.width = Math.round((meetsList.length / totalCands) * 100) + '%';
+      if (m) m.textContent = Math.round((meetsList.length / totalCands) * 100) + '% des candidats';
+    }
+
+    // ── Répartition par pôle ──────────────────────────────
+    const total    = candidatesList.length || 1;
+    const byPole   = { dev: 0, secu: 0, iot: 0 };
+    const byNiveau = { 'L1-L2': 0, 'L3-M1': 0, 'M2': 0 };
+
+    candidatesList.forEach(c => {
+      const p = (c.pole || '').toLowerCase();
+      if (p === 'dev')  byPole.dev++;
+      if (p === 'secu') byPole.secu++;
+      if (p === 'iot')  byPole.iot++;
+      const n = (c.niveau || '').toUpperCase();
+      if (n === 'L1' || n === 'L2')        byNiveau['L1-L2']++;
+      else if (n === 'L3' || n === 'M1')   byNiveau['L3-M1']++;
+      else if (n === 'M2')                 byNiveau['M2']++;
+    });
+
+    console.log('[dashboard] byPole →', byPole);
+    console.log('[dashboard] byNiveau →', byNiveau);
+
+    const barRows = document.querySelectorAll('.bar-row');
+    console.log('[dashboard] barRows →', barRows.length);
+
+    [byPole.dev, byPole.secu, byPole.iot].forEach((val, i) => {
+      if (!barRows[i]) return;
+      const f = barRows[i].querySelector('.bar-fill');
+      const n = barRows[i].querySelector('.bar-num');
+      if (f) f.style.width = Math.round((val / total) * 100) + '%';
+      if (n) { n.textContent = val; n.classList.remove('loading-state'); n.style.removeProperty('display'); }
+    });
+
+    [byNiveau['L1-L2'], byNiveau['L3-M1'], byNiveau['M2']].forEach((val, i) => {
+      if (!barRows[i + 3]) return;
+      const f = barRows[i + 3].querySelector('.bar-fill');
+      const n = barRows[i + 3].querySelector('.bar-num');
+      if (f) f.style.width = Math.round((val / total) * 100) + '%';
+      if (n) { n.textContent = val; n.classList.remove('loading-state'); n.style.removeProperty('display'); }
+    });
+
+    const chartTag = document.querySelector('.chart-box .tag');
+    if (chartTag) { chartTag.textContent = total + ' candidats'; chartTag.classList.remove('loading-state'); }
+
+    // Masquer les loading-state restants
+    document.querySelectorAll('.loading-state').forEach(el => {
+      el.classList.remove('loading-state');
+    });
 
     // Tableau des 5 dernières candidatures
     if (recentTable && candidatesList.length > 0) {
@@ -103,3 +187,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (recentTable) recentTable.innerHTML = '<tr><td colspan="6">Erreur de chargement</td></tr>';
   }
 });
+

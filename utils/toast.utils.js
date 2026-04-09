@@ -38,3 +38,4 @@ export function showToast(message, type = "default") {
     setTimeout(() => toast.remove(), 200);
   }, 3500);
 }
+

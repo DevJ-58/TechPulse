@@ -40,3 +40,4 @@ export async function getToken(token_uuid) {
 export async function lockToken(token_uuid, reason) {
   return await api.patch(api.buildUrl('/api/v1/tests/tokens/:token_uuid', { token_uuid }), {}, { reason });
 }
+

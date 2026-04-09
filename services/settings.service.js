@@ -17,3 +17,4 @@
   export async function updateSettings(data) {
     return await api.patch(API_CONFIG.ENDPOINTS.SETTINGS_GLOBAL, {}, data);
   }
+

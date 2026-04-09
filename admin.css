@@ -1227,25 +1227,55 @@ tr:hover td {
 
 @media (max-width: 600px) {
   .modal-overlay {
-    align-items: flex-start;
-    padding: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
     overflow-y: auto;
   }
   .modal-overlay .modal {
-    width: 100%;
-    max-width: 100%;
-    min-height: 100vh;
-    border-radius: 0;
-    margin: 0;
-    max-height: none;
+    width: 90%;
+    max-width: 420px;
+    min-height: unset;
+    border-radius: var(--radius-lg);
+    margin: auto;
+    max-height: 85vh;
     overflow-y: auto;
   }
 
   th, td {
-    padding: 8px 8px;
-    font-size: 12px;
+    padding: 6px 5px;
+    font-size: 11px;
   }
   .td-meta {
+    display: none;
+  }
+
+  /* Colonne actions : taille min garantie */
+  td:last-child {
+    min-width: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+  }
+
+  /* Icônes plus grandes pour le touch */
+  .btn-icon {
+    padding: 6px;
+    min-width: 28px;
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Masquer les colonnes non essentielles sur petit mobile */
+  table th:nth-child(3),
+  table td:nth-child(3),
+  table th:nth-child(4),
+  table td:nth-child(4) {
     display: none;
   }
 }
@@ -1256,7 +1286,7 @@ tr:hover td {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, .45);
-  z-index: 400;
+  z-index: 1100;
   align-items: center;
   justify-content: center;
   padding: 14px;
@@ -1308,6 +1338,13 @@ tr:hover td {
   margin-top: 18px;
   padding-top: 14px;
   border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.modal-footer .btn {
+  flex: 1;
+  justify-content: center;
+  min-width: 100px;
 }
 
 /* AVATAR */

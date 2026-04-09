@@ -1,4 +1,4 @@
-﻿import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
+import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
 import { getQuestionsByPole, createQuestion, deleteQuestion } from '../../services/questions.service.js';
 import { qs } from '../../utils/dom.utils.js';
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const nameEl = qs('#sidebar-user-name');
   if (nameEl) nameEl.textContent = getAdminName() || 'Admin';
 
-  // ── Helpers ──────────────────────────────────────────────
+  // -- Helpers ----------------------------------------------
   function getAdminId() {
     try {
       const t = sessionStorage.getItem('tp_admin_token');
@@ -21,14 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const LETTRES = ['A', 'B', 'C', 'D', 'E'];
 
-  // ── Compter les questions par pôle ───────────────────────
+  // -- Compter les questions par pôle -----------------------
   async function chargerCount(pole) {
     const countEl = qs(`#qc-${pole}`);
     const container = qs(`#pole-${pole}`);
-    if (countEl) countEl.innerHTML = '…';
+    if (countEl) countEl.innerHTML = '–';
     try {
       const { data, error } = await getQuestionsByPole(pole);
-      console.log(`[editeur] questions ${pole} →`, { data, error });
+      console.log(`[editeur] questions ${pole} ?`, { data, error });
       
       const list = Array.isArray(data) ? data
         : Array.isArray(data?.data) ? data.data
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             empty.style.cssText = 
               'padding:16px;color:var(--muted);font-size:12px;text-align:center;';
             empty.textContent = 
-              'Aucune question — clique sur + Question pour en ajouter';
+              'Aucune question · clique sur + Question pour en ajouter';
             hd.after(empty);
           });
         } else {
@@ -72,10 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
               const situationEl = card.querySelector('.q-situation');
               if (situationEl) situationEl.value = q.description || q.contexte || '';
 
-              // Injecter les choix depuis q.choices (inclus dans la réponse liste)
+              // Injecter les choix depuis q.choices (inclus dans la r�ponse liste)
               if (q.partie !== 'C') {
                 const choicesList = Array.isArray(q.choices) ? q.choices : [];
-                console.log(`[editeur] choix pour ${q.id} →`, choicesList);
+                console.log(`[editeur] choix pour ${q.id} ?`, choicesList);
                 if (choicesList.length > 0) {
                   card.querySelectorAll('.choice-row').forEach(r => r.remove());
                   const addChoiceBtn = card.querySelector('.add-choice');
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
               }
 
-              // Insérer la card dans le bon groupe
+              // Ins�rer la card dans le bon groupe
               const grpHeaders = container.querySelectorAll('.sec-grp-hd');
               let inserted = false;
               grpHeaders.forEach(hd => {
@@ -114,14 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     } catch(e) {
-      if (countEl) countEl.textContent = '—';
+      if (countEl) countEl.textContent = '–';
       console.error('[editeur] chargerCount error', e);
     }
   }
 
   ['dev', 'secu', 'iot'].forEach(p => chargerCount(p));
 
-  // ── Créer une card question dans le DOM ──────────────────
+  // -- Créer une card question dans le DOM ------------------
   function creerQCard(pole, partie, ordre) {
     const isC = partie === 'C';
     const tagLabel = partie === 'A' ? 'QCM · 20s'
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div style="display:flex;gap:6px;">
             <span class="tag ${tagClass}">${tagLabel}</span>
             <button class="btn btn-ghost btn-icon btn-sm"
-              onclick="deleteQ(this)">✕</button>
+              onclick="deleteQ(this)">?</button>
           </div>
         </div>
         <div class="q-card-body">
@@ -177,14 +177,14 @@ document.addEventListener('DOMContentLoaded', () => {
           <div style="display:flex;gap:6px;">
             <span class="tag ${tagClass}">${tagLabel}</span>
             <button class="btn btn-ghost btn-icon btn-sm"
-              onclick="deleteQ(this)">✕</button>
+              onclick="deleteQ(this)">?</button>
           </div>
         </div>
         <div class="q-card-body">
           <div class="form-group" style="margin-bottom:10px;">
             <label class="form-label">Énoncé</label>
             <input type="text" class="form-input q-enonce"
-              placeholder="La question…">
+              placeholder="La question…"></div>
           </div>
           <label class="form-label">
             Choix (coche la bonne réponse)
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return card;
   }
 
-  // ── Compter les questions existantes dans le DOM ─────────
+  // -- Compter les questions existantes dans le DOM ---------
   function countQInDom(pole, partie) {
     const container = qs(`#pole-${pole}`);
     if (!container) return 0;
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ).length;
   }
 
-  // ── Ajouter une question (appelé depuis HTML) ────────────
+  // -- Ajouter une question (appelé depuis HTML) ------------
   window._moduleAddQuestion = (pole, partie) => {
     const container = qs(`#pole-${pole}`);
     if (!container) {
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ordre = countQInDom(pole, partie) + 1;
     const card  = creerQCard(pole, partie, ordre);
 
-    // Insérer avant le bouton "+ Question" du bon groupe
+    // Ins�rer avant le bouton "+ Question" du bon groupe
     const grpHeaders = container.querySelectorAll('.sec-grp-hd');
     let insertBefore = null;
     grpHeaders.forEach(hd => {
@@ -248,10 +248,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    showToast(`Question ${partie}-${ordre} ajoutée — remplis et sauvegarde`);
+    showToast(`Question ${partie}-${ordre} ajoutée · remplis et sauvegarde`);
   };
 
-  // ── Sauvegarder une question ─────────────────────────────
+  // -- Sauvegarder une question -----------------------------
   window._moduleSaveQuestion = async (btn) => {
     const card   = btn.closest('.q-card');
     const pole   = card.dataset.pole;
@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = sessionStorage.getItem('tp_admin_token');
         // PATCH la question existante
         const patchRes = await fetch(
-          `https://techpulseclub.vercel.app/api/v1/questions/${existingQId}`,
+          `https://techpulse-backend.vercel.app/api/v1/questions/${existingQId}`,
           {
             method: 'PATCH',
             headers: {
@@ -321,16 +321,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Supprimer les choix existants via DELETE
         if (!error && partie !== 'C') {
           const existingQRes = await fetch(
-            `https://techpulseclub.vercel.app/api/v1/questions/${qId}`,
+            `https://techpulse-backend.vercel.app/api/v1/questions/${qId}`,
             { headers: { 'Authorization': `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' } }
           );
           if (existingQRes.ok) {
             const existingQ = await existingQRes.json();
             const existingChoices = Array.isArray(existingQ.choices) ? existingQ.choices : [];
-            console.log('[editeur] choix existants à supprimer →', existingChoices.length);
+            console.log('[editeur] choix existants à supprimer ?', existingChoices.length);
             for (const c of existingChoices) {
               await fetch(
-                `https://techpulseclub.vercel.app/api/v1/questions/${qId}/choices/${c.id}`,
+                `https://techpulse-backend.vercel.app/api/v1/questions/${qId}/choices/${c.id}`,
                 {
                   method: 'DELETE',
                   headers: { 'Authorization': `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' }
@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
         qId   = data?.id || data?.data?.id;
       }
 
-      console.log('[editeur] save result →', { data, error, qId, isUpdate });
+      console.log('[editeur] save result ?', { data, error, qId, isUpdate });
 
       if (error) {
         showToast('Erreur : ' + JSON.stringify(error), 'error');
@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (!texte) continue;
           const choiceLettre = LETTRES[choiceOrdre - 1] || 'A';
           const choiceRes = await fetch(
-            `https://techpulseclub.vercel.app/api/v1/questions/${qId}/choices`,
+            `https://techpulse-backend.vercel.app/api/v1/questions/${qId}/choices`,
             {
               method: 'POST',
               headers: {
@@ -387,22 +387,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           );
           const choiceData = await choiceRes.json();
-          console.log('[editeur] POST choice →', choiceRes.status, choiceData);
+          console.log('[editeur] POST choice ?', choiceRes.status, choiceData);
           choiceOrdre++;
         }
       }
 
-      // Recharger la question depuis le backend pour afficher les choix à jour
+      // Recharger la question depuis le backend pour afficher les choix � jour
       if (qId && partie !== 'C') {
         try {
           const token = sessionStorage.getItem('tp_admin_token');
           const freshRes = await fetch(
-            `https://techpulseclub.vercel.app/api/v1/questions/${qId}`,
+            `https://techpulse-backend.vercel.app/api/v1/questions/${qId}`,
             { headers: { 'Authorization': `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' } }
           );
           if (freshRes.ok) {
             const freshQ = await freshRes.json();
-            console.log('[editeur] question fraîche →', freshQ);
+            console.log('[editeur] question frache ?', freshQ);
 
             // Réinjecter description dans le champ situation (partie C)
             if (partie === 'C') {
@@ -413,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const freshChoices = Array.isArray(freshQ.choices) ? freshQ.choices : [];
-            console.log('[editeur] choix après sauvegarde →', freshChoices);
+            console.log('[editeur] choix après sauvegarde ?', freshChoices);
 
             if (freshChoices.length > 0) {
               card.querySelectorAll('.choice-row').forEach(r => r.remove());
@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Mettre à jour le compteur sidebar après un délai
       setTimeout(() => {
         const countOnlyEl = document.querySelector(`#qc-${pole}`);
-        if (countOnlyEl) countOnlyEl.textContent = '…';
+        if (countOnlyEl) countOnlyEl.textContent = '–';
         getQuestionsByPole(pole).then(({ data }) => {
           const list = Array.isArray(data) ? data
             : Array.isArray(data?.data) ? data.data
@@ -465,7 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // ── Supprimer une question ───────────────────────────────
+  // -- Supprimer une question -------------------------------
   window._moduleDeleteQ = async (btn) => {
     const card = btn.closest('.q-card');
     if (!card) return;
@@ -486,10 +486,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Supprimer du DOM dans tous les cas
     card.remove();
-    showToast('Question supprimée');
+    showToast('Question supprim�e');
   };
 
-  // ── Ajouter un choix ────────────────────────────────────
+  // -- Ajouter un choix ------------------------------------
   window._moduleAddChoice = (el) => {
     const body  = el.closest('.q-card-body');
     const count = body.querySelectorAll('.choice-row').length;
@@ -503,7 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
     el.before(div);
   };
 
-  // ── Sauvegarder tout ────────────────────────────────────
+  // -- Sauvegarder tout ------------------------------------
   window._moduleSaveAll = () => {
     const all = document.querySelectorAll('.q-card');
     if (!all.length) {
@@ -522,13 +522,14 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   window._moduleCloneStructure = () => {
-    showToast('Structure dupliquée — complète les questions');
+    showToast('Structure dupliquée à complète les questions');
   };
 
-  // ── Bridges window pour les onclick HTML ────────────────
+  // -- Bridges window pour les onclick HTML ----------------
   window.saveQuestion = (btn) => window._moduleSaveQuestion(btn);
   window.deleteQ      = (btn) => window._moduleDeleteQ(btn);
   window.addChoice    = (el)  => window._moduleAddChoice(el);
   window.saveAll      = ()    => window._moduleSaveAll();
 });
+
 

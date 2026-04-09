@@ -1,4 +1,4 @@
-﻿const BASE_URL = 'https://techpulseclub.vercel.app';
+﻿const BASE_URL = 'https://techpulse-backend.vercel.app';
 
 async function apiCall(method, endpoint, body = null) {
   // Pour les endpoints de test, utiliser le token de session
@@ -28,24 +28,49 @@ async function apiCall(method, endpoint, body = null) {
 
 async function getQuestionsByPole(pole) {
   const tokenUuid = sessionStorage.getItem('tp_test_token');
+  const sessionId = sessionStorage.getItem('tp_session_id');
   try {
-    const res = await fetch(
-      `${BASE_URL}/api/v1/questions/public?token_uuid=${tokenUuid}&pole=${pole}`,
-      { 
-        headers: { 
-          // 'ngrok-skip-browser-warning': 'true',
-          'Content-Type': 'application/json'
-        } 
-      }
-    );
-    console.log('[exam] questions public status →', res.status);
-    if (!res.ok) {
-      console.warn('[exam] questions public failed →', res.status);
-      return { data: null, error: res.status, status: res.status };
+    const url = `${BASE_URL}/api/v1/questions/public?pole=${pole}&token_uuid=${tokenUuid}`;
+    console.log('[exam] tentative endpoint public →', url);
+    const res = await fetch(url, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    console.log('[exam] status public →', res.status);
+    if (res.ok) {
+      const data = await res.json().catch(() => null);
+      const list = Array.isArray(data) ? data
+        : Array.isArray(data?.questions) ? data.questions
+        : Array.isArray(data?.data) ? data.data
+        : Array.isArray(data?.results) ? data.results
+        : [];
+      console.log('[exam] questions via endpoint public →', list.length);
+      if (list.length > 0) return { data: list, status: res.status };
     }
-    const data = await res.json().catch(() => null);
-    console.log('[exam] questions chargées →', Array.isArray(data) ? data.length : 0);
-    return { data, status: res.status };
+
+    const adminToken = sessionStorage.getItem('tp_admin_token');
+    if (adminToken) {
+      console.log('[exam] fallback endpoint admin');
+      const resAdmin = await fetch(
+        `${BASE_URL}/api/v1/questions?pole=${pole}&actif=true`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          }
+        }
+      );
+      if (resAdmin.ok) {
+        const dataAdmin = await resAdmin.json().catch(() => null);
+        const listAdmin = Array.isArray(dataAdmin) ? dataAdmin
+          : Array.isArray(dataAdmin?.data) ? dataAdmin.data
+          : Array.isArray(dataAdmin?.questions) ? dataAdmin.questions
+          : [];
+        console.log('[exam] questions via endpoint admin →', listAdmin.length);
+        return { data: listAdmin, status: resAdmin.status };
+      }
+    }
+
+    return { data: null, error: 'Aucune question trouvée', status: 404 };
   } catch(e) {
     console.error('[exam] getQuestionsByPole error', e);
     return { data: null, error: e.message, status: 0 };
@@ -69,7 +94,7 @@ async function submitAnswer(sessionId, body) {
         })
       }
     );
-    console.log('[exam] submitAnswer →', res.status);
+    console.log('[exam] submitAnswer ?', res.status);
     const data = await res.json().catch(() => null);
     return { data, status: res.status };
   } catch(e) {
@@ -92,7 +117,7 @@ async function finaliserSession(sessionId) {
         body: JSON.stringify({ token_uuid: tokenUuid })
       }
     );
-    console.log('[exam] finaliserSession →', res.status);
+    console.log('[exam] finaliserSession ?', res.status);
     const data = await res.json().catch(() => null);
     return { data, status: res.status };
   } catch(e) {
@@ -104,17 +129,24 @@ async function finaliserSession(sessionId) {
 async function lockToken(uuid, reason) {
   // Le token se verrouille automatiquement via la session
   // Pas d'endpoint séparé nécessaire
-  console.log('[exam] lockToken appelé — géré par finaliserSession');
+  console.log('[exam] lockToken appelé à gérer par finaliserSession');
   return { data: null, error: null, status: 200 };
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
 
-  // ── Récupérer les infos de session ───────────────────────
+  // -- Récupérer les infos de session -----------------------
   const uuid       = sessionStorage.getItem('tp_test_token');
   const sessionId  = sessionStorage.getItem('tp_session_id');
   const pole       = sessionStorage.getItem('tp_pole') || sessionStorage.getItem('tp_candidat_pole');
   const nomCandidat = sessionStorage.getItem('tp_candidat_nom');
+
+  console.log('[exam] SESSION DEBUG →', {
+    uuid: sessionStorage.getItem('tp_test_token'),
+    sessionId: sessionStorage.getItem('tp_session_id'),
+    pole: sessionStorage.getItem('tp_pole') || sessionStorage.getItem('tp_candidat_pole'),
+    adminToken: sessionStorage.getItem('tp_admin_token') ? 'présent' : 'absent'
+  });
 
   // Si test déjà soumis, afficher page de fin immédiatement
   if (sessionStorage.getItem('tp_test_submitted') === 'true') {
@@ -134,7 +166,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           color:var(--t-text);margin-bottom:10px;">Test déjà soumis.</h2>
         <p style="font-size:14px;color:var(--t-muted);max-width:360px;
           line-height:1.7;">
-          Tu as déjà complété ce test. 
+          Tu as déjà complété ce test.
           Le lien n'est plus utilisable.
         </p>
       </div>`;
@@ -176,7 +208,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Marquer que le test est en cours dès maintenant
   sessionStorage.setItem('tp_exam_in_progress', 'true');
 
-  // ── État global ───────────────────────────────────────────
+  // -- état global -------------------------------------------
   let questions     = { A: [], B: [], C: [] };
   window._examQuestions = questions;
   let currentPart   = 'A';
@@ -188,7 +220,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   let abandoned     = false;
   let submitted     = false;
 
-  // ── Réserver les fonctions, implémentées plus bas ────
+  // -- Réserver les fonctions, implémentées plus bas ----
   window.nextStep   = () => {};
   window.prevStep   = () => {};
   window.onAnswer   = () => {};
@@ -196,11 +228,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   window.submitExam = async () => {};
   window.returnToTest = () => {};
 
-  // ── Charger les questions depuis l'API ────────────────────
+  // -- Charger les questions depuis l'API --------------------
   try {
     const { data, error } = await getQuestionsByPole(pole);
-    console.log('[exam] RAW data from API →', JSON.stringify(data));
-    console.log('[exam] pole demandé →', pole);
+    console.log('[exam] RAW data from API ?', JSON.stringify(data));
+    console.log('[exam] pole demandé ?', pole);
 
     const list = Array.isArray(data) ? data
       : Array.isArray(data?.questions) ? data.questions
@@ -208,7 +240,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       : Array.isArray(data?.data)      ? data.data
       : [];
 
-    console.log('[exam] questions parsées →', list.length, list.map(q => q.id));
+    console.log('[exam] questions parsées ?', list.length, list.map(q => q.id));
     window._examQuestions = questions;
 
     // Trier par partie
@@ -216,7 +248,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     questions.B = list.filter(q => (q.partie || q.part || '').toUpperCase() === 'B');
     questions.C = list.filter(q => (q.partie || q.part || '').toUpperCase() === 'C');
 
-    console.log('[exam] répartition →', {
+    console.log('[exam] répartition ?', {
       A: questions.A.length,
       B: questions.B.length,
       C: questions.C.length
@@ -225,8 +257,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (list.length > 0) {
       // Injecter les questions dans le HTML
       renderAllQuestions();
+      console.log('[exam] wraps C dans le DOM →', 
+        document.querySelectorAll('[id^="qwrap-C"]').length);
     } else {
-      // Aucune question trouvée — afficher une erreur claire, pas de fallback statique
+      // Aucune question trouvée ; afficher une erreur claire, pas de fallback statique
       ['A', 'B', 'C'].forEach(p => {
         const loader = document.getElementById(`questions-loader-${p}`);
         if (loader) {
@@ -242,7 +276,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('[exam] erreur chargement questions', e);
   }
 
-  // ── Rendu des questions ───────────────────────────────────
+  // -- Rendu des questions -----------------------------------
   function renderAllQuestions() {
     // Supprimer les loaders
     ['A', 'B', 'C'].forEach(p => {
@@ -268,8 +302,10 @@ document.addEventListener('DOMContentLoaded', async () => {
           const card = document.createElement('div');
           card.className = 'sit-q-card';
           card.id = `qwrap-${qId}`;
+          // Cacher toutes les cartes C sauf la première
+          if (idx > 0) card.style.display = 'none';
           card.innerHTML = `
-            <div class="sit-q-head">C · Situation ${num}/${total}</div>
+            <div class="sit-q-head">C → Situation ${num}/${total}</div>
             <div class="sit-q-body">
               <div class="sit-q-text">${q.enonce || q.question || q.texte || ''}</div>
               <div class="sit-q-sub">${q.description || q.contexte || ''}</div>
@@ -305,7 +341,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           wrap.innerHTML = `
             <div class="question-display">
               <div class="q-topbar">
-                <span class="q-id">${part} · Question ${num}/${total}</span>
+                <span class="q-id">${part} → Question ${num}/${total}</span>
                 <div class="q-countdown" id="cd-${qId}">
                   <div class="q-cring">
                     <svg width="26" height="26" viewBox="0 0 26 26">
@@ -327,10 +363,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           section.appendChild(wrap);
         }
       });
+      console.log(`[exam] rendu partie ${part} → ${questions[part].length} questions créées dans le DOM`);
     });
   }
 
-  // ── Timer global ──────────────────────────────────────────
+  // -- Timer global ------------------------------------------
   function startGlobalTimer() {
     const display = document.getElementById('timer-display');
     globalTimer = setInterval(() => {
@@ -350,7 +387,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, 1000);
   }
 
-  // ── Timer par question (A et B) ───────────────────────────
+  // -- Timer par question (A et B) ---------------------------
   function startQuestionTimer(qId, seconds = 20) {
     clearQTimer();
     let remaining = seconds;
@@ -383,7 +420,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (qTimer) { clearInterval(qTimer); qTimer = null; }
   }
 
-  // ── Navigation ────────────────────────────────────────────
+  // -- Navigation --------------------------------------------
   const PARTS = ['A', 'B', 'C'];
 
   function getCurrentQuestions() {
@@ -413,13 +450,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const qList = getCurrentQuestions();
     const total = qList.length;
     const q     = qList[idx];
-    const qId   = q?.id || `${part}${idx + 1}`;
+    const qId = `${part}${idx + 1}`;  // toujours séquentiel pour le DOM
+    const qBackendId = q?.id;          // UUID backend pour l'API uniquement
+
+    console.log('[exam] showQuestion →', { part, idx, qId, 
+      wrapFound: !!document.getElementById(`qwrap-${qId}`) });
 
     // Afficher/cacher les question-wrap pour TOUTES les parties
     if (part === 'C') {
       // Partie C : une question à la fois, sans timer automatique
       qList.forEach((_, i) => {
-        const wrap = document.getElementById(`qwrap-${part}${i+1}`);
+        const wrap = document.getElementById(`qwrap-C${i + 1}`);
         if (wrap) wrap.style.display = i === idx ? '' : 'none';
       });
     } else {
@@ -447,7 +488,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const labelEl   = document.getElementById('progress-label');
     if (fillEl)  fillEl.style.width = `${pct}%`;
     if (pctEl)   pctEl.textContent  = `${pct}%`;
-    if (labelEl) labelEl.textContent = `Partie ${part} · Q${idx+1}/${total}`;
+    if (labelEl) labelEl.textContent = `Partie ${part} → Q${idx+1}/${total}`;
   }
 
   function updateNav(part, idx, total) {
@@ -461,8 +502,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const isFirst = part === 'A' && idx === 0;
     const partsWithQ  = PARTS.filter(p => questions[p] && questions[p].length > 0);
-    const lastPartWithQ = partsWithQ[partsWithQ.length - 1] || 'A';
-    const isVeryLast  = part === lastPartWithQ && idx === total - 1;
+    const lastPartWithQ = partsWithQ[partsWithQ.length - 1] || 'C';
+    const lastQIdx = (questions[lastPartWithQ]?.length || 1) - 1;
+    const isVeryLast  = part === lastPartWithQ && idx === lastQIdx;
+
+    console.log('[exam] updateNav →', { part, idx, total, isVeryLast, lastPartWithQ, lastQIdx });
 
     // Parties A et B : pas de boutons, passage auto via timer ou clic
     // Partie C : navigation manuelle
@@ -488,7 +532,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }).join('');
   }
 
-  // ── Gestion abandon (visibilitychange) ────────────────────
+  // -- Gestion abandon (visibilitychange) --------------------
   document.addEventListener('visibilitychange', async () => {
     if (document.visibilityState === 'hidden' && !submitted) {
       abandoned = true;
@@ -518,6 +562,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Réassigner les vraies fonctions maintenant que tout est défini
   window.nextStep = () => {
+    // Sauvegarder la réponse C courante avant de naviguer
+    if (currentPart === 'C') {
+      const qId = `C${currentQIndex + 1}`;
+      const ta  = document.getElementById(`ans-${qId}`);
+      if (ta) answers[qId] = ta.value;
+    }
+
     clearQTimer();
     const qList = getCurrentQuestions();
     const newIdx = currentQIndex + 1;
@@ -534,7 +585,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         nextPartIdx++;
       }
-      // Aucune partie suivante avec des questions → soumettre
+      // Aucune partie suivante avec des questions ? soumettre
       window.submitExam();
     }
   };
@@ -568,34 +619,35 @@ document.addEventListener('DOMContentLoaded', async () => {
       setTimeout(() => window.nextStep(), 600);
     }
 
-    console.log('[exam] réponse →', qId, selected.value);
+    console.log('[exam] réponse ?', qId, selected.value);
     
     const idx  = parseInt(qId.slice(1)) - 1;
     const q    = questions[part]?.[idx];
 
-    console.log('[exam] onAnswer →', { qId, part, idx, q, sessionId });
+    console.log('[exam] onAnswer ?', { qId, part, idx, q, sessionId });
 
     if (q?.id && sessionId) {
       submitAnswer(sessionId, {
         question_id: q.id,
         valeur_saisie: selected.value.toLowerCase(),
         partie: part
-      }).then(r => console.log('[exam] submitAnswer result →', r.status, r.data))
+      }).then(r => console.log('[exam] submitAnswer result ?', r.status, r.data))
         .catch(e => console.warn('[exam] submitAnswer error', e));
     } else {
-      console.warn('[exam] PROBLÈME — question_id manquant', { q, sessionId });
+      console.warn('[exam] PROBLÈME : question_id manquant', { q, sessionId });
       // Tentative de fallback : chercher dans toutes les parties
       const allQ = [...questions.A, ...questions.B, ...questions.C];
-      console.log('[exam] toutes les questions disponibles →', allQ.map(x => x.id));
+      console.log('[exam] toutes les questions disponibles ?', allQ.map(x => x.id));
     }
   };
 
   window.updateChar = (qId) => {
     const ta      = document.getElementById(`ans-${qId}`);
     const counter = document.getElementById(`char-${qId}`);
-    if (ta && counter) {
-      counter.textContent = ta.value.length;
+    if (ta) {
+      // Stocker dans answers IMMÉDIATEMENT à chaque frappe
       answers[qId] = ta.value;
+      if (counter) counter.textContent = ta.value.length;
     }
   };
 
@@ -604,6 +656,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     submitted = true;
     clearQTimer();
     clearInterval(globalTimer);
+
+    // ── CAPTURE IMMÉDIATE des réponses C avant tout changement DOM ──
+    // Garantit que les valeurs sont lues AVANT l'overlay
+    if (questions.C && questions.C.length > 0) {
+      questions.C.forEach((q, i) => {
+        const qId = `C${i + 1}`;
+        const ta = document.getElementById(`ans-${qId}`);
+        if (ta && ta.value.trim()) {
+          // Sauvegarder dans le cache answers MAINTENANT
+          answers[qId] = ta.value.trim();
+          console.log(`[exam] capture C${i+1} :`, answers[qId].substring(0, 50));
+        }
+      });
+    }
 
     // Afficher un loader immédiatement
     const overlay = document.getElementById('submit-overlay');
@@ -627,17 +693,48 @@ document.addEventListener('DOMContentLoaded', async () => {
         </style>`;
     }
 
-    // Sauvegarder les réponses C
+    // ── Sauvegarder TOUTES les réponses C ──────────────────
+    // Priorité : DOM → cache answers{} → chaîne vide
+    // On soumet même si vide pour que le backend enregistre
+    // toutes les questions (affichées comme "Non répondu" côté admin)
     if (questions.C.length > 0) {
+      console.log('[exam] soumission réponses C :', questions.C.length, 'questions');
       for (const [i, q] of questions.C.entries()) {
-        const qId = `C${i+1}`;
-        const ta  = document.getElementById(`ans-${qId}`);
-        if (ta?.value.trim() && sessionId) {
-          await submitAnswer(sessionId, { 
-            question_id: q.id, valeur_saisie: ta.value.trim(), partie: 'C'
-          }).catch(e => console.warn('[exam] submitAnswer C error', e));
+        const qId = `C${i + 1}`;
+
+        // 1. Essayer de lire depuis le DOM
+        const ta = document.getElementById(`ans-${qId}`);
+        let valeur = ta ? ta.value.trim() : '';
+
+        // 2. Fallback : cache answers{}
+        if (!valeur && answers[qId]) {
+          valeur = String(answers[qId]).trim();
         }
+
+        console.log(`[exam] C${i+1} → question_id=${q.id} | valeur="${valeur.substring(0,50)}" | sessionId=${sessionId}`);
+
+        if (!sessionId) {
+          console.warn(`[exam] C${i+1} IGNORÉE — sessionId manquant`);
+          continue;
+        }
+
+        // On soumet même si valeur vide pour marquer la question
+        // comme "traitée" côté backend
+        await submitAnswer(sessionId, {
+          question_id:   q.id,
+          valeur_saisie: valeur || null,
+          partie:        'C',
+          auto_passe:    valeur ? false : true
+        }).then(r => {
+          console.log(`[exam] C${i+1} submitAnswer → status=${r.status}`);
+          if (r.status !== 200 && r.status !== 201) {
+            console.warn(`[exam] C${i+1} réponse inattendue :`, r.data);
+          }
+        }).catch(e => {
+          console.error(`[exam] C${i+1} submitAnswer ERREUR :`, e);
+        });
       }
+      console.log('[exam] toutes les réponses C soumises');
     }
 
     // Finaliser la session
@@ -646,7 +743,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         const result = await finaliserSession(sessionId);
         finaliseOk = result.status === 200;
-        console.log('[exam] finaliserSession →', result.status);
+        console.log('[exam] finaliserSession ?', result.status);
       } catch(e) {
         console.error('[exam] finaliserSession error', e);
       }
@@ -678,14 +775,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         <h2 class="submit-title">Test soumis.</h2>
         <p class="submit-desc">
           Tes réponses ont été envoyées à l'équipe TechPulse. 
-          Tu recevras un email dans les 48–72h avec la décision.
+          Tu recevras un email dans les 48-72h avec la décision.
         </p>
         <div class="submit-steps">
           <div class="submit-step">
-            <div class="s-ico done">✓</div> Réponses enregistrées
+            <div class="s-ico done">?</div> Réponses enregistrées
           </div>
           <div class="submit-step">
-            <div class="s-ico done">✓</div> Lien verrouillé
+            <div class="s-ico done">?</div> Lien verrouillé
           </div>
           <div class="submit-step">
             <div class="s-ico wait">…</div> Correction en cours
@@ -708,8 +805,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('btn-submit')?.addEventListener('click', window.submitExam);
   document.querySelector('.abandon-return')?.addEventListener('click', window.returnToTest);
 
-  // ── Démarrage ─────────────────────────────────────────────
+  // -- Démarrage ---------------------------------------------
   startGlobalTimer();
   showQuestion('A', 0);
 });
+
 

@@ -15,3 +15,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // à compléter selon besoins réels
 });
+

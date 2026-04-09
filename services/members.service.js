@@ -39,3 +39,4 @@ export async function createMember(data) {
 export async function deactivateMember(membre_id) {
   return await api.patch(API_CONFIG.ENDPOINTS.MEMBER_BY_ID.replace(':membre_id', membre_id), {}, { actif: false });
 }
+

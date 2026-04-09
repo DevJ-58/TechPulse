@@ -86,9 +86,9 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           Templates email
         </div>
-        <div class="params-nav-item" onclick="switchSection(this,'admins')">
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Admins
+        <div class="params-nav-item" onclick="switchSection(this,'poles')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l7 4v6c0 4-3 8-7 10-4-2-7-6-7-10V6l7-4z"/></svg>
+          Pôles
         </div>
         <div class="params-nav-item" onclick="switchSection(this,'club')">
           <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -239,37 +239,17 @@
           </div>
         </div>
 
-        <!-- ADMINS -->
-        <div class="params-section" id="sec-admins">
+        <!-- POLES -->
+        <div class="params-section" id="sec-poles">
           <div class="params-card">
             <div class="params-card-hd">
-              <span class="params-card-title">Comptes administrateurs</span>
-              <button class="btn btn-sm btn-outline" onclick="showToast('Invitation envoyée')">+ Inviter admin</button>
+              <span class="params-card-title">Pôles</span>
+              <span class="tag tag-default" id="poles-count">0 pôles</span>
+              <button class="btn btn-sm btn-outline" onclick="ouvrirModalAjouterPole()">+ Ajouter un pôle</button>
             </div>
             <div class="params-card-body">
-              <div class="admin-row">
-                <div class="admin-av">KF</div>
-                <div style="flex:1;">
-                  <div class="admin-name">Kouadio Fréjus</div>
-                  <div class="admin-email">frejus@clubpulse.tech</div>
-                </div>
-                <span class="tag tag-accent">Fondateur</span>
-              </div>
-              <div class="admin-row">
-                <div class="admin-av">DK</div>
-                <div style="flex:1;">
-                  <div class="admin-name">Djeke Koffi Kan Christ David</div>
-                  <div class="admin-email">djeke@clubpulse.tech</div>
-                </div>
-                <span class="tag tag-accent">Fondateur</span>
-              </div>
-              <div class="admin-row">
-                <div class="admin-av">DM</div>
-                <div style="flex:1;">
-                  <div class="admin-name">Diomande Keuwe Mickael</div>
-                  <div class="admin-email">mickael@clubpulse.tech</div>
-                </div>
-                <span class="tag tag-accent">Fondateur</span>
+              <div id="poles-list">
+                <p style="color:var(--muted);">Chargement des pôles…</p>
               </div>
             </div>
           </div>
@@ -280,17 +260,17 @@
           <div class="params-card">
             <div class="params-card-hd"><span class="params-card-title">Informations du club</span></div>
             <div class="params-card-body">
-              <div class="form-group"><label class="form-label">Nom du club</label><input type="text" class="form-input" value="TechPulse"></div>
-              <div class="form-group"><label class="form-label">Email de contact</label><input type="email" class="form-input" value="admin@clubpulse.tech"></div>
-              <div class="form-group"><label class="form-label">Université</label><input type="text" class="form-input" value="Université Internationale de Yamoussoukro (UIYA)"></div>
-              <div class="form-group"><label class="form-label">Session en cours</label><input type="text" class="form-input" value="2026"></div>
-              <div class="form-group"><label class="form-label">Nombre de places max</label><input type="number" class="form-input" value="15"></div>
+              <div class="form-group"><label class="form-label">Nom du club</label><input id="club-name" type="text" class="form-input" value="TechPulse"></div>
+              <div class="form-group"><label class="form-label">Email de contact</label><input id="club-email" type="email" class="form-input" value="admin@clubpulse.tech"></div>
+              <div class="form-group"><label class="form-label">Université</label><input id="club-universite" type="text" class="form-input" value="Université Internationale de Yamoussoukro (UIYA)"></div>
+              <div class="form-group"><label class="form-label">Session en cours</label><input id="club-session" type="text" class="form-input" value="2026"></div>
+              <div class="form-group"><label class="form-label">Nombre de places max</label><input id="club-places-max" type="number" class="form-input" value="15"></div>
               <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid var(--border);">
                 <div>
                   <div style="font-size:13px;font-weight:600;">Candidatures ouvertes</div>
                   <div style="font-size:11px;color:var(--muted);">Afficher le formulaire sur le site public</div>
                 </div>
-                <div class="toggle-track on" onclick="toggleSwitch(this)"><div class="toggle-thumb"></div></div>
+                <div id="toggle-candidatures" class="toggle-track on" onclick="toggleSwitch(this)"><div class="toggle-thumb"></div></div>
               </div>
               <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid var(--border);">
                 <div>
@@ -486,7 +466,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
-</script> <script type="module" src="/js/admin/parametres.js"></script></script>
+</script>
+<script type="module" src="/js/admin/parametres.js"></script>
 
 <!-- MODAL PROFIL ADMIN -->
 <div class="modal-overlay" id="profil-modal">
@@ -530,3 +511,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
+
+

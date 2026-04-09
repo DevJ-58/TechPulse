@@ -85,3 +85,4 @@ export async function updateChoice(question_id, choice_id, data) {
 export async function deleteChoice(question_id, choice_id) {
   return await api.delete(api.buildUrl('/api/v1/questions/:question_id/choices/:choice_id', { question_id, choice_id }));
 }
+

@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnNext2 = qs('#btn-next-2');
   const btnPrev2 = qs('#btn-prev-2');
   const btnPrev3 = qs('#btn-prev-3');
+  const submitBtn = qs('#btn-submit');
 
   if (btnNext1) {
     btnNext1.addEventListener('click', e => {
@@ -144,79 +145,72 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (form) {
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-      const formData = Object.fromEntries(new FormData(form));
-      console.log('[join] formData brut →', formData);
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span class="btn-spinner"></span> Envoi en cours…`;
+    }
 
-      // Normaliser niveau_tech
-      const niveauTechMap = {
-        "Débutant (j'explore)": "debutant",
-        "Intermédiaire (j'ai des bases)": "intermediaire",
-        "Avancé (je pratique régulièrement)": "avance",
-      };
-      const niveauTechRaw = (formData.niveau_tech || '').trim();
-      formData.niveau_tech = niveauTechMap[niveauTechRaw] || null;
+    const formData = Object.fromEntries(new FormData(form));
 
-      // Normaliser source
-      const sourceMap = {
-        'Bouche à oreille':  'bouche_a_oreille',
-        'Réseaux sociaux':   'reseaux_sociaux',
-        'Campus / affiches': 'affichage',
-        'Un membre du club': 'ami',
-        'Autre':             'autre',
-      };
-      const sourceRaw = (formData.source || '').trim();
-      formData.source = sourceMap[sourceRaw] || null;
+    const niveauTechMap = {
+      "Débutant (j'explore)": "debutant",
+      "Intermédiaire (j'ai des bases)": "intermediaire",
+      "Avancé (je pratique régulièrement)": "avance",
+    };
+    formData.niveau_tech = niveauTechMap[(formData.niveau_tech || '').trim()] || null;
 
-      // Normaliser filiere
-      const filiereMap = {
-        // Add mappings if needed, e.g., "Informatique": "info", etc.
-      };
-      const filiereRaw = (formData.filiere || '').trim();
-      formData.filiere = filiereMap[filiereRaw] || filiereRaw || null;
+    const sourceMap = {
+      'Bouche à oreille':  'bouche_a_oreille',
+      'Réseaux sociaux':   'reseaux_sociaux',
+      'Campus / affiches': 'affichage',
+      'Un membre du club': 'ami',
+      'Autre':             'autre',
+    };
+    formData.source = sourceMap[(formData.source || '').trim()] || null;
 
-      // Renommer projet → projet_cite
-      if (formData.projet !== undefined) {
-        formData.projet_cite = formData.projet;
-        delete formData.projet;
+    const filiereRaw = (formData.filiere || '').trim();
+    formData.filiere = filiereRaw || null;
+
+    if (formData.projet !== undefined) {
+      formData.projet_cite = formData.projet;
+      delete formData.projet;
+    }
+
+    const validationError = validateFormData(formData);
+    if (validationError) {
+      showToast(validationError, 'error');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `Envoyer ma candidature ✓`;
       }
+      return;
+    }
 
-      const validationError = validateFormData(formData);
-      if (validationError) {
-        showToast(validationError, 'error');
-        return;
+    const { data, error, status } = await createCandidate(formData);
+
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `Envoyer ma candidature ✓`;
+    }
+
+    if (data && !error) {
+      if (formContent) formContent.style.display = 'none';
+      if (successState) {
+        successState.style.cssText = 'display:flex !important;';
+        if (window.lucide) lucide.createIcons();
       }
-
-      const submitBtn = qs('#btn-submit');
-      if (submitBtn) submitBtn.disabled = true;
-
-      console.log('[join] payload envoyé →', JSON.stringify(formData));
-      const { data, error, status } = await createCandidate(formData);
-      console.log('[join] réponse →', { data, error, status });
-
-      if (data?.detail) {
-        data.detail.forEach((e, i) => {
-          console.error(`[422 champ ${i}]`, e.loc?.join(' → '), '|', e.msg, '| input:', e.input);
-        });
-      }
-
-      if (submitBtn) submitBtn.disabled = false;
-
-      if (data && !error) {
-        if (formContent) formContent.style.display = 'none';
-        if (successState) {
-          successState.style.cssText = 'display:flex !important;';
-          if (window.lucide) lucide.createIcons();
-        }
-      } else {
-        const msg = error || `Erreur ${status || ''}`;
-        showToast(msg, 'error');
-      }
-    });
+    } else {
+      const msg = error || `Erreur ${status || ''}`;
+      showToast(msg, 'error');
+    }
   }
+
+  if (form) form.addEventListener('submit', handleSubmit);
+  if (submitBtn) submitBtn.addEventListener('click', handleSubmit);
 
   showStep(0);
 });
+

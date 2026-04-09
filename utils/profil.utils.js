@@ -247,3 +247,4 @@ function updateAvatarDisplay(photoUrl, adminName) {
     if (profilAvatar)  profilAvatar.textContent  = initial;
   }
 }
+

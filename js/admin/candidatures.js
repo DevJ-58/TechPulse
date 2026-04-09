@@ -61,19 +61,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!tb) return;
     tb.innerHTML = '';
     if (!list.length) {
-      tb.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);">Aucun candidat trouvé</td></tr>';
+      tb.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);">Aucun candidat trouvé</td></tr>';
       return;
     }
-    list.forEach(c => {
+    list.forEach((c, index) => {
       const date = formatDate(c.date_candidature || c.created_at);
       tb.innerHTML += `<tr>
+        <td>${index + 1}</td>
         <td>${c.prenom || ''} ${c.nom || ''}</td>
         <td>${c.pole || '—'}</td>
         <td>${c.niveau || '—'}</td>
         <td>${date}</td>
         <td><span class="tag ${statutClass(c.statut)}">${statutLabel(c.statut)}</span></td>
-        <td style="display:flex;gap:6px;align-items:center;">
-          <button class="btn btn-ghost btn-icon btn-sm" title="Voir"
+        <td style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
+          <button class="btn btn-ghost btn-icon btn-sm" title="Voir" style="min-width:28px;min-height:28px;"
             onclick="openPanel('${c.id}')">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2">
@@ -82,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </svg>
           </button>
           ${c.statut === 'en_attente' ? `
-          <button class="btn btn-ghost btn-icon btn-sm" title="Envoyer le test"
+          <button class="btn btn-ghost btn-icon btn-sm" title="Envoyer le test" style="min-width:28px;min-height:28px;"
             onclick="ouvrirModalTest('${c.id}','${c.prenom} ${c.nom}')">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2">
@@ -90,8 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </svg>
           </button>` : ''}
           ${(c.statut === 'en_attente' || c.statut === 'test_envoye') ? `
-          <button class="btn btn-ghost btn-icon btn-sm" title="Refuser"
-            style="color:var(--danger);"
+          <button class="btn btn-ghost btn-icon btn-sm" title="Refuser" style="min-width:28px;min-height:28px;color:var(--danger);"
             onclick="ouvrirModalRefus('${c.id}','${c.prenom} ${c.nom}','${c.email}')">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2">
@@ -101,8 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </svg>
           </button>` : ''}
           ${(c.statut === 'refuse' || !c.statut) ? `
-          <button class="btn btn-ghost btn-icon btn-sm" title="Supprimer"
-            style="color:var(--danger);"
+          <button class="btn btn-ghost btn-icon btn-sm" title="Supprimer" style="min-width:28px;min-height:28px;color:var(--danger);"
             onclick="supprimerCandidat('${c.id}','${c.prenom} ${c.nom}')">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2">
@@ -143,13 +142,15 @@ document.addEventListener('DOMContentLoaded', () => {
         (c.pole  || '').toLowerCase().includes(q)
       );
     }
+    // Tri par défaut : plus récent en haut
+    liste.sort((a, b) => new Date(b.date_candidature || b.created_at || 0) - new Date(a.date_candidature || a.created_at || 0));
     renderTable(liste);
   }
 
   // Charger les candidats
   const tbody = qs('#cand-table-tbody');
   if (tbody) {
-    tbody.innerHTML = '<tr><td colspan="6">Chargement…</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7">Chargement…</td></tr>';
     (async () => {
       try {
         const { data, error, status } = await getAllCandidates();
@@ -159,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const errorMsg = error.includes('CORS') 
             ? 'Erreur serveur : Le backend a retourné une erreur (vérifiez les logs Render)'
             : 'Erreur de chargement des candidats';
-          tbody.innerHTML = `<tr><td colspan="6">${errorMsg}</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="7">${errorMsg}</td></tr>`;
           showToast(errorMsg, 'error');
           return;
         }
@@ -172,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const errorMsg = e.message.includes('Failed to fetch') 
           ? 'Impossible de se connecter au serveur (vérifiez les logs Render)'
           : 'Erreur lors du chargement des candidats';
-        tbody.innerHTML = `<tr><td colspan="6">${errorMsg}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7">${errorMsg}</td></tr>`;
         showToast(errorMsg, 'error');
       }
     })();
@@ -506,3 +507,4 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
 });
+
