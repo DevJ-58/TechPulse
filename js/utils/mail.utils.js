@@ -27,9 +27,9 @@ Nous avons examiné ta candidature au pôle ${poleLabel} de TechPulse et nous so
 Ton lien de test (usage unique) :
 ${lien}
 
-⚠️ Ce lien est personnel et ne peut être utilisé qu'une seule fois.
-⚠️ Ne quitte pas la page pendant le test — cela annulerait ta session.
-⚠️ Prévois 15 à 20 minutes sans interruption.
+ Ce lien est personnel et ne peut être utilisé qu'une seule fois.
+ Ne quitte pas la page pendant le test — cela annulerait ta session.
+ Prévois 15 à 20 minutes sans interruption.
 
 Le test comporte 3 parties :
 - Partie A : Questions à choix multiple (20s par question)

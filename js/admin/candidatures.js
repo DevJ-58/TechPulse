@@ -436,7 +436,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!_currentCandId) { showToast('Aucun candidat sélectionné', 'error'); return; }
 
     const confirmBtn = qs('#test-modal .btn-primary');
-    if (confirmBtn) confirmBtn.disabled = true;
+
+    // Activer le preloader
+    function setLoading(btn, loading) {
+      if (!btn) return;
+      if (loading) {
+        btn.disabled = true;
+        btn.classList.add('btn-loading');
+        btn._originalHTML = btn.innerHTML;
+        btn.innerHTML = `<span class="btn-dots"><span></span><span></span><span></span></span>Envoi en cours`;
+      } else {
+        btn.disabled = false;
+        btn.classList.remove('btn-loading');
+        if (btn._originalHTML) btn.innerHTML = btn._originalHTML;
+      }
+    }
+
+    setLoading(confirmBtn, true);
 
     try {
       // 1. Créer le token de test
@@ -455,7 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!adminId) {
         showToast('Session admin introuvable — reconnecte-toi', 'error');
-        if (confirmBtn) confirmBtn.disabled = false;
+        setLoading(confirmBtn, false);
         return;
       }
 
@@ -467,7 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (tokenError) {
         showToast('Erreur création token : ' + tokenError, 'error');
-        if (confirmBtn) confirmBtn.disabled = false;
+        setLoading(confirmBtn, false);
         return;
       }
 
@@ -475,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const { error: statutError } = await updateCandidateStatus(_currentCandId, 'test_envoye');
       if (statutError) {
         showToast('Erreur mise à jour statut : ' + statutError, 'error');
-        if (confirmBtn) confirmBtn.disabled = false;
+        setLoading(confirmBtn, false);
         return;
       }
 // Récupérer les infos du candidat et envoyer le mail avec le lien
@@ -502,7 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch(e) {
       console.error('[confirmSendTest] exception', e);
       showToast('Erreur inattendue : ' + e.message, 'error');
-      if (confirmBtn) confirmBtn.disabled = false;
+      setLoading(confirmBtn, false);
     }
   };
 

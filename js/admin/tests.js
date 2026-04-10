@@ -10,6 +10,20 @@ document.addEventListener('DOMContentLoaded', () => {
   requireAdmin();
   initProfilModal();
 
+  function setBtnLoading(btn, loading, originalHTML) {
+    if (!btn) return;
+    if (loading) {
+      btn.disabled = true;
+      btn.classList.add('btn-loading');
+      btn._originalHTML = btn.innerHTML;
+      btn.innerHTML = `<span class="btn-dots"><span></span><span></span><span></span></span>En cours`;
+    } else {
+      btn.disabled = false;
+      btn.classList.remove('btn-loading');
+      btn.innerHTML = btn._originalHTML || originalHTML || '';
+    }
+  }
+
   const nameEl = qs('#sidebar-user-name');
   if (nameEl) nameEl.textContent = getAdminName() || 'Admin';
 
@@ -551,17 +565,16 @@ document.addEventListener('DOMContentLoaded', () => {
         ${s.soumis ? `
         <button class="btn btn-danger"
           onclick="_refuserSession('${s.candidat_id}','${s.id}','${candidatNom.replace(/'/g, "\\'")}','${candidatEmail}','${candidatPole}')">
-          ? Envoyer refus
+           Envoyer refus
         </button>
         <button class="btn btn-success"
-          onclick="_validerSession('${s.candidat_id}','${s.id}',
-            '${s.score_A || 0}','${s.score_B || 0}')">
+          onclick="_validerSession('${s.candidat_id}','${s.id}','${s.score_A||0}','${s.score_B||0}','${candidatNom.replace(/'/g,"\\'")}','${candidatEmail}','${candidatPole}')">
           ✓ Valider → Meet
         </button>
         ` : `<div></div><div></div>`}
       </div>
 
-      <!-- Bouton suppression � toujours visible -->
+      <!-- Bouton suppression  toujours visible -->
       <div style="margin-bottom:20px;">
         <button class="btn btn-ghost"
           style="width:100%;border:1px dashed var(--danger);
@@ -639,7 +652,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (found) {
                   const lettre = found.lettre || found.letter || '';
                   const texte  = found.texte  || found.text  || found.label || reponseRaw;
-                  reponseTxt = lettre ? `${lettre} � ${texte}` : String(texte);
+                  reponseTxt = lettre ? `${lettre} - ${texte}` : String(texte);
                 }
                 // Si toujours pas trouvé, logger pour debug
                 else {
@@ -662,7 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
             : 'var(--muted)';
 
           const icon = nonRepondu ? '○'
-            : isC ? '⚠️'
+            : isC ? ''
             : correct === true  ? '✓'
             : correct === false ? '✗' : '?';
 
@@ -682,7 +695,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .map(c => {
               const lettre = c.lettre || c.letter || '';
               const texte  = c.texte  || c.text  || c.label || '';
-              return lettre ? `${lettre} � ${escHtml(texte)}` : escHtml(texte);
+              return lettre ? `${lettre} - ${escHtml(texte)}` : escHtml(texte);
             });
 
           return `
@@ -754,7 +767,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <div style="margin-top:8px;padding:8px;
                 background:var(--warning-bg);border-radius:var(--radius);
                 font-size:11px;color:var(--warning);">
-                ⚠️ Cette réponse est évaluée manuellement · saisis le score
+                 Cette réponse est évaluée manuellement · saisis le score
                 Partie C dans la case en haut du panel.
               </div>` : ''}
             </div>
@@ -807,15 +820,18 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/>/g,'&gt;');
   }
 
-  window._validerSession = async (candidatId, sessionId, scoreAB) => {
-    if (!candidatId) return;
-    const token = sessionStorage.getItem('tp_admin_token');
-    const BASE  = API_CONFIG.BASE_URL;
-
-    const scoreCInput = document.getElementById('score-c-input');
-    const scoreC = scoreCInput ? parseInt(scoreCInput.value) || null : null;
+  window._validerSession = async (candidatId, sessionId, scoreA, scoreB, candidatNom, candidatEmail, candidatPole) => {
+    const btn = document.querySelector('[onclick*="_validerSession"]');
+    setBtnLoading(btn, true);
 
     try {
+      const token = sessionStorage.getItem('tp_admin_token');
+      const BASE  = API_CONFIG.BASE_URL;
+
+      const scoreCInput = document.getElementById('score-c-input');
+      const scoreC = scoreCInput ? parseInt(scoreCInput.value) || null : null;
+
+      // Changer le statut du candidat vers meet_planifie
       await fetch(`${BASE}/api/v1/candidates/${candidatId}/statut`, {
         method: 'PATCH',
         headers: {
@@ -825,6 +841,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ statut: 'meet_planifie' })
       });
 
+      // Enregistrer le score C si saisi
       if (scoreC !== null && sessionId) {
         await fetch(`${BASE}/api/v1/tests/sessions/${sessionId}/finaliser`, {
           method: 'POST',
@@ -836,28 +853,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(e => console.warn('[scoreC]', e));
       }
 
-      sessionStorage.setItem('tp_meet_notif', JSON.stringify({
+      // Stocker le candidat dans sessionStorage sous tp_meet_queue
+      sessionStorage.setItem('tp_meet_queue', JSON.stringify({
         candidat_id: candidatId,
-        session_id:  sessionId,
-        score_ab:    scoreAB,
-        score_c:     scoreC,
+        prenom: candidatNom.split(' ')[0] || '',
+        nom: candidatNom.split(' ').slice(1).join(' ') || '',
+        email: candidatEmail || '',
+        pole: candidatPole || '',
         ts: Date.now()
       }));
 
-      showToast('Candidat validé · redirige vers Meets…', 'success');
-      closePanel('session-panel', 'session-overlay');
-      setTimeout(() => {
-        window.location.href = `meets.html?candidat_id=${candidatId}`;
-      }, 1200);
+      // Afficher un toast
+      showToast('Candidat ajouté à la liste Meet ✓', 'success');
 
+      // Fermer le panel
+      closePanel('session-panel', 'session-overlay');
+
+      setBtnLoading(btn, false, '✓ Valider → Meet');
     } catch(e) {
       console.error('[_validerSession]', e);
       showToast('Erreur lors de la validation', 'error');
+      setBtnLoading(btn, false, '✓ Valider → Meet');
     }
   };
 
   window._refuserSession = async (candidatId, sessionId, candidatNom, candidatEmail, candidatPole) => {
-    if (!confirm('Envoyer le mail de refus � ce candidat ?')) return;
+    if (!confirm('Envoyer le mail de refus à ce candidat ?')) return;
+    const btn = document.querySelector('[onclick*="_refuserSession"]');
+    setBtnLoading(btn, true);
+
     const token = sessionStorage.getItem('tp_admin_token');
     const BASE  = API_CONFIG.BASE_URL;
     try {
@@ -883,10 +907,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       showToast('Refus enregistré · email ouvert', 'success');
       closePanel('session-panel', 'session-overlay');
+      setBtnLoading(btn, false, 'Envoyer refus');
       setTimeout(() => location.reload(), 1000);
     } catch(e) {
       console.error('[_refuserSession]', e);
       showToast('Erreur lors du refus', 'error');
+      setBtnLoading(btn, false, 'Envoyer refus');
     }
   };
 

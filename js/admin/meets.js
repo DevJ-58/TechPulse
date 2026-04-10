@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const statsContainer = qs('#meet-stats-loading');
   const meetsLoading   = qs('#meets-loading');
   let   _allMeets      = [];
+  let   _allMeetsLoaded = false;
   let   _filtreActif   = 'tous';
 
   function fmtDate(v) {
@@ -195,9 +196,9 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div style="display:flex;gap:16px;font-size:13px;
               color:var(--text);margin-bottom:12px;flex-wrap:wrap;">
-              <div>📅 ${fmtDate(m.date)} · ${fmtTime(m.date)}</div>
-              <div>📍 ${m.lieu || '–'}</div>
-              <div>⏱️ ${m.duree_min || 30} min</div>
+              <div> ${fmtDate(m.date)} · ${fmtTime(m.date)}</div>
+              <div> ${m.lieu || '–'}</div>
+              <div>⏱ ${m.duree_min || 30} min</div>
             </div>
             ${!m.decision ? `
               <div style="display:flex;gap:8px;margin-top:4px;">
@@ -237,28 +238,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
       rendreStats(_allMeets);
       rendreMeets(_allMeets);
-
-      // Attacher les filtres APR�S le rendu
-      const filterBar = document.querySelector('.meets-layout .filter-bar');
-      if (filterBar) {
-        const btns = filterBar.querySelectorAll('.filter-btn');
-        const filtreVals = ['tous', 'a_venir', 'realise'];
-        btns.forEach((btn, i) => {
-          btn.addEventListener('click', () => {
-            btns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            appliquerFiltre(filtreVals[i]);
-          });
-        });
-      }
     } catch(e) {
       console.error('[meets]', e);
       if (meetsList) meetsList.innerHTML =
         '<p style="color:var(--danger);padding:16px;">Erreur de chargement.</p>';
+    } finally {
+      _allMeetsLoaded = true;
+    }
+
+    // Attacher les filtres APRÈS le rendu
+    const filterBar = document.querySelector('.meets-layout .filter-bar');
+    if (filterBar) {
+      const btns = filterBar.querySelectorAll('.filter-btn');
+      const filtreVals = ['tous', 'a_venir', 'realise'];
+      btns.forEach((btn, i) => {
+        btn.addEventListener('click', () => {
+          btns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          appliquerFiltre(filtreVals[i]);
+        });
+      });
     }
   })();
 
-  // -- Aper�u email dynamique -------------------------------
+  const waitForMeets = () => new Promise(resolve => {
+    const check = () => _allMeetsLoaded ? resolve() : setTimeout(check, 100);
+    check();
+  });
+
+  // -- Aperçu email dynamique -------------------------------
   function updateApercu() {
     const select = qs('#meet-candidate-select');
     const date   = qs('#meet-date-input')?.value;
@@ -389,6 +397,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // -- Candidats dans le select -----------------------------
   (async () => {
+    await waitForMeets();
+
     try {
       const token = sessionStorage.getItem('tp_admin_token');
       const res = await fetch(
@@ -401,13 +411,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const select = qs('#meet-candidate-select');
       if (select) {
+        const dejaConvoques = new Set(
+          _allMeets
+            .filter(m => m.decision !== 'refuse')
+            .map(m => m.candidat_id)
+            .filter(Boolean)
+        );
+
         list.forEach(c => {
+          // Ne pas afficher les candidats déjà convoqués à un meet
+          if (dejaConvoques.has(c.id)) return;
+
           const opt = document.createElement('option');
           opt.value = c.id;
           opt.textContent = `${c.prenom} ${c.nom} · ${c.pole}`;
           opt.dataset.email = c.email || '';
           select.appendChild(opt);
         });
+
+        // Injecter le candidat depuis tp_meet_queue si présent
+        const queueRaw = sessionStorage.getItem('tp_meet_queue');
+        if (queueRaw) {
+          try {
+            const q = JSON.parse(queueRaw);
+            if (q && q.candidat_id && Date.now() - q.ts < 300000) { // valide 5 min
+              // Vérifier si l'option existe déjà
+              const already = select.querySelector(`option[value="${q.candidat_id}"]`);
+              if (!already) {
+                const opt = document.createElement('option');
+                opt.value = q.candidat_id;
+                opt.textContent = `${q.prenom} ${q.nom} · ${q.pole}`;
+                opt.dataset.email = q.email || '';
+                opt.setAttribute('data-from-queue', 'true');
+                select.appendChild(opt);
+              }
+              // Pré-sélectionner
+              select.value = q.candidat_id;
+              updateApercu();
+            }
+            sessionStorage.removeItem('tp_meet_queue');
+          } catch(e) {}
+        }
 
         // Pré-sélectionner si venu depuis tests.html
         if (window._preselect_candidat) {
