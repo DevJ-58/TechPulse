@@ -1109,23 +1109,38 @@ footer {
 
 @media(max-width: 600px) {
   .team-discover-btn {
-    padding: 16px 18px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 16px;
     border-radius: 10px;
   }
+  .team-discover-text {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .team-avatars {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+  }
+  .team-discover-arrow {
+    align-self: flex-end;
+    margin-top: -8px;
+  }
+  .team-discover-btn strong { font-size: 13px; }
+  .team-discover-sub { font-size: 12px; }
   .ta { width: 32px; height: 32px; font-size: 10px; }
-  .team-discover-btn strong { font-size: 14px; }
 }
 
 /* ═══════════════════════════════════════════════════════════
    REDESIGN — Pôles gradients
    ═══════════════════════════════════════════════════════════ */
 
-.pole-card:nth-child(1) {
-  background: linear-gradient(135deg, #EAE8FF 0%, #F7F6F1 100%);
-}
 .pole-card:nth-child(1) .pole-icon {
-  background: var(--accent);
-  color: #fff;
+  background: var(--surface);
+  color: var(--accent);
 }
 .pole-card:nth-child(1):hover {
   filter: brightness(1.05) saturate(1.1);
@@ -1135,8 +1150,8 @@ footer {
   background: linear-gradient(135deg, #FDEEE8 0%, #F7F6F1 100%);
 }
 .pole-card:nth-child(2) .pole-icon {
-  background: #CC2200;
-  color: #fff;
+  background: var(--surface);
+  color: var(--danger);
 }
 .pole-card:nth-child(2):hover {
   filter: brightness(1.05) saturate(1.1);
@@ -1146,8 +1161,8 @@ footer {
   background: linear-gradient(135deg, #E0F2EA 0%, #F7F6F1 100%);
 }
 .pole-card:nth-child(3) .pole-icon {
-  background: #007A3D;
-  color: #fff;
+  background: var(--surface);
+  color: var(--success);
 }
 .pole-card:nth-child(3):hover {
   filter: brightness(1.05) saturate(1.1);
