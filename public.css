@@ -445,6 +445,23 @@ footer {
   display:flex; align-items:center;
   border-bottom:1px solid var(--border);
   padding:64px 0; position:relative; overflow:hidden;
+  background-image: url('images/gherrro.PNG');
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(247, 246, 241, 0.96) 0%,
+    rgba(247, 246, 241, 0.80) 42%,
+    rgba(247, 246, 241, 0.15) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
 }
 .hero::after {
   content:''; position:absolute;
@@ -456,6 +473,7 @@ footer {
   max-width:var(--max-w); margin:0 auto; padding:0 var(--px);
   display:grid; grid-template-columns:1fr 360px;
   gap:64px; align-items:center; width:100%;
+  position: relative; z-index: 2;
 }
 .hero-eyebrow { margin-bottom:20px; }
 .hero-title { margin-bottom:20px; }
@@ -504,20 +522,53 @@ footer {
   html, body { overflow-x: hidden; }
 }
 
+@media(max-width: 960px) {
+  .hero {
+    background-position: 75% center;
+  }
+  .hero::before {
+    background: linear-gradient(
+      to right,
+      rgba(247, 246, 241, 0.97) 0%,
+      rgba(247, 246, 241, 0.88) 50%,
+      rgba(247, 246, 241, 0.35) 100%
+    );
+  }
+}
+
+@media(max-width: 768px) {
+  .hero {
+    background-position: 70% center;
+  }
+  .hero::before {
+    background: rgba(247, 246, 241, 0.90);
+  }
+}
+
+@media(max-width: 480px) {
+  .hero {
+    background-position: 65% center;
+  }
+  .hero::before {
+    background: rgba(247, 246, 241, 0.93);
+  }
+}
+
 /* ── MISSION ─────────────────────────────────────────────── */
 .mission { border-bottom:1px solid var(--border); }
 .mission-inner {
   max-width:var(--max-w); margin:0 auto; padding:72px var(--px);
   display:grid; grid-template-columns:1fr 1.6fr; gap:64px; align-items:start;
+  background: #000000; color: white;
 }
 .mission-quote {
   font-family:var(--font-display); font-size:clamp(20px,2.5vw,30px);
   font-weight:700; line-height:1.25; letter-spacing:-.6px;
   border-left:3px solid var(--accent); padding-left:22px;
-  color:var(--muted);
+  color: rgba(255,255,255,0.8);
 }
-.mission-quote strong { color:var(--text); }
-.mission-body { font-size:15px;line-height:1.85;color:var(--muted); }
+.mission-quote strong { color: white; }
+.mission-body { font-size:15px;line-height:1.85;color: rgba(255,255,255,0.7); }
 .mission-body p+p { margin-top:14px; }
 
 @media(max-width:768px) {
@@ -578,6 +629,15 @@ footer {
   content:''; position:absolute;
   top:23px; left:calc(16.66% + 16px); right:calc(16.66% + 16px);
   height:1px; background:var(--border); z-index:0;
+}
+.parcours-steps::after {
+  content:''; position:absolute;
+  top:23px; left:calc(16.66% + 16px); width:0;
+  height:1px; background:var(--accent); z-index:0;
+  transition: width 1.5s ease-out;
+}
+.parcours-steps.animate-line::after {
+  width: calc(100% - 2 * (16.66% + 16px));
 }
 .step { padding:0 16px; position:relative; z-index:1; }
 .step-num {
@@ -974,8 +1034,9 @@ footer {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
   border-radius: 14px;
   padding: 22px 28px;
   text-decoration: none;
@@ -1053,4 +1114,41 @@ footer {
   }
   .ta { width: 32px; height: 32px; font-size: 10px; }
   .team-discover-btn strong { font-size: 14px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REDESIGN — Pôles gradients
+   ═══════════════════════════════════════════════════════════ */
+
+.pole-card:nth-child(1) {
+  background: linear-gradient(135deg, #EAE8FF 0%, #F7F6F1 100%);
+}
+.pole-card:nth-child(1) .pole-icon {
+  background: var(--accent);
+  color: #fff;
+}
+.pole-card:nth-child(1):hover {
+  filter: brightness(1.05) saturate(1.1);
+}
+
+.pole-card:nth-child(2) {
+  background: linear-gradient(135deg, #FDEEE8 0%, #F7F6F1 100%);
+}
+.pole-card:nth-child(2) .pole-icon {
+  background: #CC2200;
+  color: #fff;
+}
+.pole-card:nth-child(2):hover {
+  filter: brightness(1.05) saturate(1.1);
+}
+
+.pole-card:nth-child(3) {
+  background: linear-gradient(135deg, #E0F2EA 0%, #F7F6F1 100%);
+}
+.pole-card:nth-child(3) .pole-icon {
+  background: #007A3D;
+  color: #fff;
+}
+.pole-card:nth-child(3):hover {
+  filter: brightness(1.05) saturate(1.1);
 }

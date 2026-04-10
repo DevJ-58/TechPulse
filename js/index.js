@@ -18,6 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
   }
 
+  // Parcours line animation
+  const parcoursSteps = qs('.parcours-steps');
+  if (parcoursSteps) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          parcoursSteps.classList.add('animate-line');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    observer.observe(parcoursSteps);
+  }
+
   // À compléter selon besoins spécifiques
 });
 
