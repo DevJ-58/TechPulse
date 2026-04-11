@@ -1,4 +1,5 @@
 import { requireAdmin, getAdminName, setAdminName, clearSession } from '../../utils/auth.utils.js';
+import { applySidebarGuard } from './utils/sidebar-guard.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
 import { getMe } from '../../services/admins.service.js';
 import { getAllCandidates } from '../../services/candidates.service.js';
@@ -9,6 +10,7 @@ import { qs } from '../../utils/dom.utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   requireAdmin();
+  applySidebarGuard();
   initProfilModal();
 
   // Affiche le nom de l'admin dans le sidebar

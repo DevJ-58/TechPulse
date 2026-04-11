@@ -1,4 +1,6 @@
 ﻿import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
+import { guardPage } from './utils/role-guard.js';
+import { applySidebarGuard } from './utils/sidebar-guard.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
 import { getAllSessions } from '../../services/sessions.service.js';
 import { mailLienTest, mailRefus } from '../utils/mail.utils.js';
@@ -8,6 +10,8 @@ import API_CONFIG from '../../config/api.config.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   requireAdmin();
+  guardPage('tests', 'Tests');
+  applySidebarGuard();
   initProfilModal();
 
   function setBtnLoading(btn, loading, originalHTML) {

@@ -1,4 +1,6 @@
 import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
+import { guardPage } from './utils/role-guard.js';
+import { applySidebarGuard } from './utils/sidebar-guard.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
 import { getAllCandidates, getCandidateById, updateCandidateStatus, deleteCandidate } from '../../services/candidates.service.js';
 import { createToken } from '../../services/tokens.service.js';
@@ -10,6 +12,8 @@ console.log('candidatures.js loaded');
 
 document.addEventListener('DOMContentLoaded', () => {
   requireAdmin();
+  guardPage('candidatures', 'Candidatures');
+  applySidebarGuard();
   initProfilModal();
   const adminName = getAdminName();
   if (adminName) {

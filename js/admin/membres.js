@@ -1,4 +1,6 @@
 import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
+import { guardPage } from './utils/role-guard.js';
+import { applySidebarGuard } from './utils/sidebar-guard.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
 import { getAllMembers, getMemberById, deactivateMember } from '../../services/members.service.js';
 import { qs, qsa } from '../../utils/dom.utils.js';
@@ -6,6 +8,8 @@ import { showToast } from '../../utils/toast.utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   requireAdmin();
+  guardPage('membres', 'Membres');
+  applySidebarGuard();
   initProfilModal();
 
   // Afficher le nom de l'admin connecté

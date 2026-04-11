@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
           console.log('[login] login success, redirecting to dashboard.html');
           // La photo reste en localStorage entre sessions
           // Rien à faire — localStorage persiste entre déconnexions
+          if (data?.admin?.role) {
+            sessionStorage.setItem('tp_admin_role', data.admin.role);
+          }
           window.location.href = 'dashboard.html';
         } else if (status === 401) {
           showToast('Identifiants incorrects', 'error');

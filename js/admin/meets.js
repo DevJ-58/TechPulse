@@ -1,6 +1,8 @@
 
 
 import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
+import { guardPage } from './utils/role-guard.js';
+import { applySidebarGuard } from './utils/sidebar-guard.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
 import { getAllMeets, createMeet, recordDecision } from '../../services/meets.service.js';
 import { createMember } from '../../services/members.service.js';
@@ -11,6 +13,8 @@ import { showToast } from '../../utils/toast.utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   requireAdmin();
+  guardPage('meets', 'Meets');
+  applySidebarGuard();
   initProfilModal();
 
   // Ajouter le CSS pour l'animation de chargement

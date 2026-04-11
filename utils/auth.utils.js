@@ -63,3 +63,36 @@ export function clearSession() {
   // NE PAS toucher localStorage ici
 }
 
+/**
+ * Retourne le rôle de l'admin depuis le JWT ou sessionStorage
+ * @returns {string|null}
+ */
+export function getAdminRole() {
+  try {
+    const token = sessionStorage.getItem('tp_admin_token');
+    if (!token) return null;
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.role || sessionStorage.getItem('tp_admin_role') || null;
+  } catch(e) {
+    return null;
+  }
+}
+
+/**
+ * Vérifie si l'admin a accès à une page donnée
+ * @param {string} page - identifiant de la page
+ * @returns {boolean}
+ */
+export function hasAccess(page) {
+  const role = getAdminRole() || 'presi'; // Fallback pour comptes anciens
+  if (!role) return false;
+  const ROLE_ACCESS = {
+    presi: ['dashboard','candidatures','tests','meets','membres','annonces','editeur','parametres'],
+    TD:    ['dashboard','membres'],
+    RO:    ['dashboard','candidatures'],
+    CI:    ['dashboard','tests','editeur'],
+    OS:    ['dashboard','meets','membres'],
+  };
+  return (ROLE_ACCESS[role] || []).includes(page);
+}
+

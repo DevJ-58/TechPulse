@@ -1,4 +1,6 @@
 import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
+import { guardPage } from './utils/role-guard.js';
+import { applySidebarGuard } from './utils/sidebar-guard.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
 import { getSettings, updateSettings } from '../../services/settings.service.js';
 import { api } from '../../services/api.service.js';
@@ -8,6 +10,8 @@ import { showToast } from '../../utils/toast.utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   requireAdmin();
+  guardPage('parametres', 'Paramètres');
+  applySidebarGuard();
   initProfilModal();
 
   const nameEl = qs('#sidebar-user-name');

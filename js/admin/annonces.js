@@ -1,4 +1,6 @@
 import { requireAdmin, getAdminName, getAdminId } from '../../utils/auth.utils.js';
+import { guardPage } from './utils/role-guard.js';
+import { applySidebarGuard } from './utils/sidebar-guard.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
 import { qs } from '../../utils/dom.utils.js';
 import { showToast } from '../../utils/toast.utils.js';
@@ -9,6 +11,8 @@ let editingId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   requireAdmin();
+  guardPage('annonces', 'Annonces');
+  applySidebarGuard();
   initProfilModal();
 
   const adminNameEl = qs('.sidebar-user-name');

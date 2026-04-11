@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const prenomEl    = qs('#prenom');
   const nomEl       = qs('#nom');
   const emailEl     = qs('#email');
+  const roleEl      = qs('#role');
   const passwordEl  = qs('#password');
   const confirmEl   = qs('#confirm-password');
 
@@ -51,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const prenom   = prenomEl?.value.trim();
       const nom      = nomEl?.value.trim();
       const email    = emailEl?.value.trim();
+      const role     = roleEl?.value.trim();
       const password = passwordEl?.value;
       const confirm  = confirmEl?.value;
 
@@ -63,6 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!email || !emailRegex.test(email)) {
         showToast('Email invalide', 'error'); return;
+      }
+      const rolesValides = ['presi','TD','RO','CI','OS'];
+
+      if (!role) {
+        showToast('Le code de rôle est requis', 'error'); return;
+      }
+      if (!rolesValides.includes(role)) {
+        showToast('Code de rôle invalide. Valeurs acceptées : presi, TD, RO, CI, OS', 'error'); return;
       }
       if (!password || password.length < 8) {
         showToast('Mot de passe trop court (min. 8 caractères)', 'error'); return;
@@ -78,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nom,
         email,
         mot_de_passe: password,
+        role,
       });
 
       console.log('[register] réponse →', { data, error, status });

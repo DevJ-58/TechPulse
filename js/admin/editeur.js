@@ -1,4 +1,6 @@
 import { requireAdmin, getAdminName } from '../../utils/auth.utils.js';
+import { guardPage } from './utils/role-guard.js';
+import { applySidebarGuard } from './utils/sidebar-guard.js';
 import { initProfilModal } from '../../utils/profil.utils.js';
 import { getQuestionsByPole, createQuestion, deleteQuestion } from '../../services/questions.service.js';
 import { qs } from '../../utils/dom.utils.js';
@@ -6,6 +8,8 @@ import { showToast } from '../../utils/toast.utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   requireAdmin();
+  guardPage('editeur', 'Éditeur de tests');
+  applySidebarGuard();
   initProfilModal();
 
   const nameEl = qs('#sidebar-user-name');
