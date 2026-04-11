@@ -67,7 +67,7 @@ export function guardPage(pageId, pageTitle) {
           </strong>, qui ne couvre pas la section
           <strong style="color:var(--text);">${pageTitle || pageId}</strong>.<br><br>
           Si tu penses qu'il s'agit d'une erreur, contacte
-          <strong style="color:var(--text);">Djeke</strong>.
+          <strong style="color:var(--text);">Jemima (la presidente)</strong>.
         </div>
 
         <a href="dashboard.html" class="btn btn-outline" style="font-size:13px;">

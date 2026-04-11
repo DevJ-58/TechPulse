@@ -69,6 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     list.forEach((c, index) => {
+      const nomEch = `${c.prenom || ''} ${c.nom || ''}`.replace(/'/g, "\\'");
+      const emailEch = (c.email || '').replace(/'/g, "\\'");
       const date = formatDate(c.date_candidature || c.created_at);
       tb.innerHTML += `<tr>
         <td>${index + 1}</td>
@@ -88,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </button>
           ${c.statut === 'en_attente' ? `
           <button class="btn btn-ghost btn-icon btn-sm" title="Envoyer le test" style="min-width:28px;min-height:28px;"
-            onclick="ouvrirModalTest('${c.id}','${c.prenom} ${c.nom}')">
+            onclick="ouvrirModalTest('${c.id}','${nomEch}')">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
@@ -96,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </button>` : ''}
           ${(c.statut === 'en_attente' || c.statut === 'test_envoye') ? `
           <button class="btn btn-ghost btn-icon btn-sm" title="Refuser" style="min-width:28px;min-height:28px;color:var(--danger);"
-            onclick="ouvrirModalRefus('${c.id}','${c.prenom} ${c.nom}','${c.email}')">
+            onclick="ouvrirModalRefus('${c.id}','${nomEch}','${emailEch}')">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"/>
@@ -106,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </button>` : ''}
           ${(c.statut === 'refuse' || !c.statut) ? `
           <button class="btn btn-ghost btn-icon btn-sm" title="Supprimer" style="min-width:28px;min-height:28px;color:var(--danger);"
-            onclick="supprimerCandidat('${c.id}','${c.prenom} ${c.nom}')">
+            onclick="supprimerCandidat('${c.id}','${nomEch}')">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="3 6 5 6 21 6"/>
@@ -247,6 +249,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      const nomComplet = `${c.prenom || ''} ${c.nom || ''}`.trim().replace(/'/g, "\\'");
+      const cId = c.id;
+      const cEmail = (c.email || '').replace(/'/g, "\\'");
+
       pName.textContent = `${c.prenom || ''} ${c.nom || ''}`.trim() || '—';
 
       const date = formatDate(c.date_candidature || c.created_at);
@@ -295,11 +301,11 @@ document.addEventListener('DOMContentLoaded', () => {
           <span style="font-size:12px;color:var(--muted);padding:8px 0;">
             Test déjà envoyé
           </span>
-          <button class="btn btn-outline btn-sm" onclick="ouvrirModalRefus('${c.id}','${c.prenom} ${c.nom}','${c.email}')">Refuser quand même</button>`;
+          <button class="btn btn-outline btn-sm" onclick="ouvrirModalRefus('${cId}','${nomComplet}','${cEmail}')">Refuser quand même</button>`;
       } else {
         pFooter.innerHTML = `
-          <button class="btn btn-outline btn-sm" onclick="ouvrirModalRefus('${c.id}','${c.prenom} ${c.nom}','${c.email}')">Refuser</button>
-          <button class="btn btn-primary btn-sm" onclick="ouvrirModalTest('${c.id}','${c.prenom} ${c.nom}')">Envoyer test →</button>`;
+          <button class="btn btn-outline btn-sm" onclick="ouvrirModalRefus('${cId}','${nomComplet}','${cEmail}')">Refuser</button>
+          <button class="btn btn-primary btn-sm" onclick="ouvrirModalTest('${cId}','${nomComplet}')">Envoyer test →</button>`;
       }
 
     } catch (err) {

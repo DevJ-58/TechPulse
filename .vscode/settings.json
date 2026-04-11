@@ -1,6 +1,6 @@
   {
     "liveServer.settings.port": 443,
-    "liveServer.settings.host": "https://techpulseclub.vercel.app/",
+    "liveServer.settings.host": "localhost",
     "liveServer.settings.root": "/",
     "liveServer.settings.open": true,
     "liveServer.settings.file": "index.html"
