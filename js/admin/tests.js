@@ -322,6 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let candidatNom   = s.candidat_id || '—';
       let candidatEmail = '';
       let candidatPole  = s.pole || '—';
+      let candidatStatut = '';
       if (s.candidat_id) {
         try {
           const resC = await fetch(
@@ -334,6 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
             candidatNom   = [c.prenom, c.nom].filter(Boolean).join(' ') || candidatNom;
             candidatEmail = c.email || '';
             candidatPole  = c.pole || candidatPole;
+            candidatStatut = c.statut || '';
           }
         } catch(e) {}
       }
@@ -566,7 +568,12 @@ document.addEventListener('DOMContentLoaded', () => {
       <!-- BOUTONS -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;
         margin-bottom:12px;">
-        ${s.soumis ? `
+        ${(() => {
+          if (!s.soumis) return '<div></div><div></div>';
+          if (candidatStatut === 'meet_planifie') return '<span class="tag tag-accent" style="font-size:12px;grid-column:span 2;justify-self:center;padding:8px 16px;">✓ Meet déjà planifié</span>';
+          if (candidatStatut === 'admis') return '<span class="tag tag-success" style="font-size:12px;grid-column:span 2;justify-self:center;padding:8px 16px;">✓ Candidat admis</span>';
+          if (candidatStatut === 'refuse') return '<span class="tag tag-danger" style="font-size:12px;grid-column:span 2;justify-self:center;padding:8px 16px;">✗ Candidat refusé</span>';
+          return `
         <button class="btn btn-danger"
           onclick="_refuserSession('${s.candidat_id}','${s.id}','${candidatNom.replace(/'/g, "\\'")}','${candidatEmail}','${candidatPole}')">
            Envoyer refus
@@ -574,8 +581,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <button class="btn btn-success"
           onclick="_validerSession('${s.candidat_id}','${s.id}','${s.score_A||0}','${s.score_B||0}','${candidatNom.replace(/'/g,"\\'")}','${candidatEmail}','${candidatPole}')">
           ✓ Valider → Meet
-        </button>
-        ` : `<div></div><div></div>`}
+        </button>`;
+        })()}
       </div>
 
       <!-- Bouton suppression  toujours visible -->
