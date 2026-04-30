@@ -510,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const { data: candidat } = await getCandidateById(_currentCandId);
       if (candidat) {
-        const lien = `access.html?token=${tokenUuid}`;
+        const lien = `${window.location.origin}/access.html?token=${tokenUuid}`;
         mailLienTest({
           prenom: candidat.prenom || '',
           nom: candidat.nom || '',

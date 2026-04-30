@@ -91,7 +91,7 @@ async function request(method, endpoint, params = {}, body = null) {
       error = data?.detail || 'Erreur inconnue';
       console.warn('[api.request] Erreur HTTP', { status, data, error });
     }
-    // ⚠️ Extraire la clé 'data' si elle existe dans la réponse
+    //  Extraire la clé 'data' si elle existe dans la réponse
     const actualData = data?.data !== undefined ? data.data : data;
     console.log('[api.request] retour', { data: actualData, error, status });
     return { data: actualData, error, status };
