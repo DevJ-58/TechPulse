@@ -200,37 +200,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileNav = document.getElementById('nav-mobile');
 
   if (burger && mobileNav) {
-    // Initialisation : s'assurer que le menu est caché mais 
-    // dans le DOM (pas display:none via CSS seul)
-    mobileNav.style.display = 'none';
-
     burger.addEventListener('click', (e) => {
       e.stopPropagation();
       const isOpen = burger.classList.contains('open');
-
-      if (isOpen) {
-        // Fermeture
-        burger.classList.remove('open');
-        mobileNav.classList.remove('open');
-        setTimeout(() => {
-          mobileNav.style.display = 'none';
-        }, 300);
-      } else {
-        // Ouverture
-        mobileNav.style.display = 'flex';
-        mobileNav.getBoundingClientRect();
-        burger.classList.add('open');
-        mobileNav.classList.add('open');
-      }
+      burger.classList.toggle('open', !isOpen);
+      mobileNav.classList.toggle('open', !isOpen);
     });
 
     document.addEventListener('click', (e) => {
       if (!burger.contains(e.target) && !mobileNav.contains(e.target)) {
         burger.classList.remove('open');
         mobileNav.classList.remove('open');
-        setTimeout(() => {
-          mobileNav.style.display = 'none';
-        }, 300);
       }
     });
   }
