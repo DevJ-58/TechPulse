@@ -200,14 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileNav = document.getElementById('nav-mobile');
 
   if (burger && mobileNav) {
-    burger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isOpen = burger.classList.contains('open');
-      burger.classList.toggle('open', !isOpen);
-      mobileNav.classList.toggle('open', !isOpen);
+    burger.addEventListener('click', function() {
+      burger.classList.toggle('open');
+      mobileNav.classList.toggle('open');
     });
 
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', function(e) {
       if (!burger.contains(e.target) && !mobileNav.contains(e.target)) {
         burger.classList.remove('open');
         mobileNav.classList.remove('open');
