@@ -1226,3 +1226,13 @@ footer {
 .pole-card:nth-child(3):hover {
   filter: brightness(1.05) saturate(1.1);
 }
+
+/* ── NAV-MOBILE FIX GLOBAL ── */
+.nav-mobile {
+  display: none !important;
+}
+.nav-mobile.open {
+  display: flex !important;
+  transform: translate(-50%, 0) scaleY(1) !important;
+  opacity: 1 !important;
+}
