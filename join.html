@@ -191,69 +191,95 @@
 </div>
 
 <script>
-const OPENING_DATE = new Date("2026-05-02"); // ← modifiable facilement
+const OPENING_DATE = new Date("2026-05-02");
 
 document.addEventListener('DOMContentLoaded', () => {
-  const burger = document.querySelector('#burger');
-  const mobileNav = document.querySelector('#nav-mobile');
-  if (burger && mobileNav) {
-    burger.addEventListener('click', () => {
-      burger.classList.toggle('open');
-      mobileNav.classList.toggle('open');
-    });
-  }
 
-  // Navbar scroll effect
-  const nav = document.querySelector('.nav');
-  if (nav) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        nav.classList.add('scrolled');
+  // ── BURGER ──────────────────────────────────────────
+  const burger = document.getElementById('burger');
+  const mobileNav = document.getElementById('nav-mobile');
+
+  if (burger && mobileNav) {
+    // Initialisation : s'assurer que le menu est caché mais 
+    // dans le DOM (pas display:none via CSS seul)
+    mobileNav.style.display = 'none';
+
+    burger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = burger.classList.contains('open');
+
+      if (isOpen) {
+        // Fermeture
+        burger.classList.remove('open');
+        mobileNav.classList.remove('open');
+        setTimeout(() => {
+          mobileNav.style.display = 'none';
+        }, 300);
       } else {
-        nav.classList.remove('scrolled');
+        // Ouverture
+        mobileNav.style.display = 'flex';
+        mobileNav.getBoundingClientRect();
+        burger.classList.add('open');
+        mobileNav.classList.add('open');
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!burger.contains(e.target) && !mobileNav.contains(e.target)) {
+        burger.classList.remove('open');
+        mobileNav.classList.remove('open');
+        setTimeout(() => {
+          mobileNav.style.display = 'none';
+        }, 300);
       }
     });
   }
-});
 
-document.addEventListener('DOMContentLoaded', () => {
+  // ── NAVBAR SCROLL ────────────────────────────────────
+  const nav = document.querySelector('.nav');
+  if (nav) {
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    });
+  }
+
+  // ── DATE D'OUVERTURE ─────────────────────────────────
   const now = new Date();
   const formContent = document.getElementById('form-content');
   const notOpenYet = document.getElementById('not-open-yet');
 
   if (now < OPENING_DATE) {
     if (formContent) formContent.style.display = 'none';
-    if (notOpenYet) notOpenYet.style.display = 'block';
+    if (notOpenYet) notOpenYet.style.display = 'flex';
   } else {
     if (notOpenYet) notOpenYet.style.display = 'none';
   }
-});
 
-// Formate la date en français pour l'affichage dans le bloc not-open-yet
-document.addEventListener('DOMContentLoaded', () => {
   const dateEl = document.getElementById('opening-date-display');
   if (dateEl) {
     dateEl.textContent = OPENING_DATE.toLocaleDateString('fr-FR', {
       day: 'numeric', month: 'long', year: 'numeric'
     });
   }
+
+  // ── LUCIDE ICONS ─────────────────────────────────────
   if (typeof lucide !== 'undefined') lucide.createIcons();
 
+  // ── SUCCESS STATE OBSERVER ───────────────────────────
   const formArea = document.querySelector('.join-form-area');
   const successBlock = document.getElementById('success');
 
-  const updateSuccessState = () => {
-    if (!formArea || !successBlock) return;
-    const isSuccessVisible = window.getComputedStyle(successBlock).display !== 'none';
-    formArea.classList.toggle('success-active', isSuccessVisible);
-  };
-
-  updateSuccessState();
-
-  if (successBlock) {
-    const observer = new MutationObserver(() => updateSuccessState());
-    observer.observe(successBlock, { attributes: true, attributeFilter: ['style', 'class'] });
+  if (formArea && successBlock) {
+    const observer = new MutationObserver(() => {
+      const isVisible = window.getComputedStyle(successBlock).display !== 'none';
+      formArea.classList.toggle('success-active', isVisible);
+    });
+    observer.observe(successBlock, { 
+      attributes: true, 
+      attributeFilter: ['style', 'class'] 
+    });
   }
+
 });
 </script>
 <script type="module" src="/js/join.js"></script>
