@@ -39,8 +39,8 @@ Le test comporte 3 parties :
 Bonne chance !
 
 L'équipe TechPulse
-UIYA Yamoussoukro
-${MAIL_FROM}`
+TechPulse Community
+${MAIL_FROM}
   });
 }
 
@@ -67,7 +67,7 @@ Merci pour l'intérêt que tu portes à TechPulse.
 
 Cordialement,
 L'équipe TechPulse
-UIYA Yamoussoukro
+TechPulse Community
 ${MAIL_FROM}`
   });
 }
@@ -91,7 +91,7 @@ export function mailMeet({ prenom, nom, email, date, lieu, duree }) {
 Félicitations ! Tu as été sélectionné(e) pour passer l'étape finale du processus de sélection TechPulse : le meet présentiel.
 
 Date : ${dateFormatee}
-Lieu : ${lieu || 'UIYA Yamoussoukro'}
+Lieu : ${lieu || 'Yamoussoukro, Côte d\'Ivoire'}
 Durée : ${duree || 30} minutes
 
 Cet entretien est une discussion avec l'équipe fondatrice. Sois toi-même, prépare-toi à parler de tes projets et de ta motivation.
@@ -100,7 +100,7 @@ Merci de confirmer ta présence en répondant à ce mail.
 
 À bientôt,
 L'équipe TechPulse
-UIYA Yamoussoukro
+TechPulse Community
 ${MAIL_FROM}`
   });
 }
@@ -130,7 +130,7 @@ ${whatsapp
 Encore félicitations pour ce parcours remarquable.
 
 L'équipe TechPulse
-UIYA Yamoussoukro
+TechPulse Community
 ${MAIL_FROM}`
   });
 }

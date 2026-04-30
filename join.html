@@ -50,6 +50,15 @@
 
   <!-- FORMULAIRE -->
   <div class="join-form-area">
+    <div class="join-success" id="not-open-yet" style="display:none; padding:40px 0; text-align:center;">
+      <div class="success-ico" style="background:var(--accent-bg);color:var(--accent);margin:0 auto 20px;">
+        <i data-lucide="calendar-clock" style="width:28px;height:28px;"></i>
+      </div>
+      <h3 class="success-title">Candidatures bientôt disponibles</h3>
+      <p class="success-txt">Les candidatures pour la session 2026 ouvriront le <span id="opening-date-display"></span>.</p>
+      <p class="success-txt" style="margin-top:12px;">En attendant, tu peux découvrir nos pôles et en apprendre plus sur le club.</p>
+      <a href="about.html" class="btn btn-outline" style="margin-top:20px; display:inline-flex;">Découvrir le club →</a>
+    </div>
     <!-- SUCCESS STATE -->
     <div class="join-success" id="success" style="display:none;">
       <div class="success-ico"><i data-lucide="check" style="width:26px;height:26px;"></i></div>
@@ -83,7 +92,7 @@
         </div>
         <div class="form-group">
           <label class="form-label">Email *</label>
-          <input type="email" class="form-input" name="email" id="email" placeholder="prenom@etudiant.uiya.ci">
+          <input type="email" class="form-input" name="email" id="email" placeholder="ton@email.com">
         </div>
         <div class="form-group">
           <label class="form-label">Téléphone</label>
@@ -182,6 +191,8 @@
 </div>
 
 <script>
+const OPENING_DATE = new Date("2026-05-02"); // ← modifiable facilement
+
 document.addEventListener('DOMContentLoaded', () => {
   const burger = document.querySelector('#burger');
   const mobileNav = document.querySelector('#nav-mobile');
@@ -202,6 +213,46 @@ document.addEventListener('DOMContentLoaded', () => {
         nav.classList.remove('scrolled');
       }
     });
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const now = new Date();
+  const formContent = document.getElementById('form-content');
+  const notOpenYet = document.getElementById('not-open-yet');
+
+  if (now < OPENING_DATE) {
+    if (formContent) formContent.style.display = 'none';
+    if (notOpenYet) notOpenYet.style.display = 'block';
+  } else {
+    if (notOpenYet) notOpenYet.style.display = 'none';
+  }
+});
+
+// Formate la date en français pour l'affichage dans le bloc not-open-yet
+document.addEventListener('DOMContentLoaded', () => {
+  const dateEl = document.getElementById('opening-date-display');
+  if (dateEl) {
+    dateEl.textContent = OPENING_DATE.toLocaleDateString('fr-FR', {
+      day: 'numeric', month: 'long', year: 'numeric'
+    });
+  }
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+
+  const formArea = document.querySelector('.join-form-area');
+  const successBlock = document.getElementById('success');
+
+  const updateSuccessState = () => {
+    if (!formArea || !successBlock) return;
+    const isSuccessVisible = window.getComputedStyle(successBlock).display !== 'none';
+    formArea.classList.toggle('success-active', isSuccessVisible);
+  };
+
+  updateSuccessState();
+
+  if (successBlock) {
+    const observer = new MutationObserver(() => updateSuccessState());
+    observer.observe(successBlock, { attributes: true, attributeFilter: ['style', 'class'] });
   }
 });
 </script>
