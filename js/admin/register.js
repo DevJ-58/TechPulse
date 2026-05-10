@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast('Le code de rôle est requis', 'error'); return;
       }
       if (!rolesValides.includes(role)) {
-        showToast('Code de rôle invalide. Valeurs acceptées : presi, TD, RO, CI, OS', 'error'); return;
+        showToast('Code de rôle invalide. Valeurs acceptées : ', 'error'); return;
       }
       if (!password || password.length < 8) {
         showToast('Mot de passe trop court (min. 8 caractères)', 'error'); return;
